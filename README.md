@@ -9,6 +9,7 @@ Installation
 ------------
 
 1. Add a composer development requirement for your WordPress theme or plugin:
+
     ```json
     {
         "require-dev" : {
@@ -17,7 +18,9 @@ Installation
         }
     }
     ```
+
 2. Add the following Behat configuration file:
+
     ```yml
     default:
       suites:
@@ -35,16 +38,22 @@ Installation
               goutte: ~
     
     ```
+
 3. Install the vendors and initialize behat test suites
+
     ```bash
     composer update
     vendor/bin/behat --init
     ```
+
 4. Start your development web server and point its document root to the wordpress directory in vendors (without mail function)
+
     ```bash
     php -S localhost:8000 -t vendor/wordpress -d disable_functions=mail
     ```
+
 5. Write some Behat features and test them
+
     ```
     Feature: Manage plugins
         In order to manage plugins
@@ -72,7 +81,9 @@ Installation
             Then I should not see a "#dolly" element
     
     ```
+
 6. Run the tests
+
     ```bash
     vendor/bin/behat
     ```
