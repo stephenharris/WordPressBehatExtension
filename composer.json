@@ -1,5 +1,5 @@
 {
-  "name": "tmf/wordpress-extension",
+  "name": "johnbillion/wordpress-behat-extension",
   "type": "library",
   "description": "WordPress extension for Behat 3",
   "authors": [
@@ -9,7 +9,11 @@
     },
     {
       "name": "tmf",
-      "email": "tom.forrer@gmail.com"
+      "homepage": "https://github.com/tmf"
+    },
+    {
+      "name": "johnbillion",
+      "homepage": "https://github.com/johnbillion"
     }
   ],
   "keywords": [
