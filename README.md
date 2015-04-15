@@ -13,7 +13,7 @@ Installation
     ```json
     {
         "require-dev" : {
-            "tmf/wordpress-extension": "~0.1",
+            "johnbillion/wordpress-behat-extension": "~0.1",
             "johnpbloch/wordpress": "~4.0.0"
         }
     }
