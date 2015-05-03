@@ -4,9 +4,9 @@ default:
   suites:
     default:
       contexts:
-        - Tmf\WordPressExtension\Context\WordPressContext
+        - Johnbillion\WordPressExtension\Context\WordPressContext
   extensions:
-    Tmf\WordPressExtension:
+    Johnbillion\WordPressExtension:
       path: '%paths.base/vendor/wordpress'
 
     Behat\MinkExtension:

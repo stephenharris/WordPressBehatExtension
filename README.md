@@ -3,7 +3,7 @@ WordPress Extension for Behat 3
 
 This is a Behat 3.0 Extension for WordPress plugin and theme development. 
 You can use it to test your WordPress installation, or just test your plugin/theme without installing them in a normal WordPress installation (i.e. stand-alone).
-The Extension allows you to use WordPress functions in your context class (if you extend it from Tmf\WordPressExtension\Context\WordPressContext).
+The Extension allows you to use WordPress functions in your context class (if you extend it from Johnbillion\WordPressExtension\Context\WordPressContext).
 
 Installation
 ------------
@@ -26,9 +26,9 @@ Installation
       suites:
         default:
           contexts:
-            - Tmf\WordPressExtension\Context\WordPressContext
+            - Johnbillion\WordPressExtension\Context\WordPressContext
       extensions:
-        Tmf\WordPressExtension:
+        Johnbillion\WordPressExtension:
           path: '%paths.base/vendor/wordpress'
     
         Behat\MinkExtension:

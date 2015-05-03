@@ -33,7 +33,7 @@
   "require-dev": {},
   "autoload": {
     "psr-4": {
-      "Tmf\\WordPressExtension\\": "src"
+      "Johnbillion\\WordPressExtension\\": "src"
     },
     "files": [ "../../phpunit/phpunit/src/Framework/Assert/Functions.php" ]
   }

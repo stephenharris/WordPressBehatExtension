@@ -1,6 +1,6 @@
 <?php
 
-namespace Tmf\WordPressExtension\ServiceContainer;
+namespace Johnbillion\WordPressExtension\ServiceContainer;
 
 use Behat\Behat\Context\ServiceContainer\ContextExtension,
     Behat\Testwork\ServiceContainer\Extension as ExtensionInterface,
@@ -16,7 +16,7 @@ use Symfony\Component\Config\FileLocator,
 /**
  * Class WordPressExtension
  *
- * @package Tmf\WordPressExtension\ServiceContainer
+ * @package Johnbillion\WordPressExtension\ServiceContainer
  */
 class WordPressExtension implements ExtensionInterface
 {
@@ -96,11 +96,11 @@ class WordPressExtension implements ExtensionInterface
     /**
      * Register a Context Initializer service for the behat
      *
-     * @param ContainerBuilder $container the service will check for Tmf\WordPressExtension\Context\WordPressContext contexts
+     * @param ContainerBuilder $container the service will check for Johnbillion\WordPressExtension\Context\WordPressContext contexts
      */
     private function loadContextInitializer(ContainerBuilder $container)
     {
-        $definition = new Definition('Tmf\WordPressExtension\Context\Initializer\WordPressContextInitializer', array(
+        $definition = new Definition('Johnbillion\WordPressExtension\Context\Initializer\WordPressContextInitializer', array(
             '%wordpress.parameters%',
             '%mink.parameters%',
             '%paths.base%',
