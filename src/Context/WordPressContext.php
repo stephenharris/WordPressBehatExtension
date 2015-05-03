@@ -26,7 +26,8 @@ class WordPressContext extends MinkContext
         $username = "admin";
 
         if ($table) {
-            $row = $table->getHash()[0];
+            $hash = $table->getHash();
+            $row = $hash[0];
             $name = $row["name"];
             $username = $row["username"];
             $email = $row["email"];
