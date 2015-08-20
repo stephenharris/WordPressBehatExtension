@@ -20,6 +20,8 @@ class WordPressContext extends MinkContext
      */
     public function installWordPress(TableNode $table = null)
     {
+        global $wp_rewrite;
+
         $name = "admin";
         $email = "an@example.com";
         $password = "test";
@@ -42,6 +44,10 @@ class WordPressContext extends MinkContext
         assertTrue($value);
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';
         wp_install($name, $username, $email, true, '', $password);
+
+        $wp_rewrite->init();
+        $wp_rewrite->set_permalink_structure( '/%year%/%monthnum%/%day%/%postname%/' );
+
     }
 
     /**
