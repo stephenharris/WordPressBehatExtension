@@ -2,3 +2,6 @@ bin
 vendor
 *.phar
 .idea
+.project
+.settings
+.buildpath
