@@ -5,6 +5,8 @@ default:
     default:
       contexts:
         - Johnbillion\WordPressExtension\Context\WordPressContext
+        - Johnbillion\WordPressExtension\Context\WordPressAdminContext
+        - Johnbillion\WordPressExtension\Context\WordPressPostListContext
   extensions:
     Johnbillion\WordPressExtension:
       path: '%paths.base/vendor/wordpress'
