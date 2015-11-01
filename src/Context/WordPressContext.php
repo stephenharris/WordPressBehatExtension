@@ -115,10 +115,6 @@ class WordPressContext extends MinkContext
         $currentPage->fillField('user_login', $username);
         $currentPage->fillField('user_pass', $password);
         $currentPage->findButton('wp-submit')->click();
-        
-        $this->getSession()->wait(5000, '(0 === jQuery.active)');
-        
-        assertTrue($this->getSession()->getPage()->hasContent('Dashboard'));
     }
     
     /**
