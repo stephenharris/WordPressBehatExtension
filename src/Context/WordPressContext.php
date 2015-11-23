@@ -100,6 +100,13 @@ class WordPressContext extends MinkContext
         }
     }
 
+    /**
+     * @Given I set :option option to :value
+     */
+    public function iSetOptionTo($option, $value)
+    {
+    	update_option( $option, $value );
+    }
 
     /**
      * Login into the reserved area of this wordpress
