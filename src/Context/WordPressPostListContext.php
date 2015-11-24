@@ -169,7 +169,7 @@ class WordPressPostListContext extends RawMinkContext implements Context, Snippe
 	}
 
 	private function _getWPTableColumns( $table ) {
-		return $table->findAll( 'css', 'thead th' );
+		return $table->findAll( 'css', 'thead .manage-column' );
 	}
 
 	private function _getWPTableRows( $table ) {
