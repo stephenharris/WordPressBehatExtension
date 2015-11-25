@@ -81,6 +81,20 @@ class WordPressContext extends MinkContext
             }
         }
     }
+    
+
+    /**
+     * @Given there are :taxonomy terms
+     */
+	public function thereAreTerms($taxonomy, TableNode $terms)
+	{
+		foreach ($terms->getHash() as $termData) {
+			$return = wp_insert_term($termData['name'],$taxonomy,$termData);
+			if (is_wp_error($return)) {
+				throw new \InvalidArgumentException(sprintf("Invalid taxonomy term information schema: %s", $return->get_error_message()));
+			}
+		}
+	}
 
     /**
      * Activate/Deactivate plugins
@@ -124,25 +138,35 @@ class WordPressContext extends MinkContext
         $currentPage->findButton('wp-submit')->click();
     }
     
-    /**
-     * @Given /^the ([a-z0-9_\-]*) "([^"]*)" has ([a-z0-9_\-]*) terms "([^"]*)"$/
-     */
-    public function thePostTypeHasTerms( $post_type, $title, $taxonomy, $terms ) 
-    {
-    	$post = get_page_by_title( $title, OBJECT, $post_type );
-    	if ( ! $post ) {
-    		throw new \Exception( sprintf( 'Post "%s" of post type %s not found', $title, $post_type ) );
-    	}
+	
+	/**
+	 * @Given /^the ([a-zA-z_-]+) "([^"]*)" has ([a-zA-z_-]+) terms ((?:[^,]+)(?:,\s*([^,]+))*)$/i
+	 */
+	public function thePostTypeHasTerms( $post_type, $title, $taxonomy, $terms )
+	{
+		$post = get_page_by_title( $title, OBJECT, $post_type );
+		if ( ! $post ) {
+			throw new \Exception( sprintf( 'Post "%s" of post type %s not found', $title, $post_type ) );
+		}
+			
+		$names = array_map( 'trim', explode( ',', $terms ) );
+		$terms = array();
+		foreach( $names as $name ){
+			$term = get_term_by( 'name', htmlspecialchars( $name ), $taxonomy );
+			if ( ! $term ) {
+				throw new \Exception( sprintf( 'Could not find "%s" term %s', $taxonomy, $name ) );
+			}
+			$terms[] = $term->slug;
+		}
+		$term_ids = wp_set_object_terms( $post->ID, $terms, $taxonomy, false );
+	
+		if ( ! $term_ids ) {
+			throw new \Exception( sprintf( 'Could not set the %s terms of post "%s"', $taxonomy, $title ) );
+		} else if ( is_wp_error( $term_ids ) ) {
+			throw new \Exception( sprintf( 'Could not set the %s terms of post "%s": %s', $taxonomy, $title, $terms->get_error_message() ) );
+		}
+	}
     
-    	$slugs    = array_map( 'trim', explode( ',', $terms ) );
-    	$term_ids = wp_set_object_terms( $post->ID, $slugs, $taxonomy, false );
-    
-    	if ( ! $term_ids ) {
-    		throw new \Exception( sprintf( 'Could not set the %s terms of post "%s"', $taxonomy, $title ) );
-    	} else if ( is_wp_error( $term_ids ) ) {
-    		throw new \Exception( sprintf( 'Could not set the %s terms of post "%s": %s', $taxonomy, $title, $terms->get_error_message() ) );
-    	}
-    }
     
     /**
      * @Then /^the ([a-z0-9_\-]*) "([^"]*)" should have ([a-z0-9_\-]*) terms "([^"]*)"$/
