@@ -156,7 +156,11 @@ class WordPressPostListContext extends RawMinkContext implements Context, Snippe
 			$cells = $row->findAll( 'css', 'td' );
 
 			foreach ( $cells as  $cell ) {
-				$row_values[] = trim( $cell->getText() );
+				if ( $cell->hasClass( 'column-title' ) ) {
+					$row_values[] = trim( $cell->find('css','strong')->getText() );
+				} else { 
+					$row_values[] = trim( $cell->getText() );
+				}
 			}
 
 			$_rows[] = $row_values;
