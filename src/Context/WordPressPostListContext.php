@@ -158,6 +158,8 @@ class WordPressPostListContext extends RawMinkContext implements Context, Snippe
 			foreach ( $cells as  $cell ) {
 				if ( $cell->find('css','.row-title') ) {
 					$row_values[] = trim( $cell->find('css','.row-title')->getText() );
+				} elseif ( $cell->find('css','.screen-reader-text') ) { 
+					$row_values[] = trim( $cell->find( 'xpath', '/*[not(@class="screen-reader-text")]' )->getText() );
 				} else { 
 					$row_values[] = trim( $cell->getText() );
 				}
