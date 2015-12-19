@@ -58,7 +58,7 @@ class WordPressPostListContext extends RawMinkContext implements Context, Snippe
 
 			if ( ! isset( $action_nodes[$n] ) ) {
 				throw new \Exception( sprintf(
-					'Expected "%s", but there is no element at index %d.',
+					'Expected "%s", but there is no action at index %d.',
 					$expected_row['actions'],
 					$n
 				) );
@@ -74,7 +74,7 @@ class WordPressPostListContext extends RawMinkContext implements Context, Snippe
 
 		if ( count( $hash ) !== count( $action_nodes ) ) {
 			throw new \Exception( sprintf(
-				'Expected %d elements but found %d',
+				'Expected %d actions but found %d',
 				count( $hash ),
 				count( $action_nodes )
 			) );
@@ -157,8 +157,10 @@ class WordPressPostListContext extends RawMinkContext implements Context, Snippe
 
 			foreach ( $cells as  $cell ) {
 				if ( $cell->find('css','.row-title') ) {
+					//The title column will contain action links, we just want the title text
 					$row_values[] = trim( $cell->find('css','.row-title')->getText() );
 				} elseif ( $cell->find('css','.screen-reader-text') ) { 
+					///Remove any .screen-reader-text elements
 					$row_values[] = trim( $cell->find( 'xpath', '/*[not(@class="screen-reader-text")]' )->getText() );
 				} else { 
 					$row_values[] = trim( $cell->getText() );
