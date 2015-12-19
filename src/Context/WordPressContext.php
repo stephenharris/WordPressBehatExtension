@@ -16,7 +16,7 @@ class WordPressContext extends MinkContext
     /**
      * Create a new WordPress website from scratch
      *
-     * @Given /^\w+ have|has a vanilla wordpress installation$/
+     * @Given /^\w+ have a vanilla wordpress installation$/
      */
     public function installWordPress(TableNode $table = null)
     {
