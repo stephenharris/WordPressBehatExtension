@@ -129,13 +129,24 @@ class WordPressContext extends MinkContext
      */
     public function login($username, $password)
     {
+
     	$this->getSession()->reset();
         $this->visit("wp-login.php");
         $currentPage = $this->getSession()->getPage();
 
         $currentPage->fillField('user_login', $username);
         $currentPage->fillField('user_pass', $password);
+		$this->checkOption('rememberme');
         $currentPage->findButton('wp-submit')->click();
+        
+        // Assert that we are on the dashboard
+        assertTrue( 
+            $this->spin(function($context){
+    			$context->getSession()->getPage()->hasContent('Dashboard');
+    			return true;
+	    	})
+        );
+        
     }
     
 	
@@ -219,6 +230,47 @@ class WordPressContext extends MinkContext
     	$actual_status = get_post_status( $post->ID );
     
 		assertEquals( $status, $actual_status );
+    }
+    
+    /**
+     * Fills in form field with specified id|name|label|value.
+     *
+     * @overide When /^(?:|I )fill in "(?P<field>(?:[^"]|\\")*)" with "(?P<value>(?:[^"]|\\")*)"$/
+     * @overide When /^(?:|I )fill in "(?P<field>(?:[^"]|\\")*)" with:$/
+     * @overide When /^(?:|I )fill in "(?P<value>(?:[^"]|\\")*)" for "(?P<field>(?:[^"]|\\")*)"$/
+     */
+    public function fillField($field, $value)
+    {
+    	$field = $this->fixStepArgument($field);
+    	$value = $this->fixStepArgument($value);
+    
+    	$this->spin(function($context) use ($field, $value) {
+    		$context->getSession()->getPage()->fillField($field, $value);
+    		return true;
+    	});
+    }
+    
+    public function spin ($lambda, $wait = 60)
+    {
+    	for ($i = 0; $i < $wait; $i++)
+    	{
+    		try {
+    			if ($lambda($this)) {
+    				return true;
+    			}
+    		} catch (Exception $e) {
+		    	// do nothing
+    		}
+    
+    		sleep(1);
+    	}
+    
+    	$backtrace = debug_backtrace();
+    
+    	throw new Exception(
+	    	"Timeout thrown by " . $backtrace[1]['class'] . "::" . $backtrace[1]['function'] . "()\n" .
+    		$backtrace[1]['file'] . ", line " . $backtrace[1]['line']
+    	);
     }
 
 }
