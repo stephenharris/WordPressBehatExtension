@@ -134,11 +134,14 @@ class WordPressContext extends MinkContext
         $this->visit("wp-login.php");
         $currentPage = $this->getSession()->getPage();
 
-        $currentPage->fillField('user_login', $username);
-        $currentPage->fillField('user_pass', $password);
-		$this->checkOption('rememberme');
-        $currentPage->findButton('wp-submit')->click();
-        
+		$this->spin(function($context) use ($currentPage, $username, $password) {
+			$currentPage->fillField('user_login', $username);
+        	$currentPage->fillField('user_pass', $password);
+			$context->checkOption('rememberme');
+        	$currentPage->findButton('wp-submit')->click();
+        	return true;
+        });
+
         // Assert that we are on the dashboard
         assertTrue( 
             $this->spin(function($context){
@@ -268,8 +271,7 @@ class WordPressContext extends MinkContext
     	$backtrace = debug_backtrace();
     
     	throw new Exception(
-	    	"Timeout thrown by " . $backtrace[1]['class'] . "::" . $backtrace[1]['function'] . "()\n" .
-    		$backtrace[1]['file'] . ", line " . $backtrace[1]['line']
+	    	"Timeout thrown by " . $backtrace[1]['class'] . "::" . $backtrace[1]['function'] . "()\n"
     	);
     }
 
