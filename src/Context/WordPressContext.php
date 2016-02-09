@@ -13,6 +13,7 @@ use Behat\MinkExtension\Context\MinkContext;
  */
 class WordPressContext extends MinkContext
 {
+	protected $current_user;
     /**
      * Create a new WordPress website from scratch
      *
@@ -105,6 +106,9 @@ class WordPressContext extends MinkContext
      */
     public function thereArePlugins(TableNode $table)
     {
+		//require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+		require_once(ABSPATH . 'wp-admin/includes/plugin.php');
+
         foreach ($table->getHash() as $row) {
             if ($row["status"] == "enabled") {
                 activate_plugin( $row["plugin"] );
@@ -144,8 +148,9 @@ class WordPressContext extends MinkContext
 
         // Assert that we are on the dashboard
         assertTrue( 
-            $this->spin(function($context){
+            $this->spin(function($context) use ( $username ) {
     			$context->getSession()->getPage()->hasContent('Dashboard');
+				$this->current_user = get_user_by( 'login', $username );
     			return true;
 	    	})
         );
