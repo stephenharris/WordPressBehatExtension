@@ -28,7 +28,7 @@
     "behat/mink-extension": "~2.0@dev",
     "symfony/filesystem": "~2.3",
     "symfony/finder": "~2.3",
-    "phpunit/phpunit": "5.0.*"
+    "phpunit/phpunit": ">=4.8.0"
   },
   "require-dev": {},
   "autoload": {
