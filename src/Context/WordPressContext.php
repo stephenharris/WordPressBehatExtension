@@ -13,6 +13,23 @@ use Behat\MinkExtension\Context\MinkContext;
  */
 class WordPressContext extends MinkContext
 {
+
+
+	/**
+ * Checks, that page contains specified text
+ * Example: Then I should see "Who is the Batman?"
+ * Example: And I should see "Who is the Batman?"
+ *
+ * @override /^(?:|I )should see "(?P<text>(?:[^"]|\\")*)"$/
+ */
+	public function assertPageContainsText($text)
+	{
+		$currentPage = $this->getSession()->getPage();
+		var_dump( $currentPage->getHtml() );
+		parent::assertPageContainsText( $text );
+
+	}
+
     /**
      * Create a new WordPress website from scratch
      *
@@ -44,6 +61,10 @@ class WordPressContext extends MinkContext
         assertTrue($value);
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';
         wp_install($name, $username, $email, true, '', $password);
+
+		//This is a bit of a hack, we care about the notification e-mails here so clear the inbox
+		//we run the risk of deleting stuff we want!
+		$this->clearInbox( $email );
 
         $wp_rewrite->init();
         $wp_rewrite->set_permalink_structure( '/%year%/%monthnum%/%day%/%postname%/' );
@@ -314,6 +335,20 @@ class WordPressContext extends MinkContext
 		}
 		var_dump( $emails );
 		return $emails;
+	}
+
+
+	/**
+	 * Get all fake mails sent to this address
+	 *
+	 * @param string $email_address The email address to get mail to
+	 *
+	 * @return array An array of fake email paths, first to last
+	 */
+	function clearInbox( $email_address = '' ) {
+		foreach ( glob( WORDPRESS_FAKE_MAIL_DIR . '*' . $email_address . '*' ) as $email ) {
+			unset( $email );
+		}
 	}
 
 }
