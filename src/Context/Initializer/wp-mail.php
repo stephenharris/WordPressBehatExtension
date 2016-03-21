@@ -17,7 +17,17 @@ function wp_mail( $to, $subject, $message ) {
 	$content .= "SUBJECT: $subject" . PHP_EOL;
 	$content .= WORDPRESS_FAKE_MAIL_DIVIDER . PHP_EOL . $message;
 	if ( !is_dir( WORDPRESS_FAKE_MAIL_DIR ) ) {
-		mkdir( WORDPRESS_FAKE_MAIL_DIR, true );
+		mkdir( WORDPRESS_FAKE_MAIL_DIR, 0777, true );
 	}
-	return (bool) file_put_contents( $file_path, $content );
+
+	$result = (bool) file_put_contents( $file_path, $content );
+
+	if ( ! $result ) {
+		var_dump( scandir( rtrim(WORDPRESS_FAKE_MAIL_DIR, DIRECTORY_SEPARATOR) ) );
+		var_dump( $result );
+	}
+
+	echo "Emailing {$to}; {$subject}";
+
+	return $result;
 }
