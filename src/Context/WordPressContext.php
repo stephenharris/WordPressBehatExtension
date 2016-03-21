@@ -312,6 +312,7 @@ class WordPressContext extends MinkContext
 		foreach ( glob( $file_pattern ) as $email ) {
 			$emails[] = $email;
 		}
+		var_dump( $emails );
 		return $emails;
 	}
 
