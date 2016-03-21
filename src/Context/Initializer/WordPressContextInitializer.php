@@ -87,8 +87,10 @@ class WordPressContextInitializer implements ContextInitializer
 
         $finder = new Finder();
 
-		// load our wp_mail
-		require_once dirname(__FILE__) . '/wp-mail.php';
+		// load our wp_mail mu-plugin
+		$mu_plugin = rtrim($this->wordpressParams['path'], DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'wp-content' . DIRECTORY_SEPARATOR . 'mu-plugins';
+		mkdir( $mu_plugin , 0777, true );
+		copy ( dirname(__FILE__) . DIRECTORY_SEPARATOR . 'wp-mail.php' , $mu_plugin . DIRECTORY_SEPARATOR . 'wp-mail.php' );
 
         // load the wordpress "stack"
         $finder->files()->in($this->wordpressParams['path'])->depth('== 0')->name('wp-load.php');
