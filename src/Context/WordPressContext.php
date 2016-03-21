@@ -13,23 +13,6 @@ use Behat\MinkExtension\Context\MinkContext;
  */
 class WordPressContext extends MinkContext
 {
-
-
-	/**
- * Checks, that page contains specified text
- * Example: Then I should see "Who is the Batman?"
- * Example: And I should see "Who is the Batman?"
- *
- * @override /^(?:|I )should see "(?P<text>(?:[^"]|\\")*)"$/
- */
-	public function assertPageContainsText($text)
-	{
-		$currentPage = $this->getSession()->getPage();
-		echo $currentPage->getHtml();
-		parent::assertPageContainsText( $text );
-
-	}
-
     /**
      * Create a new WordPress website from scratch
      *
