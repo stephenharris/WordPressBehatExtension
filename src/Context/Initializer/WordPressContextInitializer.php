@@ -88,7 +88,7 @@ class WordPressContextInitializer implements ContextInitializer
         $finder = new Finder();
 
 		// load our wp_mail
-		$finder->files()->in(dirname(__FILE__))->depth('== 0')->name('wp-mail.php');
+		require_once dirname(__FILE__) . '/wp-mail.php';
 
         // load the wordpress "stack"
         $finder->files()->in($this->wordpressParams['path'])->depth('== 0')->name('wp-load.php');
