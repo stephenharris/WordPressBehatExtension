@@ -11,7 +11,7 @@
  * @return bool True if the email got sent (i.e. if the fake email file was written)
  */
 function wp_mail( $to, $subject, $message ) {
-	$file_name = sanitize_file_name( time() . "-$to-" . sanitize_with_dashes( $subject ) );
+	$file_name = sanitize_file_name( time() . "-$to-" . sanitize_title_with_dashes( $subject ) );
 	$file_path = trailingslashit( WORDPRESS_FAKE_MAIL_DIR ) . $file_name;
 	$content = "TO: $to" . PHP_EOL;
 	$content .= "SUBJECT: $subject" . PHP_EOL;
