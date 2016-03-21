@@ -275,4 +275,41 @@ class WordPressContext extends MinkContext
     	);
     }
 
+	/**
+	 * Parse a fake mail written by WordPress for testing purposes, and
+	 * return the "email" data.
+	 *
+	 * @param string $file The path to a fake mail file to parse
+	 *
+	 * @return array The email data, as an array with these fields: to, subject, body
+	 */
+	protected function readFakeMail( $file ) {
+		$message = array();
+		$file_contents = file_get_contents( $file );
+		preg_match( '/^TO:(.*)$/mi', $file_contents, $to_matches );
+		$message['to'] = array( trim( $to_matches[1] ) );
+		preg_match( '/^SUBJECT:(.*)$/mi', $file_contents, $subj_matches );
+		$message['subject'] = array( trim( $subj_matches[1] ) );
+		$parts = explode( WORDPRESS_FAKE_MAIL_DIVIDER, $file_contents );
+		$message['body'] = $parts[1];
+		return $message;
+	}
+
+	/**
+	 * Get all fake mails sent to this address
+	 *
+	 * @param string $email_address The email address to get mail to
+	 *
+	 * @return array An array of fake email paths, first to last
+	 */
+	function getFakeMailFor( $email_address ) {
+		$emails = array();
+		// List contents of Fake Mail directory
+		$file_pattern = WORDPRESS_FAKE_MAIL_DIR . '*' . $email_address . '*';
+		foreach ( glob( $file_pattern ) as $email ) {
+			$emails[] = $email;
+		}
+		return $emails;
+	}
+
 }

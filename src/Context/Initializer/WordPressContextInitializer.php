@@ -61,10 +61,18 @@ class WordPressContextInitializer implements ContextInitializer
         $_SERVER['HTTP_HOST'] = $urlComponents['host'] . (isset($urlComponents['port']) ? ':' . $urlComponents['port'] : '');
         $_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.1';
 
-
         // we don't have a request uri in headless scenarios:
         // wordpress will try to "fix" php_self variable based on the request uri, if not present
         $PHP_SELF = $GLOBALS['PHP_SELF'] = $_SERVER['PHP_SELF'] = '/index.php';
+
+		//Fake mail settings
+		if ( ! defined( 'WORDPRESS_FAKE_MAIL_DIVIDER' ) ) {
+			define( 'WORDPRESS_FAKE_MAIL_DIVIDER', $this->wordpressParams['mail']['dividor'] );
+		}
+
+		if ( ! defined( 'WORDPRESS_FAKE_MAIL_DIR' ) ) {
+			define( 'WORDPRESS_FAKE_MAIL_DIR', $this->wordpressParams['mail']['directory'] );
+		}
     }
 
     /**
@@ -78,6 +86,9 @@ class WordPressContextInitializer implements ContextInitializer
         }
 
         $finder = new Finder();
+
+		// load our wp_mail
+		$finder->files()->in(dirname(__FILE__))->depth('== 0')->name('wp-mail.php');
 
         // load the wordpress "stack"
         $finder->files()->in($this->wordpressParams['path'])->depth('== 0')->name('wp-load.php');

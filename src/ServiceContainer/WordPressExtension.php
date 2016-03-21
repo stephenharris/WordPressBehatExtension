@@ -81,6 +81,16 @@ class WordPressExtension implements ExtensionInterface
                         ->end()
                     ->end()
                 ->end()
+                ->arrayNode('mail')
+                    ->children()
+                        ->scalarNode('directory')
+                            ->defaultValue( getenv( 'WORDPRESS_FAKE_MAIL_DIR' ) )
+			            ->end()
+			            ->scalarNode('divider')
+			                ->defaultValue('%%===================%%')
+			            ->end()
+			        ->end()
+			    ->end()
             ->end();
     }
 
