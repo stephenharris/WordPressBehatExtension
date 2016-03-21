@@ -67,7 +67,7 @@ class WordPressContextInitializer implements ContextInitializer
 
 		//Fake mail settings
 		if ( ! defined( 'WORDPRESS_FAKE_MAIL_DIVIDER' ) ) {
-			define( 'WORDPRESS_FAKE_MAIL_DIVIDER', $this->wordpressParams['mail']['dividor'] );
+			define( 'WORDPRESS_FAKE_MAIL_DIVIDER', $this->wordpressParams['mail']['divider'] );
 		}
 
 		if ( ! defined( 'WORDPRESS_FAKE_MAIL_DIR' ) ) {
