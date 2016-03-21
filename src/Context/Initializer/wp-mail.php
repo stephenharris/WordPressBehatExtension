@@ -19,10 +19,6 @@ function wp_mail( $to, $subject, $message ) {
 	if ( !is_dir( WORDPRESS_FAKE_MAIL_DIR ) ) {
 		mkdir( WORDPRESS_FAKE_MAIL_DIR, 0777, true );
 	}
-
 	$result = (bool) file_put_contents( $file_path, $content );
-
-	echo "Emailing {$to}; {$subject}";
-
 	return $result;
 }
