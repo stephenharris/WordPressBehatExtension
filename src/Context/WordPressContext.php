@@ -25,7 +25,7 @@ class WordPressContext extends MinkContext
 	public function assertPageContainsText($text)
 	{
 		$currentPage = $this->getSession()->getPage();
-		var_dump( $currentPage->getHtml() );
+		echo $currentPage->getHtml();
 		parent::assertPageContainsText( $text );
 
 	}
