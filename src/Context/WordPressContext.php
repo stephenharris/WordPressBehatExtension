@@ -346,7 +346,7 @@ class WordPressContext extends MinkContext
 	 * @return array An array of fake email paths, first to last
 	 */
 	function clearInbox( $email_address = '' ) {
-		foreach ( glob( WORDPRESS_FAKE_MAIL_DIR . '*' . $email_address . '*' ) as $email ) {
+		foreach ( glob( rtrim(WORDPRESS_FAKE_MAIL_DIR, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . '*' . $email_address . '*' ) as $email ) {
 			unset( $email );
 		}
 	}
