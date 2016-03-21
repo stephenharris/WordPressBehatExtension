@@ -306,8 +306,9 @@ class WordPressContext extends MinkContext
 		$emails = array();
 		// List contents of Fake Mail directory
 
-		$file_pattern = rtrim(WORDPRESS_FAKE_MAIL_DIR, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . '/*' . $email_address . '*';
+		$file_pattern = rtrim(WORDPRESS_FAKE_MAIL_DIR, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . '*' . $email_address . '*';
 		echo "Checking in: " . $file_pattern;
+		var_dump( scandir( rtrim(WORDPRESS_FAKE_MAIL_DIR, DIRECTORY_SEPARATOR) ) );
 		foreach ( glob( $file_pattern ) as $email ) {
 			$emails[] = $email;
 		}
