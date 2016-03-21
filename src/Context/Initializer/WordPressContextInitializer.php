@@ -63,7 +63,7 @@ class WordPressContextInitializer implements ContextInitializer
 
         // we don't have a request uri in headless scenarios:
         // wordpress will try to "fix" php_self variable based on the request uri, if not present
-        $PHP_SELF = $GLOBALS['PHP_SELF'] = $_SERVER['PHP_SELF'] = '/index.php';
+        $GLOBALS['PHP_SELF'] = $_SERVER['PHP_SELF'] = '/index.php';
 
 		//Fake mail settings
 		if ( ! defined( 'WORDPRESS_FAKE_MAIL_DIVIDER' ) ) {
@@ -99,6 +99,7 @@ class WordPressContextInitializer implements ContextInitializer
 		//TODO: Find a better way: read the entire string
 		$str = file_get_contents($mu_plugin . DIRECTORY_SEPARATOR . 'wp-mail.php');
 		$str = str_replace('WORDPRESS_FAKE_MAIL_DIR', "'" . WORDPRESS_FAKE_MAIL_DIR . "'",$str);
+		$str = str_replace('WORDPRESS_FAKE_MAIL_DIVIDER', "'" . WORDPRESS_FAKE_MAIL_DIVIDER . "'",$str);
 		file_put_contents($mu_plugin . DIRECTORY_SEPARATOR . 'wp-mail.php', $str);
 
         // load the wordpress "stack"
