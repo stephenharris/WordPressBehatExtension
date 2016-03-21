@@ -92,9 +92,14 @@ class WordPressContextInitializer implements ContextInitializer
 		if (!is_dir( $mu_plugin )) {
 			mkdir( $mu_plugin, 0777, true );
 		}
-		if (!file_exists( $mu_plugin . DIRECTORY_SEPARATOR . 'wp-mail.php')) {
+		if (!file_exists($mu_plugin . DIRECTORY_SEPARATOR . 'wp-mail.php')) {
 			copy ( dirname(__FILE__) . DIRECTORY_SEPARATOR . 'wp-mail.php' , $mu_plugin . DIRECTORY_SEPARATOR . 'wp-mail.php' );
 		}
+
+		//TODO: Find a better way: read the entire string
+		$str = file_get_contents($mu_plugin . DIRECTORY_SEPARATOR . 'wp-mail.php');
+		$str = str_replace('WORDPRESS_FAKE_MAIL_DIR', WORDPRESS_FAKE_MAIL_DIR,$str);
+		file_put_contents($mu_plugin . DIRECTORY_SEPARATOR . 'wp-mail.php', $str);
 
         // load the wordpress "stack"
         $finder->files()->in($this->wordpressParams['path'])->depth('== 0')->name('wp-load.php');
