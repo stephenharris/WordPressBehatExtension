@@ -45,6 +45,8 @@ class WordPressContextInitializer implements ContextInitializer
         if (!$context instanceof WordPressContext) {
             return;
         }
+
+		$context->setWordPressParameters( $this->wordpressParams );
         $this->prepareEnvironment();
         $this->installFileFixtures();
         $this->flushDatabase();
@@ -72,11 +74,6 @@ class WordPressContextInitializer implements ContextInitializer
      */
     private function loadStack()
     {
-        // prevent wordpress from calling home to api.wordpress.org
-        if (!defined('WP_INSTALLING') || !WP_INSTALLING) {
-            //define('WP_INSTALLING', true);
-        }
-
         $finder = new Finder();
 
         // load the wordpress "stack"

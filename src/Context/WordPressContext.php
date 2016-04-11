@@ -2,7 +2,8 @@
 namespace Johnbillion\WordPressExtension\Context;
 
 use Behat\Gherkin\Node\PyStringNode,
-    Behat\Gherkin\Node\TableNode;
+    Behat\Gherkin\Node\TableNode,
+	Behat\Behat\Hook\Scope\BeforeScenarioScope;
 
 use Behat\MinkExtension\Context\MinkContext;
 
@@ -14,42 +15,47 @@ use Behat\MinkExtension\Context\MinkContext;
 class WordPressContext extends MinkContext
 {
 	protected $current_user;
-    /**
-     * Create a new WordPress website from scratch
-     *
-     * @Given /^\w+ have a vanilla wordpress installation$/
-     */
-    public function installWordPress(TableNode $table = null)
-    {
-        global $wp_rewrite;
 
-        $name = "admin";
-        $email = "an@example.com";
-        $password = "test";
-        $username = "admin";
+	protected $wordpressParams = null;
 
-        if ($table) {
-            $hash = $table->getHash();
-            $row = $hash[0];
-            $name = $row["name"];
-            $username = $row["username"];
-            $email = $row["email"];
-            $password = $row["password"];
-        }
+	protected $blogs;
 
-        $mysqli = new \Mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-        $value = $mysqli->multi_query(implode("\n", array(
-            "DROP DATABASE IF EXISTS " . DB_NAME . ";",
-            "CREATE DATABASE " . DB_NAME . ";",
-        )));
-        assertTrue($value);
-        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-        wp_install($name, $username, $email, true, '', $password);
+	function setWordPressParameters( $args ) {
+		$this->wordpressParams = $args;
+	}
 
-        $wp_rewrite->init();
-        $wp_rewrite->set_permalink_structure( '/%year%/%monthnum%/%day%/%postname%/' );
+	function getWordPressParameters( $args ) {
+		return $this->wordpressParams;
+	}
 
-    }
+	/**
+	 * @BeforeScenario
+	 */
+	public function flushDatabase(BeforeScenarioScope $scope)
+	{
+		$connection = $this->wordpressParams['connection'];
+		$mysqli = new \Mysqli(
+			'localhost',//$connection['host'],
+			$connection['username'],
+			$connection['password'],
+			$connection['db']
+		);
+
+		$mysqli->multi_query("DROP DATABASE IF EXISTS ${connection['db']}; CREATE DATABASE ${connection['db']};");
+
+		$mysqli->multi_query(implode("\n", array(
+			"DROP DATABASE IF EXISTS " . $connection['db'] . ";",
+			"CREATE DATABASE " . $connection['db'] . ";",
+		)));
+
+		if ( $this->wordpressParams['multisite']['dbdump'] ) {
+			$command = "mysql -u{$connection['username']} -p{$connection['password']} "
+				. "-h localhost -D {$connection['db']} < {$this->wordpressParams['multisite']['dbdump']}";
+			$out = shell_exec($command);
+		}
+
+		wp_cache_flush();
+	}
 
     /**
      * Add these users to this wordpress installation
@@ -82,7 +88,7 @@ class WordPressContext extends MinkContext
             }
         }
     }
-    
+
 
     /**
      * @Given there are :taxonomy terms
@@ -147,17 +153,17 @@ class WordPressContext extends MinkContext
         });
 
         // Assert that we are on the dashboard
-        assertTrue( 
+        assertTrue(
             $this->spin(function($context) use ( $username ) {
     			$context->getSession()->getPage()->hasContent('Dashboard');
 				$this->current_user = get_user_by( 'login', $username );
     			return true;
 	    	})
         );
-        
+
     }
-    
-	
+
+
 	/**
 	 * @Given /^the ([a-zA-z_-]+) "([^"]*)" has ([a-zA-z_-]+) terms ((?:[^,]+)(?:,\s*([^,]+))*)$/i
 	 */
@@ -167,7 +173,7 @@ class WordPressContext extends MinkContext
 		if ( ! $post ) {
 			throw new \Exception( sprintf( 'Post "%s" of post type %s not found', $title, $post_type ) );
 		}
-			
+
 		$names = array_map( 'trim', explode( ',', $terms ) );
 		$terms = array();
 		foreach( $names as $name ){
@@ -178,19 +184,19 @@ class WordPressContext extends MinkContext
 			$terms[] = $term->slug;
 		}
 		$term_ids = wp_set_object_terms( $post->ID, $terms, $taxonomy, false );
-	
+
 		if ( ! $term_ids ) {
 			throw new \Exception( sprintf( 'Could not set the %s terms of post "%s"', $taxonomy, $title ) );
 		} else if ( is_wp_error( $term_ids ) ) {
 			throw new \Exception( sprintf( 'Could not set the %s terms of post "%s": %s', $taxonomy, $title, $terms->get_error_message() ) );
 		}
 	}
-    
-    
+
+
     /**
      * @Then /^the ([a-z0-9_\-]*) "([^"]*)" should have ([a-z0-9_\-]*) terms "([^"]*)"$/
      */
-    public function thePostTypeShouldHaveTerms( $post_type, $title, $taxonomy, $terms ) 
+    public function thePostTypeShouldHaveTerms( $post_type, $title, $taxonomy, $terms )
     {
     	$post = get_page_by_title( $title, OBJECT, $post_type );
     	if ( ! $post ) {
@@ -198,48 +204,48 @@ class WordPressContext extends MinkContext
     	}
     	clean_post_cache( $post->ID );
     	$actual_terms = get_the_terms( $post->ID, $taxonomy );
-    
+
     	if ( ! $actual_terms ) {
     		throw new \InvalidArgumentException( sprintf( 'Could not get the %s terms of post "%s"', $taxonomy, $title ) );
     	} else if ( is_wp_error( $terms ) ) {
     		throw new \InvalidArgumentException( sprintf( 'Could not get the %s terms of post "%s": %s', $taxonomy, $title, $terms->get_error_message() ) );
     	}
-    
+
     	$actual_slugs   = wp_list_pluck( $actual_terms, 'slug' );
     	$expected_slugs = array_map( 'trim', explode( ',', $terms ) );
-    
+
     	$does_not_have   = array_diff( $expected_slugs, $actual_slugs );
     	$should_not_have = array_diff( $actual_slugs, $expected_slugs );
-    	
+
     	if ( $does_not_have || $should_not_have ) {
-    		throw new \Exception( 
-    			sprintf( 
-    				'Failed asserting "%s" has the %s terms: "%s"' . "\n" . "Actual terms: %s", 
-    				$title, 
-    				$taxonomy, 
+    		throw new \Exception(
+    			sprintf(
+    				'Failed asserting "%s" has the %s terms: "%s"' . "\n" . "Actual terms: %s",
+    				$title,
+    				$taxonomy,
     				implode( ',', $expected_slugs ),
     				implode( ',', $actual_slugs )
-    			) 
+    			)
     		);
     	}
     }
-    
+
     /**
      * @Then /^the ([a-z0-9_\-]*) "([^"]*)" should have status "([^"]*)"$/
      */
-    public function thePostTypeShouldHaveStatus( $post_type, $title, $status ) 
+    public function thePostTypeShouldHaveStatus( $post_type, $title, $status )
     {
     	$post = get_page_by_title( $title, OBJECT, $post_type );
     	if ( ! $post ) {
     		throw new \Exception( sprintf( 'Post "%s" of post type %s not found', $title, $post_type ) );
     	}
-    
+
     	clean_post_cache( $post->ID );
     	$actual_status = get_post_status( $post->ID );
-    
+
 		assertEquals( $status, $actual_status );
     }
-    
+
     /**
      * Fills in form field with specified id|name|label|value.
      *
@@ -251,13 +257,13 @@ class WordPressContext extends MinkContext
     {
     	$field = $this->fixStepArgument($field);
     	$value = $this->fixStepArgument($value);
-    
+
     	$this->spin(function($context) use ($field, $value) {
     		$context->getSession()->getPage()->fillField($field, $value);
     		return true;
     	});
     }
-    
+
     public function spin ($lambda, $wait = 60)
     {
     	for ($i = 0; $i < $wait; $i++)
@@ -269,12 +275,12 @@ class WordPressContext extends MinkContext
     		} catch (Exception $e) {
 		    	// do nothing
     		}
-    
+
     		sleep(1);
     	}
-    
+
     	$backtrace = debug_backtrace();
-    
+
     	throw new Exception(
 	    	"Timeout thrown by " . $backtrace[1]['class'] . "::" . $backtrace[1]['function'] . "()\n"
     	);
