@@ -1,5 +1,5 @@
 <?php
-namespace Johnbillion\WordPressExtension\Context;
+namespace StephenHarris\WordPressExtension\Context;
 
 use Behat\Gherkin\Node\PyStringNode,
     Behat\Gherkin\Node\TableNode;
@@ -9,7 +9,7 @@ use Behat\MinkExtension\Context\MinkContext;
 /**
  * Class WordPressContext
  *
- * @package Johnbillion\WordPressExtension\Context
+ * @package StephenHarris\WordPressExtension\Context
  */
 class WordPressContext extends MinkContext
 {

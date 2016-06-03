@@ -1,6 +1,6 @@
 <?php
 
-namespace Johnbillion\WordPressExtension\Context;
+namespace StephenHarris\WordPressExtension\Context;
 
 use Behat\Behat\Context\ClosuredContextInterface,
 	Behat\Behat\Context\TranslatedContextInterface,

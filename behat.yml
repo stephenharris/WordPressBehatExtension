@@ -4,11 +4,11 @@ default:
   suites:
     default:
       contexts:
-        - Johnbillion\WordPressExtension\Context\WordPressContext
-        - Johnbillion\WordPressExtension\Context\WordPressAdminContext
-        - Johnbillion\WordPressExtension\Context\WordPressPostListContext
+        - StephenHarris\WordPressExtension\Context\WordPressContext
+        - StephenHarris\WordPressExtension\Context\WordPressAdminContext
+        - StephenHarris\WordPressExtension\Context\WordPressPostListContext
   extensions:
-    Johnbillion\WordPressExtension:
+    StephenHarris\WordPressExtension:
       path: '%paths.base/vendor/wordpress'
 
     Behat\MinkExtension:

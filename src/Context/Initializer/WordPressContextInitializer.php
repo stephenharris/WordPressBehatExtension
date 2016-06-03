@@ -1,6 +1,6 @@
 <?php
 
-namespace Johnbillion\WordPressExtension\Context\Initializer;
+namespace StephenHarris\WordPressExtension\Context\Initializer;
 
 use Behat\Behat\Context\Context,
     Behat\Behat\Context\Initializer\ContextInitializer;
@@ -8,12 +8,12 @@ use Behat\Behat\Context\Context,
 use Symfony\Component\Finder\Finder,
     Symfony\Component\Filesystem\Filesystem;
 
-use Johnbillion\WordPressExtension\Context\WordPressContext;
+use StephenHarris\WordPressExtension\Context\WordPressContext;
 
 /**
  * Class FeatureListener
  *
- * @package Johnbillion\WordPressExtension\Listener
+ * @package StephenHarris\WordPressExtension\Listener
  */
 class WordPressContextInitializer implements ContextInitializer
 {
