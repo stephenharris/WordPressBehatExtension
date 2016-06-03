@@ -2,16 +2,16 @@
 
 namespace StephenHarris\WordPressExtension\ServiceContainer;
 
-use Behat\Behat\Context\ServiceContainer\ContextExtension,
-    Behat\Testwork\ServiceContainer\Extension as ExtensionInterface,
-    Behat\Testwork\ServiceContainer\ExtensionManager,
-    Behat\Testwork\EventDispatcher\ServiceContainer\EventDispatcherExtension;
+use Behat\Behat\Context\ServiceContainer\ContextExtension;
+use Behat\Testwork\ServiceContainer\Extension as ExtensionInterface;
+use Behat\Testwork\ServiceContainer\ExtensionManager;
+use Behat\Testwork\EventDispatcher\ServiceContainer\EventDispatcherExtension;
 
-use Symfony\Component\Config\FileLocator,
-    Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition,
-    Symfony\Component\DependencyInjection\ContainerBuilder,
-    Symfony\Component\DependencyInjection\Loader\XmlFileLoader,
-    Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Definition;
 
 /**
  * Class WordPressExtension
@@ -84,13 +84,13 @@ class WordPressExtension implements ExtensionInterface
                 ->arrayNode('mail')
                     ->children()
                         ->scalarNode('directory')
-                            ->defaultValue( getenv( 'WORDPRESS_FAKE_MAIL_DIR' ) )
-			            ->end()
-			            ->scalarNode('divider')
-			                ->defaultValue('%%===================%%')
-			            ->end()
-			        ->end()
-			    ->end()
+                            ->defaultValue(getenv('WORDPRESS_FAKE_MAIL_DIR'))
+                        ->end()
+                        ->scalarNode('divider')
+                            ->defaultValue('%%===================%%')
+                        ->end()
+                    ->end()
+                ->end()
             ->end();
     }
 
@@ -106,15 +106,18 @@ class WordPressExtension implements ExtensionInterface
     /**
      * Register a Context Initializer service for the behat
      *
-     * @param ContainerBuilder $container the service will check for StephenHarris\WordPressExtension\Context\WordPressContext contexts
+     * @param ContainerBuilder $container the service will check for WordPressContext contexts
      */
     private function loadContextInitializer(ContainerBuilder $container)
     {
-        $definition = new Definition('StephenHarris\WordPressExtension\Context\Initializer\WordPressContextInitializer', array(
-            '%wordpress.parameters%',
-            '%mink.parameters%',
-            '%paths.base%',
-        ));
+        $definition = new Definition(
+            'StephenHarris\WordPressExtension\Context\Initializer\WordPressContextInitializer',
+            array(
+                '%wordpress.parameters%',
+                '%mink.parameters%',
+                '%paths.base%',
+            )
+        );
         $definition->addTag(ContextExtension::INITIALIZER_TAG, array('priority' => 0));
         $container->setDefinition('behat.wordpress.service.wordpress_context_initializer', $definition);
     }

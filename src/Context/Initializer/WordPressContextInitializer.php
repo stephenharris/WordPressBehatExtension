@@ -2,11 +2,11 @@
 
 namespace StephenHarris\WordPressExtension\Context\Initializer;
 
-use Behat\Behat\Context\Context,
-    Behat\Behat\Context\Initializer\ContextInitializer;
+use Behat\Behat\Context\Context;
+use Behat\Behat\Context\Initializer\ContextInitializer;
 
-use Symfony\Component\Finder\Finder,
-    Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Filesystem\Filesystem;
 
 use StephenHarris\WordPressExtension\Context\WordPressContext;
 
@@ -57,21 +57,21 @@ class WordPressContextInitializer implements ContextInitializer
     private function prepareEnvironment()
     {
         // wordpress uses these superglobal fields everywhere...
-        $urlComponents = parse_url($this->minkParams['base_url']);
-        $_SERVER['HTTP_HOST'] = $urlComponents['host'] . (isset($urlComponents['port']) ? ':' . $urlComponents['port'] : '');
+        $urlParts = parse_url($this->minkParams['base_url']);
+        $_SERVER['HTTP_HOST']       = $urlParts['host'] . (isset($urlParts['port']) ? ':' . $urlParts['port'] : '');
         $_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.1';
 
         // we don't have a request uri in headless scenarios:
         // wordpress will try to "fix" php_self variable based on the request uri, if not present
         $GLOBALS['PHP_SELF'] = $_SERVER['PHP_SELF'] = '/index.php';
 
-		//Fake mail settings
-		if ( ! defined( 'WORDPRESS_FAKE_MAIL_DIVIDER' ) ) {
-			define( 'WORDPRESS_FAKE_MAIL_DIVIDER', $this->wordpressParams['mail']['divider'] );
-		}
-		if ( ! defined( 'WORDPRESS_FAKE_MAIL_DIR' ) ) {
-			define( 'WORDPRESS_FAKE_MAIL_DIR', $this->wordpressParams['mail']['directory'] );
-		}
+        //Fake mail settings
+        if (! defined('WORDPRESS_FAKE_MAIL_DIVIDER')) {
+            define('WORDPRESS_FAKE_MAIL_DIVIDER', $this->wordpressParams['mail']['divider']);
+        }
+        if (! defined('WORDPRESS_FAKE_MAIL_DIR')) {
+            define('WORDPRESS_FAKE_MAIL_DIR', $this->wordpressParams['mail']['directory']);
+        }
     }
 
     /**
@@ -86,20 +86,28 @@ class WordPressContextInitializer implements ContextInitializer
 
         $finder = new Finder();
 
-		// load our wp_mail mu-plugin
-		$mu_plugin = rtrim($this->wordpressParams['path'], DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'wp-content' . DIRECTORY_SEPARATOR . 'mu-plugins';
-		if (!is_dir( $mu_plugin )) {
-			mkdir( $mu_plugin, 0777, true );
-		}
-		if (!file_exists($mu_plugin . DIRECTORY_SEPARATOR . 'wp-mail.php')) {
-			copy ( dirname(__FILE__) . DIRECTORY_SEPARATOR . 'wp-mail.php' , $mu_plugin . DIRECTORY_SEPARATOR . 'wp-mail.php' );
-		}
+        // load our wp_mail mu-plugin
+        $mu_plugin = implode(DIRECTORY_SEPARATOR, array(
+            rtrim($this->wordpressParams['path'], DIRECTORY_SEPARATOR),
+            'wp-content',
+            'mu-plugins'
+        ));
 
-		//TODO: Find a better way: read the entire string
-		$str = file_get_contents($mu_plugin . DIRECTORY_SEPARATOR . 'wp-mail.php');
-		$str = str_replace('WORDPRESS_FAKE_MAIL_DIR', "'" . WORDPRESS_FAKE_MAIL_DIR . "'",$str);
-		$str = str_replace('WORDPRESS_FAKE_MAIL_DIVIDER', "'" . WORDPRESS_FAKE_MAIL_DIVIDER . "'",$str);
-		file_put_contents($mu_plugin . DIRECTORY_SEPARATOR . 'wp-mail.php', $str);
+        if (!is_dir($mu_plugin)) {
+            mkdir($mu_plugin, 0777, true);
+        }
+        if (!file_exists($mu_plugin . DIRECTORY_SEPARATOR . 'wp-mail.php')) {
+            copy(
+                dirname(__FILE__) . DIRECTORY_SEPARATOR . 'wp-mail.php',
+                $mu_plugin . DIRECTORY_SEPARATOR . 'wp-mail.php'
+            );
+        }
+
+        //TODO: Find a better way: read the entire string
+        $str = file_get_contents($mu_plugin . DIRECTORY_SEPARATOR . 'wp-mail.php');
+        $str = str_replace('WORDPRESS_FAKE_MAIL_DIR', "'" . WORDPRESS_FAKE_MAIL_DIR . "'", $str);
+        $str = str_replace('WORDPRESS_FAKE_MAIL_DIVIDER', "'" . WORDPRESS_FAKE_MAIL_DIVIDER . "'", $str);
+        file_put_contents($mu_plugin . DIRECTORY_SEPARATOR . 'wp-mail.php', $str);
 
         // load the wordpress "stack"
         $finder->files()->in($this->wordpressParams['path'])->depth('== 0')->name('wp-load.php');
@@ -150,14 +158,15 @@ class WordPressContextInitializer implements ContextInitializer
     {
         if ($this->wordpressParams['flush_database']) {
             $connection = $this->wordpressParams['connection'];
+            $database   = $connection['db'];
             $mysqli = new \Mysqli(
                 'localhost',
                 $connection['username'],
                 $connection['password'],
-                $connection['db']
+                $database
             );
 
-            $result = $mysqli->multi_query("DROP DATABASE IF EXISTS ${connection['db']}; CREATE DATABASE ${connection['db']};");
+            $mysqli->multi_query("DROP DATABASE IF EXISTS $database; CREATE DATABASE $database;");
         }
     }
 }
