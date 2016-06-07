@@ -48,7 +48,7 @@ This repository started off as a fork of:
             - WordPressAdminContext
             - WordPressPostListContext
       extensions:
-        StephenHarris\WordPressBehat:
+        StephenHarris\WordPressBehatExtension:
           path: '%paths.base%/vendor/wordpress'
           connection:
             db: 'wordpress_test'

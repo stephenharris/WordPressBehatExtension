@@ -8,7 +8,7 @@ default:
         - StephenHarris\WordPressBehat\Context\WordPressAdminContext
         - StephenHarris\WordPressBehat\Context\WordPressPostListContext
   extensions:
-    StephenHarris\WordPressBehat:
+    StephenHarris\WordPressBehatExtension:
       path: '%paths.base/vendor/wordpress'
 
     Behat\MinkExtension:

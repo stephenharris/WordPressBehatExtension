@@ -18,7 +18,7 @@ use Symfony\Component\DependencyInjection\Definition;
  *
  * @package StephenHarris\WordPressBehat\ServiceContainer
  */
-class WordPressBehat implements ExtensionInterface
+class WordPressBehatExtension implements ExtensionInterface
 {
 
     /**
