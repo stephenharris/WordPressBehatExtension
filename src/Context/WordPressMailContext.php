@@ -13,7 +13,7 @@ class WordPressMailContext implements Context, SnippetAcceptingContext
 {
 
     /**
-     * @Then /^the latest email to ([^ ]+@[^ ]+) should match "([^"]*)"$/
+     * @Then /^the latest email to ([^ ]+@[^ ]+) should contain "([^"]*)"$/
      */
     public function assertFakeEmailReceipt($emailAddress, $pattern)
     {
@@ -23,7 +23,7 @@ class WordPressMailContext implements Context, SnippetAcceptingContext
         $inbox   = $factory->getInbox($emailAddress);
         $email   = $inbox->getLatestEmail();
         $body    = $email->getBody();
-        
+
         PHPUnit_Framework_Assert::assertRegExp(
             $regex,
             $body,
