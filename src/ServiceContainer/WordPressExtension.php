@@ -1,6 +1,6 @@
 <?php
 
-namespace StephenHarris\WordPressExtension\ServiceContainer;
+namespace StephenHarris\WordPressBehat\ServiceContainer;
 
 use Behat\Behat\Context\ServiceContainer\ContextExtension;
 use Behat\Testwork\ServiceContainer\Extension as ExtensionInterface;
@@ -14,11 +14,11 @@ use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Definition;
 
 /**
- * Class WordPressExtension
+ * Class WordPressBehat
  *
- * @package StephenHarris\WordPressExtension\ServiceContainer
+ * @package StephenHarris\WordPressBehat\ServiceContainer
  */
-class WordPressExtension implements ExtensionInterface
+class WordPressBehat implements ExtensionInterface
 {
 
     /**
@@ -111,7 +111,7 @@ class WordPressExtension implements ExtensionInterface
     private function loadContextInitializer(ContainerBuilder $container)
     {
         $definition = new Definition(
-            'StephenHarris\WordPressExtension\Context\Initializer\WordPressContextInitializer',
+            'StephenHarris\WordPressBehat\Context\Initializer\WordPressContextInitializer',
             array(
                 '%wordpress.parameters%',
                 '%mink.parameters%',

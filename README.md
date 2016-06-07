@@ -3,12 +3,12 @@
 This is a Behat 3.0 Extension for WordPress plugin and theme development. 
 You can use it to test your WordPress installation, or just test your plugin/theme without installing them in a normal WordPress installation (i.e. stand-alone).
 
-The Extension allows you to use WordPress functions in your context class (if you extend your `FeatureContext` from `StephenHarris\WordPressExtension\Context\WordPressContext`).
+The Extension allows you to use WordPress functions in your context class (if you extend your `FeatureContext` from `StephenHarris\WordPressBehat\Context\WordPressContext`).
 
 It also provides other contexts:
 
- - `StephenHarris\WordPressExtension\Context\WordPressAdminContext.php` - navigating the WordPress admin
- - `StephenHarris\WordPressExtension\Context\WordPressPostListContext.php` - default WordPress admin post type page 
+ - `StephenHarris\WordPressBehat\Context\WordPressAdminContext.php` - navigating the WordPress admin
+ - `StephenHarris\WordPressBehat\Context\WordPressPostListContext.php` - default WordPress admin post type page 
 
 **Version:** 0.1.0  
 
@@ -48,7 +48,7 @@ This repository started off as a fork of:
             - WordPressAdminContext
             - WordPressPostListContext
       extensions:
-        StephenHarris\WordPressExtension:
+        StephenHarris\WordPressBehat:
           path: '%paths.base%/vendor/wordpress'
           connection:
             db: 'wordpress_test'

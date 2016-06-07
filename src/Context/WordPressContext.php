@@ -1,5 +1,5 @@
 <?php
-namespace StephenHarris\WordPressExtension\Context;
+namespace StephenHarris\WordPressBehat\Context;
 
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
@@ -9,7 +9,7 @@ use Behat\MinkExtension\Context\MinkContext;
 /**
  * Class WordPressContext
  *
- * @package StephenHarris\WordPressExtension\Context
+ * @package StephenHarris\WordPressBehat\Context
  */
 class WordPressContext extends MinkContext
 {
@@ -290,65 +290,5 @@ class WordPressContext extends MinkContext
         throw new Exception(
             "Timeout thrown by " . $backtrace[1]['class'] . "::" . $backtrace[1]['function'] . "()\n"
         );
-    }
-
-    /**
-     * Parse a fake mail written by WordPress for testing purposes, and
-     * return the "email" data.
-     *
-     * @param string $file The path to a fake mail file to parse
-     *
-     * @return array The email data, as an array with these fields: to, subject, body
-     */
-    protected function readFakeMail($file)
-    {
-        $message = array();
-        $file_contents = file_get_contents($file);
-        preg_match('/^TO:(.*)$/mi', $file_contents, $to_matches);
-        $message['to'] = array( trim($to_matches[1]) );
-        preg_match('/^SUBJECT:(.*)$/mi', $file_contents, $subj_matches);
-        $message['subject'] = array( trim($subj_matches[1]) );
-        $parts = explode(WORDPRESS_FAKE_MAIL_DIVIDER, $file_contents);
-        $message['body'] = $parts[1];
-        return $message;
-    }
-
-    /**
-     * Get all fake mails sent to this address
-     *
-     * @param string $email_address The email address to get mail to
-     *
-     * @return array An array of fake email paths, first to last
-     */
-    protected function getFakeMailFor($email_address)
-    {
-        $emails = array();
-        // List contents of Fake Mail directory
-        $filePattern = $this->getFakeMailDirectory() . '*' . $email_address . '*';
-        foreach (glob($filePattern) as $email) {
-            $emails[] = $email;
-        }
-        return $emails;
-    }
-
-
-    /**
-     * Get all fake mails sent to this address
-     *
-     * @param string $email_address The email address to get mail to
-     *
-     * @return array An array of fake email paths, first to last
-     */
-    protected function clearInbox($email_address = '')
-    {
-        $filePattern = $this->getFakeMailDirectory() . '*' . $email_address . '*';
-        foreach (glob($filePattern) as $email) {
-            unset($email);
-        }
-    }
-    
-    protected function getFakeMailDirectory()
-    {
-        return rtrim(WORDPRESS_FAKE_MAIL_DIR, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
     }
 }
