@@ -71,18 +71,19 @@ class Inbox
      */
     protected function parseMail($file)
     {
-        $file_contents = file_get_contents($file);
+        $fileContents = file_get_contents($file);
+        $titleParts   = explode('-', $file); //timestamp, email, subject
         
-        preg_match('/^TO:(.*)$/mi', $file_contents, $to_matches);
+        preg_match('/^TO:(.*)$/mi', $fileContents, $to_matches);
         $recipient = trim($to_matches[1]);
         
-        preg_match('/^SUBJECT:(.*)$/mi', $file_contents, $subj_matches);
+        preg_match('/^SUBJECT:(.*)$/mi', $fileContents, $subj_matches);
         $subject = trim($subj_matches[1]);
         
-        $parts = explode(WORDPRESS_FAKE_MAIL_DIVIDER, $file_contents);
+        $parts = explode(WORDPRESS_FAKE_MAIL_DIVIDER, $fileContents);
         $body = trim($parts[1]);
         
-        return new Email($recipient, $subject, $body);
+        return new Email($recipient, $subject, $body, $titleParts[0]);
     }
         
     /**
@@ -104,7 +105,13 @@ class Inbox
         foreach (glob($filePattern) as $file) {
             $this->emails[] = $this->parseMail($file);
         }
-        $this->emails = array_reverse($this->emails);
+
+        usort($this->emails, function ($email1, $email2) {
+        
+            //sort by timestamp, descending
+            return $email2->getTimestamp() - $email1->getTimestamp();
+        });
+        
         return $this;
     }
 

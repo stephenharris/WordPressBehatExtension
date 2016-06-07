@@ -14,12 +14,15 @@ class Email
     private $subject;
     
     private $body;
+
+    private $timestamp;
     
-    public function __construct($recipient, $subject = '', $body = '')
+    public function __construct($recipient, $subject = '', $body = '', $timestamp = null)
     {
         $this->recipient = $recipient;
         $this->subject   = $subject;
         $this->body      = $body;
+        $this->timestamp = is_null($timestamp) ? time() : $timestamp;
     }
     
     public function getRecipient()
@@ -35,5 +38,10 @@ class Email
     public function getBody()
     {
         return $this->body;
+    }
+    
+    public function getTimestamp()
+    {
+        return $this->timestamp;
     }
 }
