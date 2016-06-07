@@ -7,7 +7,7 @@ use Behat\Gherkin\Node\TableNode;
 /**
  * The WPTableElement 'decorates' NodeElement. It allows to add helper methods (e.g. extracting rows/columns) from a
  * DOM node which corresponds to WordPress user table.
- * 
+ *
  * Please note that this Decorator implementation is lazy and cannot be stacked. See link below for details.
  *
  * @link http://jrgns.net/decorator-pattern-implemented-properly-in-php/
@@ -46,7 +46,7 @@ class WPTableElement extends NodeElement
         $hash = array();
 
         $columns = $this->extractColumns();
-        $rows    = $this->extractRows();
+        $rows    = $this->getRows();
 
         //TODO Assuming a checkbox column might not be safe. Could we check for it?
         array_shift($columns);//Ignore checkbox column
@@ -88,7 +88,7 @@ class WPTableElement extends NodeElement
      * Get the table's header cells
      * @param array of NodeElements (corresponding to the column headers)
      */
-    private function extractColumns()
+    public function extractColumns()
     {
         $columns = $this->nodeElement->findAll('css', 'thead .manage-column');
 
@@ -103,7 +103,7 @@ class WPTableElement extends NodeElement
      * Get the table's rows
      * @param array of NodeElements (corresponding to each row)
      */
-    private function extractRows()
+    public function getRows()
     {
         return $this->nodeElement->findAll('css', 'tbody tr');
     }
@@ -133,7 +133,7 @@ class WPTableElement extends NodeElement
             throw new \Exception("Could not find column '{$columnHeader}'");
         }
 
-        $rows = $this->extractRows();
+        $rows = $this->getRows();
 
         if (! $rows) {
             throw new \Exception('Table does not contain any rows (tbody tr)');
