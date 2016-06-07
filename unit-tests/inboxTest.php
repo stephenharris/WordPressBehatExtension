@@ -1,5 +1,5 @@
 <?php 
-use \StephenHarris\WordPressBehat\WordPress\InboxFactory;
+use \StephenHarris\WordPressBehatExtension\WordPress\InboxFactory;
 
 class inboxTest extends PHPUnit_Framework_TestCase
 {

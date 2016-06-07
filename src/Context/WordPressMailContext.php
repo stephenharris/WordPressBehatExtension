@@ -1,7 +1,7 @@
 <?php
-namespace StephenHarris\WordPressBehat\Context;
+namespace StephenHarris\WordPressBehatExtension\Context;
 
-use StephenHarris\WordPressBehat\WordPress\InboxFactory;
+use StephenHarris\WordPressBehatExtension\WordPress\InboxFactory;
 
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;

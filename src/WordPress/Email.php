@@ -1,10 +1,10 @@
 <?php
-namespace StephenHarris\WordPressBehat\WordPress;
+namespace StephenHarris\WordPressBehatExtension\WordPress;
 
 /**
  * An e-mail instance represents a sent e-mail
  *
- * @package StephenHarris\WordPressBehat\WordPress
+ * @package StephenHarris\WordPressBehatExtension\WordPress
  */
 class Email
 {

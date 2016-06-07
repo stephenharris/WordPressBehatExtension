@@ -40,7 +40,7 @@
   },
   "autoload": {
     "psr-4": {
-      "StephenHarris\\WordPressBehat\\": "src"
+      "StephenHarris\\WordPressBehatExtension\\": "src"
     }
   }
 }

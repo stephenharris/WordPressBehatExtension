@@ -1,10 +1,10 @@
 <?php
-namespace StephenHarris\WordPressBehat\WordPress;
+namespace StephenHarris\WordPressBehatExtension\WordPress;
 
 /**
  * An inbox is a collection of e-mails sent to a given e-mail
  *
- * @package StephenHarris\WordPressBehat\WordPress
+ * @package StephenHarris\WordPressBehatExtension\WordPress
  */
 class InboxFactory
 {

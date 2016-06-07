@@ -4,9 +4,9 @@ default:
   suites:
     default:
       contexts:
-        - StephenHarris\WordPressBehat\Context\WordPressContext
-        - StephenHarris\WordPressBehat\Context\WordPressAdminContext
-        - StephenHarris\WordPressBehat\Context\WordPressPostListContext
+        - StephenHarris\WordPressBehatExtension\Context\WordPressContext
+        - StephenHarris\WordPressBehatExtension\Context\WordPressAdminContext
+        - StephenHarris\WordPressBehatExtension\Context\WordPressPostListContext
   extensions:
     StephenHarris\WordPressBehatExtension:
       path: '%paths.base/vendor/wordpress'

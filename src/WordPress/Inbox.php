@@ -1,10 +1,10 @@
 <?php
-namespace StephenHarris\WordPressBehat\WordPress;
+namespace StephenHarris\WordPressBehatExtension\WordPress;
 
 /**
  * An inbox is a collection of e-mails sent to a given e-mail
  *
- * @package StephenHarris\WordPressBehat\WordPress
+ * @package StephenHarris\WordPressBehatExtension\WordPress
  */
 class Inbox
 {
@@ -16,7 +16,7 @@ class Inbox
     private $emailAddress;
     
     /**
-     * An array of StephenHarris\WordPressBehat\WordPress\Email objects
+     * An array of StephenHarris\WordPressBehatExtension\WordPress\Email objects
      * @var array
      */
     private $emails;
@@ -45,7 +45,7 @@ class Inbox
      * If no subject is present then the latest e-mail recieved is returned.
      *
      * @param string|null $subject
-     * @return StephenHarris\WordPressBehat\WordPress\Email
+     * @return StephenHarris\WordPressBehatExtension\WordPress\Email
      */
     public function getLatestEmail($subject = null)
     {
