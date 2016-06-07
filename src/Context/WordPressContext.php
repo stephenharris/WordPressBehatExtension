@@ -41,7 +41,7 @@ class WordPressContext extends MinkContext
             "DROP DATABASE IF EXISTS " . DB_NAME . ";",
             "CREATE DATABASE " . DB_NAME . ";",
         )));
-        assertTrue($value);
+        PHPUnit_Framework_Assert::assertTrue($value);
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';
         wp_install($name, $username, $email, true, '', $password);
 
@@ -149,7 +149,7 @@ class WordPressContext extends MinkContext
         });
 
         // Assert that we are on the dashboard
-        assertTrue(
+        PHPUnit_Framework_Assert::assertTrue(
             $this->spin(function ($context) {
                 $context->getSession()->getPage()->hasContent('Dashboard');
                 return true;
@@ -249,8 +249,8 @@ class WordPressContext extends MinkContext
     
         clean_post_cache($post->ID);
         $actual_status = get_post_status($post->ID);
-    
-        assertEquals($status, $actual_status);
+
+        PHPUnit_Framework_Assert::assertTrue($status, $actual_status);
     }
     
     /**
