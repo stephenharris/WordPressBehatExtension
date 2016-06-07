@@ -89,4 +89,16 @@ class WordPressMailContext implements Context, SnippetAcceptingContext
 
         $this->getSession()->visit($links[$i]);
     }
+    
+    /**
+     * Returns fixed step argument (with \\" replaced back to ")
+     *
+     * @param string $argument
+     *
+     * @return string
+     */
+    protected function fixStepArgument($argument)
+    {
+    	return str_replace('\\"', '"', $argument);
+    }
 }
