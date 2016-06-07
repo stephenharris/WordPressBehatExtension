@@ -9,7 +9,7 @@ use Behat\Behat\Context\SnippetAcceptingContext;
 /**
  * Features context.
  */
-class WordPressMailContext implements Context, SnippetAcceptingContext
+class WordPressMailContext extends RawMinkContext implements Context, SnippetAcceptingContext
 {
 
     /**
@@ -99,6 +99,6 @@ class WordPressMailContext implements Context, SnippetAcceptingContext
      */
     protected function fixStepArgument($argument)
     {
-    	return str_replace('\\"', '"', $argument);
+        return str_replace('\\"', '"', $argument);
     }
 }
