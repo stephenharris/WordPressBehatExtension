@@ -31,11 +31,9 @@ class InboxFactory
      */
     public function getInbox($emailAddress)
     {
-
         if (!isset($this->inboxes[$emailAddress])) {
             $this->inboxes[$emailAddress] = new Inbox($emailAddress);
         }
-
-        return $this->inboxes[$emailAddress];
+        return $this->inboxes[$emailAddress]->refresh();
     }
 }
