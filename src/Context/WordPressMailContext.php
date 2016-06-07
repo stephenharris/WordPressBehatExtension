@@ -5,6 +5,7 @@ use StephenHarris\WordPressBehatExtension\WordPress\InboxFactory;
 
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
+use Behat\MinkExtension\Context\RawMinkContext;
 
 /**
  * Features context.
