@@ -47,7 +47,9 @@ class WordPressContext extends MinkContext
 
         //This is a bit of a hack, we care about the notification e-mails here so clear the inbox
         //we run the risk of deleting stuff we want!
-        $this->clearInbox($email);
+        $factory = InboxFactory::getInstance();
+        $inbox   = $factory->getInbox($emailAddress);
+        $inbox->clearInbox();
 
         $wp_rewrite->init();
         $wp_rewrite->set_permalink_structure('/%year%/%monthnum%/%day%/%postname%/');
