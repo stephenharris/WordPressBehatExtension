@@ -111,7 +111,7 @@ class WordPressBehatExtension implements ExtensionInterface
     private function loadContextInitializer(ContainerBuilder $container)
     {
         $definition = new Definition(
-            'StephenHarris\WordPressBehat\Context\Initializer\WordPressContextInitializer',
+            'StephenHarris\WordPressBehatExtension\Context\Initializer\WordPressContextInitializer',
             array(
                 '%wordpress.parameters%',
                 '%mink.parameters%',
