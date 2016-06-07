@@ -1,10 +1,9 @@
 <?php
 namespace StephenHarris\WordPressBehatExtension\Context;
 
-use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
-
 use Behat\MinkExtension\Context\MinkContext;
+use StephenHarris\WordPressBehatExtension\WordPress\InboxFactory;
 
 /**
  * Class WordPressContext
