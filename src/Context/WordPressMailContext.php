@@ -25,7 +25,7 @@ class WordPressMailContext implements Context, SnippetAcceptingContext
         $body    = $email->getBody();
 
         \PHPUnit_Framework_Assert::assertRegExp(
-            $regex,
+            "/$regex/",
             $body,
             sprintf(
                 'Did not find an email to %s which matched "%s". Found instead: %s – ',
