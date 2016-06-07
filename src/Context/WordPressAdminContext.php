@@ -30,7 +30,7 @@ class WordPressAdminContext extends RawMinkContext implements Context, SnippetAc
     }
 
     /**
-     * @When /^I go to the edit screen for "([^"]*)"$/
+     * @When /^I go to the edit screen for "(?P<title>[^"]*)"$/
      */
     public function iGoToEditScreenFor($title)
     {
@@ -73,9 +73,7 @@ class WordPressAdminContext extends RawMinkContext implements Context, SnippetAc
             $header_text  = trim(str_replace($header_link->getText(), '', $header_text));
         }
 
-        if ($header_text != $admin_page) {
-            throw new \Exception(sprintf('Actual page: %s', $header_text));
-        }
+        assertEquals($admin_page, $header_text, "Potentially on the wrong page, the page headings do not match");
     }
 
 

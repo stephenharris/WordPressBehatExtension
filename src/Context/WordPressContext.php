@@ -250,7 +250,7 @@ class WordPressContext extends MinkContext
         clean_post_cache($post->ID);
         $actual_status = get_post_status($post->ID);
     
-        assertEquals($status, $actual_status);
+        assertEquals($status, $actual_status, "The post status does not match the expected status");
     }
     
     /**
