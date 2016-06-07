@@ -24,7 +24,7 @@ class WordPressMailContext implements Context, SnippetAcceptingContext
         $email   = $inbox->getLatestEmail();
         $body    = $email->getBody();
 
-        PHPUnit_Framework_Assert::assertRegExp(
+        \PHPUnit_Framework_Assert::assertRegExp(
             $regex,
             $body,
             sprintf(
