@@ -118,7 +118,7 @@ The aim of this project is to provide a collection of context classes that allow
 
 ## Changelog
 
-A changelog can be found at [CHANGELOG.MD](./CHANGELOG.MD).
+A changelog can be found at [CHANGELOG.md](./CHANGELOG.md).
 
 
 ## How to help
