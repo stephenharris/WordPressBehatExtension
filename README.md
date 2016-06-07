@@ -116,6 +116,10 @@ This repository started off as a fork of:
 
 The aim of this project is to provide a collection of context classes that allow for easy testing of WordPress' core functionality. Those contexts can then be built upon to test your site/plugin/theme-specific functionality. 
 
+## Changelog
+
+A changelog can be found at [CHANGELOG.MD](./CHANGELOG.MD).
+
 
 ## How to help
 
