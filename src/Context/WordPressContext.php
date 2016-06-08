@@ -251,7 +251,11 @@ class WordPressContext extends MinkContext
         clean_post_cache($post->ID);
         $actual_status = get_post_status($post->ID);
 
-        \PHPUnit_Framework_Assert::assertTrue($status, $actual_status);
+        \PHPUnit_Framework_Assert::assertTrue(
+            $status,
+            $actual_status,
+            "The post status does not match the expected status"
+        );
     }
     
     /**
