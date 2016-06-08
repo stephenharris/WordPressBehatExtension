@@ -6,3 +6,7 @@ vendor
 .settings
 .buildpath
 *.iml
+
+# Temporary test data
+unit-tests/emails/*
+

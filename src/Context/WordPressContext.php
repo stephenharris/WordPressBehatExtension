@@ -1,15 +1,14 @@
 <?php
-namespace StephenHarris\WordPressExtension\Context;
+namespace StephenHarris\WordPressBehatExtension\Context;
 
-use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
-
 use Behat\MinkExtension\Context\MinkContext;
+use StephenHarris\WordPressBehatExtension\WordPress\InboxFactory;
 
 /**
  * Class WordPressContext
  *
- * @package StephenHarris\WordPressExtension\Context
+ * @package StephenHarris\WordPressBehatExtension\Context
  */
 class WordPressContext extends MinkContext
 {
@@ -41,13 +40,15 @@ class WordPressContext extends MinkContext
             "DROP DATABASE IF EXISTS " . DB_NAME . ";",
             "CREATE DATABASE " . DB_NAME . ";",
         )));
-        assertTrue($value);
+        \PHPUnit_Framework_Assert::assertTrue($value);
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';
         wp_install($name, $username, $email, true, '', $password);
 
         //This is a bit of a hack, we care about the notification e-mails here so clear the inbox
         //we run the risk of deleting stuff we want!
-        $this->clearInbox($email);
+        $factory = InboxFactory::getInstance();
+        $inbox   = $factory->getInbox($emailAddress);
+        $inbox->clearInbox();
 
         $wp_rewrite->init();
         $wp_rewrite->set_permalink_structure('/%year%/%monthnum%/%day%/%postname%/');
@@ -149,7 +150,7 @@ class WordPressContext extends MinkContext
         });
 
         // Assert that we are on the dashboard
-        assertTrue(
+        \PHPUnit_Framework_Assert::assertTrue(
             $this->spin(function ($context) {
                 $context->getSession()->getPage()->hasContent('Dashboard');
                 return true;
@@ -249,8 +250,12 @@ class WordPressContext extends MinkContext
     
         clean_post_cache($post->ID);
         $actual_status = get_post_status($post->ID);
-    
-        assertEquals($status, $actual_status, "The post status does not match the expected status");
+
+        \PHPUnit_Framework_Assert::assertTrue(
+            $status,
+            $actual_status,
+            "The post status does not match the expected status"
+        );
     }
     
     /**
@@ -290,65 +295,5 @@ class WordPressContext extends MinkContext
         throw new Exception(
             "Timeout thrown by " . $backtrace[1]['class'] . "::" . $backtrace[1]['function'] . "()\n"
         );
-    }
-
-    /**
-     * Parse a fake mail written by WordPress for testing purposes, and
-     * return the "email" data.
-     *
-     * @param string $file The path to a fake mail file to parse
-     *
-     * @return array The email data, as an array with these fields: to, subject, body
-     */
-    protected function readFakeMail($file)
-    {
-        $message = array();
-        $file_contents = file_get_contents($file);
-        preg_match('/^TO:(.*)$/mi', $file_contents, $to_matches);
-        $message['to'] = array( trim($to_matches[1]) );
-        preg_match('/^SUBJECT:(.*)$/mi', $file_contents, $subj_matches);
-        $message['subject'] = array( trim($subj_matches[1]) );
-        $parts = explode(WORDPRESS_FAKE_MAIL_DIVIDER, $file_contents);
-        $message['body'] = $parts[1];
-        return $message;
-    }
-
-    /**
-     * Get all fake mails sent to this address
-     *
-     * @param string $email_address The email address to get mail to
-     *
-     * @return array An array of fake email paths, first to last
-     */
-    protected function getFakeMailFor($email_address)
-    {
-        $emails = array();
-        // List contents of Fake Mail directory
-        $filePattern = $this->getFakeMailDirectory() . '*' . $email_address . '*';
-        foreach (glob($filePattern) as $email) {
-            $emails[] = $email;
-        }
-        return $emails;
-    }
-
-
-    /**
-     * Get all fake mails sent to this address
-     *
-     * @param string $email_address The email address to get mail to
-     *
-     * @return array An array of fake email paths, first to last
-     */
-    protected function clearInbox($email_address = '')
-    {
-        $filePattern = $this->getFakeMailDirectory() . '*' . $email_address . '*';
-        foreach (glob($filePattern) as $email) {
-            unset($email);
-        }
-    }
-    
-    protected function getFakeMailDirectory()
-    {
-        return rtrim(WORDPRESS_FAKE_MAIL_DIR, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
     }
 }
