@@ -10,7 +10,7 @@ It also provides other contexts:
  - `StephenHarris\WordPressBehatExtension\Context\WordPressAdminContext.php` - navigating the WordPress admin
  - `StephenHarris\WordPressBehatExtension\Context\WordPressPostListContext.php` - default WordPress admin post type page 
 
-**Version:** 0.1.0  
+**Version:** 0.3.0  
 
 
 ## History
