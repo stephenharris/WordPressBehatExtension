@@ -28,6 +28,12 @@ This repository started off as a fork of:
 
     ```json
     {
+        "repositories": [
+            {
+                "type": "vcs",
+                "url": "https://github.com/stephenharris/WordPressBehatExtension.git"
+            }
+        ],
         "require-dev" : {
             "StephenHarris/wordpress-behat-extension": "~0.1",
             "johnpbloch/wordpress": "~4.5.2"
