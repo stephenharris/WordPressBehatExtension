@@ -54,6 +54,8 @@ class Inbox
             throw new \Exception(sprintf("Inbox for %s is empty", $this->emailAddress));
         }
 
+        $this->refresh();
+
         foreach ($this->emails as $email) {
             if (is_null($subject) || $subject == $email->getSubject()) {
                 return $email;
