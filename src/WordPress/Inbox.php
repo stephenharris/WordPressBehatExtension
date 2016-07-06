@@ -74,7 +74,7 @@ class Inbox
     protected function parseMail($file)
     {
         $fileContents = file_get_contents($file);
-        $titleParts   = explode('-', $file); //timestamp, email, subject
+        $titleParts   = explode('-', basename($file)); //timestamp, email, subject
         
         preg_match('/^TO:(.*)$/mi', $fileContents, $to_matches);
         $recipient = trim($to_matches[1]);
