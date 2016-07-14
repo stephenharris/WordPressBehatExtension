@@ -47,26 +47,24 @@ class WordPressAdminContext extends RawMinkContext implements Context, SnippetAc
 
         $this->visitPath(sprintf('/wp-admin/post.php?post=%d&action=edit', $post->ID));
     }
+
+    /**
+     * @When /^I click on the :link link in the header$/
+     */
+    public function iClickOnHeaderLink($link)
+    {
+        $header = $this->getPageHeader();
+        $header->clickLink($link);
+    }
     
     /**
      * @Then I should be on the :admin_page page
      */
     public function iShouldBeOnThePage($admin_page)
     {
-    
-        //h2s were used prior to 4.3/4 and h1s after
-        //@see https://make.wordpress.org/core/2015/10/28/headings-hierarchy-changes-in-the-admin-screens/
-        $header2     = $this->getSession()->getPage()->find('css', '.wrap > h2');
-        $header1     = $this->getSession()->getPage()->find('css', '.wrap > h1');
-        $header_link = false;
-        
-        if ($header1) {
-            $header_text = $header1->getText();
-            $header_link = $header2->find('css', 'a');
-        } else {
-            $header_text = $header2->getText();
-            $header_link = $header2->find('css', 'a');
-        }
+        $header = $this->getPageHeader();
+        $header_text = $header->getText();
+        $header_link = $header->find('css', 'a');
 
         //The page headers can often incude an 'add new link'. Strip that out of the header text.
         if ($header_link) {
@@ -113,5 +111,18 @@ class WordPressAdminContext extends RawMinkContext implements Context, SnippetAc
         }
 
         $click_node->click();
+    }
+
+    protected function getPageHeader() {
+        //h2s were used prior to 4.3/4 and h1s after
+        //@see https://make.wordpress.org/core/2015/10/28/headings-hierarchy-changes-in-the-admin-screens/
+        $header2     = $this->getSession()->getPage()->find('css', '.wrap > h2');
+        $header1     = $this->getSession()->getPage()->find('css', '.wrap > h1');
+
+        if ($header1) {
+            return $header1;
+        } else {
+            return $header2;
+        }
     }
 }
