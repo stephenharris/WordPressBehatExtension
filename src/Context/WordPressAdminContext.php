@@ -49,7 +49,7 @@ class WordPressAdminContext extends RawMinkContext implements Context, SnippetAc
     }
 
     /**
-     * @When /^I click on the :link link in the header$/
+     * @When I click on the :link link in the header
      */
     public function iClickOnHeaderLink($link)
     {
