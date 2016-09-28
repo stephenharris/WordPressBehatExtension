@@ -74,6 +74,24 @@ class WordPressAdminContext extends RawMinkContext implements Context, SnippetAc
         assertEquals($admin_page, $header_text, "Potentially on the wrong page, the page headings do not match");
     }
 
+    /**
+     * Returns the h1 or h2 element of a page
+     *
+     * H2s were used prior to 4.3/4 and H1s after
+     * @see https://make.wordpress.org/core/2015/10/28/headings-hierarchy-changes-in-the-admin-screens/
+     * @return \Behat\Mink\Element\NodeElement|mixed|null
+     */
+    protected function getPageHeader() {
+        $header2     = $this->getSession()->getPage()->find('css', '.wrap > h2');
+        $header1     = $this->getSession()->getPage()->find('css', '.wrap > h1');
+
+        if ($header1) {
+            return $header1;
+        } else {
+            return $header2;
+        }
+    }
+
 
     /**
      * @Given I go to menu item :item
@@ -113,16 +131,57 @@ class WordPressAdminContext extends RawMinkContext implements Context, SnippetAc
         $click_node->click();
     }
 
-    protected function getPageHeader() {
-        //h2s were used prior to 4.3/4 and h1s after
-        //@see https://make.wordpress.org/core/2015/10/28/headings-hierarchy-changes-in-the-admin-screens/
-        $header2     = $this->getSession()->getPage()->find('css', '.wrap > h2');
-        $header1     = $this->getSession()->getPage()->find('css', '.wrap > h1');
+    /**
+     * @Then the admin menu should appear as
+     */
+    public function theAdminMenuShouldAppearAs( TableNode $table ) {
 
-        if ($header1) {
-            return $header1;
-        } else {
-            return $header2;
+        $menu_items = $this->getSession()->getPage()->findAll( 'css', '#adminmenu > li a .wp-menu-name' );
+
+        foreach ( $menu_items as $index => $element ) {
+            try {
+                if ( ! $element->isVisible() ) {
+                    unset( $menu_items[$index] );
+                }
+            } catch ( \Exception $e ) {
+                //do nothing.
+            }
+        }
+
+        foreach ( $menu_items as $n => $element ) {
+            $actual[] = array( $menu_items[$n]->getText() );
+        }
+        $actual_table = new TableNode( $actual );
+
+        try {
+            $this->assertColumnIsLike( $table, $actual_table, 0 );
+        } catch ( \Exception $e ) {
+            throw new \Exception( sprintf(
+                    "Found elements:\n%s",
+                    $actual_table->getTableAsString()
+                ) . "\n" . $e->getMessage() );
+        }
+
+    }
+
+    protected function assertColumnIsLike( $table, $actual_table, $column ) {
+        $expected = $table->getColumn($column);
+        $actual   = $actual_table->getColumn($column);
+
+        if ( count( $expected ) != count( $actual ) ) {
+            throw new \Exception( 'Number of rows do not match' );
+        }
+
+        foreach( $actual as $row => $actual_value ) {
+            $expected_value = $expected[$row];
+            if ( ! preg_match( "/$expected_value/", $actual_value ) ) {
+                throw new \Exception(sprintf(
+                    'Expected "%s" but found "%s"',
+                    $expected_value,
+                    $actual_value
+                ));
+            }
         }
     }
+
 }
