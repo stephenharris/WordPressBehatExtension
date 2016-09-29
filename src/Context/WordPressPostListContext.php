@@ -84,42 +84,39 @@ class WordPressPostListContext extends RawMinkContext implements Context, Snippe
     /**
      * @Then the post list table looks like
      */
-    public function thePostListTableLooksLike(TableNode $table)
+    public function thePostListTableLooksLike(TableNode $expectedTable)
     {
 
-        $expected_hash = $table->getHash();
         $WPTable = new WPTableElement($this->getSession()->getPage()->find('css', '.wp-list-table'));
-        
-
         $actualTable  = $WPTable->getTableNode();
-        $actualHash   = $actualTable->getHash();
 
-        $expected_columns = array_keys($expected_hash[0]);
-        $actual_columns   = array_keys($actualHash[0]);
 
-        //Check column headers
-        if (count($expected_columns) != count($actual_columns)) {
+        $expectedTableHeader = $expectedTable->getRow(0);
+        $actualTableHeader = $actualTable->getRow(0);
+
+        //Check table headers
+        if ( count( $actualTableHeader ) != count( $expectedTableHeader ) ) {
             $message = "Columns do no match:\n";
-            $message .= $actual_table->getTableAsString();
+            $message .= $actualTable->getTableAsString();
             throw new \Exception($message);
         } else {
-            foreach ($expected_columns as $index => $column) {
-                if ($column != $actual_columns[$index]) {
+            foreach ($expectedTableHeader as $index => $column) {
+                if ($column != $actualTableHeader[$index]) {
                     $message = "Columns do no match:\n";
-                    $message .= $actual_table->getTableAsString();
+                    $message .= $actualTable->getTableAsString();
                     throw new \Exception($message);
                 }
             }
         }
 
         //Check rows
-        foreach ($expected_hash as $row_index => $expected_row) {
-            $actual_row = $actualHash[$row_index];
+        foreach ($expectedTable as $rowIndex => $rowColumns) {
+            $actualRow = $actualTable->getRow($rowIndex);
 
-            foreach ($expected_row as $column => $cell_value) {
-                if (trim($cell_value) != $actual_row[$column]) {
-                    $message = sprintf("Row %d does not match expected:\n", $row_index);
-                    $message .= $actual_table->getTableAsString();
+            foreach ($rowColumns as $column => $cellValue) {
+                if (trim($cellValue) != $actualRow[$column]) {
+                    $message = sprintf("Row %d does not match expected:\n", $rowIndex);
+                    $message .= $actualTable->getTableAsString();
                     throw new \Exception($message);
                 }
             }

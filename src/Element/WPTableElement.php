@@ -78,7 +78,11 @@ class WPTableElement extends NodeElement
             $hash[] = $row_values;
         }
 
-        $table_node = new TableNode($hash);
+        try {
+            $table_node = new TableNode($hash);
+        } catch ( \Exception $e ) {
+            throw new \Exception( "Unable to parse post list table. Found: " . print_r( $hash, true ) );
+        }
 
         return $table_node;
 
