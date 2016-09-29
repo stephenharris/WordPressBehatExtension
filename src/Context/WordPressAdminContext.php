@@ -72,7 +72,7 @@ class WordPressAdminContext extends RawMinkContext implements Context, SnippetAc
             $header_text  = trim(str_replace($header_link->getText(), '', $header_text));
         }
 
-        assertEquals($admin_page, $header_text, "Potentially on the wrong page, the page headings do not match");
+        \assertEquals($admin_page, $header_text, "Potentially on the wrong page, the page headings do not match");
     }
 
     /**
