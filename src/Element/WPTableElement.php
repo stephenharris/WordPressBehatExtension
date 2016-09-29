@@ -59,8 +59,6 @@ class WPTableElement extends NodeElement
         foreach ($rows as $row_index => $row) {
             $row_values = array();
 
-            $hash[$row_index] = array();
-
             $cells = $row->findAll('css', 'td');
 
             foreach ($cells as $cell) {
