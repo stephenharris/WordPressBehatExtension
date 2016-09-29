@@ -110,13 +110,16 @@ class WordPressPostListContext extends RawMinkContext implements Context, Snippe
         }
 
         //Check rows
-        foreach ($expectedTable as $rowIndex => $rowColumns) {
+        $expectedRows = $actualTable->getRows();
+        foreach ($expectedRows as $rowIndex => $rowColumns) {
             $actualRow = $actualTable->getRow($rowIndex);
 
             foreach ($rowColumns as $column => $expectedCellValue) {
                 if (trim($expectedCellValue) != $actualRow[$column]) {
                     $message = sprintf( "(Row %d) %s does not match expected %s:\n", $rowIndex, $actualRow[$column], $expectedCellValue );
                     $message .= $actualTable->getTableAsString();
+                    $message .= print_r( $actualRow, true );
+                    $message .= print_r( $rowColumns, true );
                     throw new \Exception($message);
                 }
             }
