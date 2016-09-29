@@ -115,8 +115,8 @@ class WordPressContextInitializer implements ContextInitializer
     }
 
     protected function copyIfNotExists( $source, $dest ) {
-        if (!file_exists( $dest ) {
-            copy( $source, $dest );
+        if (!file_exists($dest)) {
+            copy($source, $dest);
         }
     }
 
