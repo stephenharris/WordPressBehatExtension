@@ -96,12 +96,9 @@ class WordPressContextInitializer implements ContextInitializer
         if (!is_dir($mu_plugin)) {
             mkdir($mu_plugin, 0777, true);
         }
-        if (!file_exists($mu_plugin . DIRECTORY_SEPARATOR . 'wp-mail.php')) {
-            copy(
-                dirname(__FILE__) . DIRECTORY_SEPARATOR . 'wp-mail.php',
-                $mu_plugin . DIRECTORY_SEPARATOR . 'wp-mail.php'
-            );
-        }
+
+        $this->copyToMuPlugins( dirname(__FILE__) . DIRECTORY_SEPARATOR . 'wp-mail.php', $mu_plugin . DIRECTORY_SEPARATOR . 'wp-mail.php' );
+        $this->copyToMuPlugins( dirname(__FILE__) . DIRECTORY_SEPARATOR . 'move-admin-bar-to-back.php', $mu_plugin . DIRECTORY_SEPARATOR . 'move-admin-bar-to-back.php' );
 
         //TODO: Find a better way: read the entire string
         $str = file_get_contents($mu_plugin . DIRECTORY_SEPARATOR . 'wp-mail.php');
@@ -114,6 +111,12 @@ class WordPressContextInitializer implements ContextInitializer
 
         foreach ($finder as $bootstrapFile) {
             require_once $bootstrapFile->getRealpath();
+        }
+    }
+
+    protected function copyIfNotExists( $source, $dest ) {
+        if (!file_exists( $dest ) {
+            copy( $source, $dest );
         }
     }
 
