@@ -97,8 +97,8 @@ class WordPressContextInitializer implements ContextInitializer
             mkdir($mu_plugin, 0777, true);
         }
 
-        $this->copyToMuPlugins( dirname(__FILE__) . DIRECTORY_SEPARATOR . 'wp-mail.php', $mu_plugin . DIRECTORY_SEPARATOR . 'wp-mail.php' );
-        $this->copyToMuPlugins( dirname(__FILE__) . DIRECTORY_SEPARATOR . 'move-admin-bar-to-back.php', $mu_plugin . DIRECTORY_SEPARATOR . 'move-admin-bar-to-back.php' );
+        $this->copyIfNotExists( dirname(__FILE__) . DIRECTORY_SEPARATOR . 'wp-mail.php', $mu_plugin . DIRECTORY_SEPARATOR . 'wp-mail.php' );
+        $this->copyIfNotExists( dirname(__FILE__) . DIRECTORY_SEPARATOR . 'move-admin-bar-to-back.php', $mu_plugin . DIRECTORY_SEPARATOR . 'move-admin-bar-to-back.php' );
 
         //TODO: Find a better way: read the entire string
         $str = file_get_contents($mu_plugin . DIRECTORY_SEPARATOR . 'wp-mail.php');
