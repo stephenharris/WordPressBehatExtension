@@ -1,5 +1,5 @@
 <?php
-namespace StephenHarris\WordPressExtension\Element;
+namespace StephenHarris\WordPressBehatExtension\Element;
 
 use Behat\Mink\Element\NodeElement;
 use Behat\Gherkin\Node\TableNode;

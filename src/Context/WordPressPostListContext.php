@@ -10,7 +10,7 @@ use Behat\Gherkin\Node\TableNode;
 
 use Behat\MinkExtension\Context\RawMinkContext;
 
-use StephenHarris\WordPressExtension\Element\WPTableElement;
+use StephenHarris\WordPressBehatExtension\Element\WPTableElement;
 
 /**
  * WordPress Post List context
