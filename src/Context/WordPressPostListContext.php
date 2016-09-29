@@ -118,8 +118,6 @@ class WordPressPostListContext extends RawMinkContext implements Context, Snippe
                 if (trim($expectedCellValue) != $actualRow[$column]) {
                     $message = sprintf( "(Row %d) %s does not match expected %s:\n", $rowIndex, $actualRow[$column], $expectedCellValue );
                     $message .= $actualTable->getTableAsString();
-                    $message .= print_r( $actualRow, true );
-                    $message .= print_r( $rowColumns, true );
                     throw new \Exception($message);
                 }
             }
