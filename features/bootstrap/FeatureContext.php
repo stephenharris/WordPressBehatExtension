@@ -8,7 +8,7 @@ use Behat\Gherkin\Node\PyStringNode,
 /**
  * Features context.
  */
-class MyFeatureContext implements Context
+class FeatureContext implements Context
 {
 
 }
