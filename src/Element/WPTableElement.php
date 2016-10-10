@@ -26,8 +26,7 @@ class WPTableElement extends NodeElement
     /**
      * Initializes node element.
      *
-     * @param string  $xpath   element xpath
-     * @param Session $session session instance
+     * @param NodeElement  The underlying node element (that contains the table element)
      */
     public function __construct(NodeElement $nodeElement)
     {
@@ -50,30 +49,10 @@ class WPTableElement extends NodeElement
 
         //TODO Assuming a checkbox column might not be safe. Could we check for it?
         array_shift($columns);//Ignore checkbox column
-
-        //Get the column titles
-        foreach ($columns as $column) {
-            $hash[0][] = trim($column->getText());
-        }
+        $hash[] = $columns->getCleanedRowValues();
 
         foreach ($rows as $row_index => $row) {
-            $row_values = array();
-
-            $cells = $row->findAll('css', 'td');
-
-            foreach ($cells as $cell) {
-                if ($cell->find('css', '.row-title')) {
-                    //The title column will contain action links, we just want the title text
-                    $row_values[] = trim($cell->find('css', '.row-title')->getText());
-                } elseif ($cell->find('css', '.screen-reader-text')) {
-                    ///Remove any .screen-reader-text elements
-                    $row_values[] = trim($cell->find('xpath', '/*[not(@class="screen-reader-text")]')->getText());
-                } else {
-                    $row_values[] = trim($cell->getText());
-                }
-            }
-
-            $hash[] = $row_values;
+            $hash[] = $row->getCleanedRowValues();
         }
 
         try {
@@ -97,17 +76,28 @@ class WPTableElement extends NodeElement
         if (! $columns) {
             throw new \Exception('Table does not contain any columns (thead .manage-column)');
         }
-        
-        return $columns;
+        return $this->decorateWithTableRow( $columns );
     }
 
     /**
      * Get the table's rows
-     * @param array of NodeElements (corresponding to each row)
+     * @param array of WPTableRowElement (corresponding to each row)
      */
-    public function getRows()
+    private function getRows()
     {
-        return $this->nodeElement->findAll('css', 'tbody tr');
+        $rows = $this->nodeElement->findAll('css', 'tbody tr');
+
+        if (! $rows) {
+            throw new \Exception('Table does not contain any rows (tbody tr)');
+        }
+
+        return $this->decorateWithTableRow( $rows );
+    }
+
+    private function decorateWithTableRow( $rows ) {
+        foreach( $rows as $row ) {
+            $tableRows[] = new WPTableRowElement( $row, $this );
+        }
     }
 
     /**
@@ -121,40 +111,44 @@ class WPTableElement extends NodeElement
     public function getRowWithColumnValue($value, $columnHeader)
     {
 
-        $columns     = $this->extractColumns();
-        $columnIndex = false;
-        
-        foreach ($columns as $index => $column) {
-            if ($columnHeader === $column->getText()) {
-                $columnIndex = $index;
-                break;
-            }
-        }
-
-        if (false === $columnIndex) {
-            throw new \Exception("Could not find column '{$columnHeader}'");
-        }
-
+        $columnIndex = $this->getColumnIndexWithHeading();
         $rows = $this->getRows();
 
-        if (! $rows) {
-            throw new \Exception('Table does not contain any rows (tbody tr)');
-        }
-
         foreach ($rows as $row) {
-            $cells = $row->findAll('css', 'td,th'); //cells can be th or td
-            $cell  = $cells[$columnIndex];
-
+            $cell = $row->getCell( $columnIndex );
             if (strpos(strtolower($cell->getText()), strtolower($value)) === false) {
                 continue;
             }
-
             return $row;
         }
 
         throw new \Exception("Could not find row with {$value} in the {$columnHeader} column");
     }
 
+    /**
+     * Return the index (starting from 0) of the column with the provided heading.
+     *
+     * @param string $value The value to look for
+     * @return int The index
+     * @throws \Exception If a matching column could not be found
+     */
+    public function getColumnIndexWithHeading( $columnHeading ) {
+        $columns     = $this->extractColumns();
+        $columnIndex = false;
+
+        foreach ($columns as $index => $column) {
+            if ($columnHeading === $column->getText()) {
+                $columnIndex = $index;
+                break;
+            }
+        }
+
+        if (false === $columnIndex) {
+            throw new \Exception("Could not find column '{$columnHeading}'");
+        }
+
+        return $columnIndex;
+    }
     
     /**
      * Decorator pattern: pass all other methods to the decorated element

@@ -125,6 +125,22 @@ class WordPressPostListContext extends RawMinkContext implements Context, Snippe
 
     }
 
+    /**
+     * @Then I should see that post :post_title has :value in the :column_heading column
+     */
+    public function iShouldSeeThatBookingHasInTheColumn($post_title, $value, $column_heading)
+    {
+        $WPTable = new WPTableElement($this->getSession()->getPage()->find('css', '.wp-list-table'));
+        $row = $WPTable->getRowWithColumnValue($post_title, 'Title');
+        $columnIndex = $WPTable->getColumnIndexWithHeading( $column_heading );
+
+        $cell = $row->getCell( $columnIndex );
+
+        $actual = $cell->getText();
+        if ( $actual != $value ) {
+            throw new Exception( 'Expected: %s. Found: %s', $value, $actual );
+        }
+    }
 
     /**
      * @When I select the post :arg1 in the table
