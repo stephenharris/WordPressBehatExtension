@@ -257,7 +257,27 @@ class WordPressContext extends MinkContext
             "The post status does not match the expected status"
         );
     }
-    
+
+    /**
+     * @When I am on the log-in page
+     */
+    public function iAmOnTheLogInPage()
+    {
+        $this->assertSession()->addressEquals($this->locatePath('/wp-login.php'));
+    }
+
+    /**
+     * @Then I should be on the log-in page
+     */
+    public function iShouldBeOnTheLogInPage()
+    {
+        $session = $this->getSession();
+        $request_uri = parse_url( $session->getCurrentUrl(), PHP_URL_PATH );
+        if (!preg_match('wp-login.php', $request_uri)) {
+            throw new \Behat\Mink\Exception\ExpectationException( 'Current page URI does not match wp-login.php', $session);
+        }
+    }
+
     /**
      * Fills in form field with specified id|name|label|value.
      *

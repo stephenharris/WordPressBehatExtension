@@ -11,12 +11,12 @@ Feature: Resetting a password
   @javascript @insulated
   Scenario: Accessing admin initially and being redirected
     Given I am on "/wp-admin/"
-    Then the request URI should match "wp-login.php"
-#    Then I should see "Log In"
+    Then I should be on the log-in page
+    And I should see "Log In"
 
   @javascript @insulated
   Scenario: Receiving a password reset email
-    Given I am on "/wp-login.php"
+    Given I am on the log-in page
     And I follow "Lost your password?"
     And I fill in "Username or Email" with "testing@example.invalid"
     And I press "Get New Password"
@@ -29,6 +29,5 @@ Feature: Resetting a password
     And I fill in "Username" with "admin"
     And I fill in "Password" with "newpassword"
     And I press "Log In"
-    Then I should see "Dashboard"
+    Then I should be on the "Dashboard" page
     And I should see "At a Glance"
-    And the request URI should match "wp-admin"

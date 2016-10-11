@@ -11,7 +11,7 @@ Feature: Managing users
 
   @javascript
   Scenario: I can add a new user
-    Given I am on "/wp-admin/users.php"
+    Given I go to menu item "Users"
     When I click on the "Add New" link in the header
     Then I should see "Add New User"
 
