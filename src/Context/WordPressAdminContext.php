@@ -104,6 +104,11 @@ class WordPressAdminContext extends RawMinkContext implements Context, SnippetAc
         $click_node = false;
 
         $menu = $this->getSession()->getPage()->find('css', '#adminmenu');
+
+        if ( ! $menu ) {
+            throw new \Exception( "Admin menu could not be found" );
+        }
+
         $first_level_items = $menu->findAll('css', 'li.menu-top');
 
         foreach ($first_level_items as $first_level_item) {
