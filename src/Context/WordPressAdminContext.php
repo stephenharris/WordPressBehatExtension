@@ -124,7 +124,7 @@ class WordPressAdminContext extends RawMinkContext implements Context, SnippetAc
                     }
                 } else {
                     //We are clicking a top-level item:
-                    $click_node = $first_level_item->find('css', '> a');
+                    $click_node = $first_level_item->find('css', 'a');
                 }
                 break;
             }
