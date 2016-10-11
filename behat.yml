@@ -4,7 +4,7 @@ default:
     default:
       contexts:
         - FeatureContext:
-          screenshot_dir: '%paths.base%/failed-scenerios/'
+            screenshot_dir: '%paths.base%/failed-scenarios/'
         - \StephenHarris\WordPressBehatExtension\Context\WordPressContext
         - \StephenHarris\WordPressBehatExtension\Context\WordPressAdminContext
         - \StephenHarris\WordPressBehatExtension\Context\WordPressPostListContext
