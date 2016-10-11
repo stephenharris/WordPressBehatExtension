@@ -137,6 +137,16 @@ class WordPressContext extends MinkContext
     public function login($username, $password)
     {
 
+        $user = get_user_by( 'login', $username );
+
+        if ( ! $user ) {
+            throw new \Exception( sprintf( 'User with username %s not found', $username ) );
+        }
+
+        if ( ! wp_check_password( $password, $user->data->user_pass, $user->ID ) ) {
+            throw new \Exception( sprintf( 'Password for user %s incorrect', $password ) );
+        }
+
         $this->getSession()->reset();
         $this->visit("wp-login.php");
         $currentPage = $this->getSession()->getPage();
