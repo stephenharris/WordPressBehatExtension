@@ -263,7 +263,7 @@ class WordPressContext extends MinkContext
      */
     public function iAmOnTheLogInPage()
     {
-        $this->assertSession()->addressEquals($this->locatePath('/wp-login.php'));
+        $this->visitPath('/wp-login.php');
     }
 
     /**
