@@ -273,7 +273,7 @@ class WordPressContext extends MinkContext
     {
         $session = $this->getSession();
         $request_uri = parse_url( $session->getCurrentUrl(), PHP_URL_PATH );
-        if (!preg_match('wp-login.php', $request_uri)) {
+        if (!preg_match('/wp-login.php/i', $request_uri)) {
             throw new \Behat\Mink\Exception\ExpectationException( 'Current page URI does not match wp-login.php', $session);
         }
     }
