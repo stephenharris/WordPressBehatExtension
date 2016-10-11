@@ -1,9 +1,9 @@
-Feature: You can view a list of posts in the admin
+Feature: Posts admin page
 
   Background:
     Given I have a vanilla wordpress installation
       | name          | email                   | username | password |
-      | BDD WordPress | walter.dalmut@gmail.com | admin    | test     |
+      | BDD WordPress | walter.dalmut@gmail.com | admin    | password |
     And there are posts
       | post_title      | post_content              | post_status | post_author |
       | Just my article | The content of my article | publish     | 1           |
