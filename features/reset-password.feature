@@ -12,7 +12,6 @@ Feature: Resetting a password
   Scenario: Accessing admin initially and being redirected
     Given I am on "/wp-admin/"
     Then I should be on the log-in page
-    And I should see "Log In"
 
   @javascript @insulated
   Scenario: Receiving a password reset email
