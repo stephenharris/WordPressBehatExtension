@@ -6,6 +6,7 @@ vendor
 .settings
 .buildpath
 *.iml
+failed-scenarios/
 
 # Temporary test data
 unit-tests/emails/*
