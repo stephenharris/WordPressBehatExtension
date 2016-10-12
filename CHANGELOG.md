@@ -1,6 +1,34 @@
 # Change Log
 This project is currently at an alpha stage. It will continue on the `0.*.*` branch until the first stable release.  
 
+## [develop]
+
+Breaking changes:
+- Moved `StephenHarris\WordPressBehatExtension\Element\WPTableElement` to `StephenHarris\WordPressBehatExtension\Element\WPTable\TableElement`
+- Refactored `StephenHarris\WordPressBehatExtension\Element\WPTable\TableElement` to add row and cell element decorations
+- Extracted `WordPressPostContext` from `WordPressContext` and extracted helper methods into `WordPressPostRawContext`
+
+Enhancements:
+- Added tests to run on Travis
+- Added mu-plugin to prevent dummy content (except 'Uncategorised' category) from being created when installing WordPress.
+- Improved feedback for log-in errors (i.e. explicitly checks username and password).
+- `WordPressAdminContext::iGoToMenuItem()` throws an exception if then admin menu could not be found 
+- Added `When I am on the log-in page` and `Then I should be on the log-in page` step definitions
+- Made error message for failed table comparison more explicit: show first cell values which do match
+- Added `Then the admin menu should appear as` step which compares the admin menu (top-level) against a given list of strings / regular expressions.
+- Added `When I click on the :link link in the header` step definition
+- Added `Then I should see that post :post_title has :value in the :column_heading column` step
+- Added `When I perform the bulk action :action` step
+
+
+Bugfixes:
+- Bugfix: Fixed decorations (methods require explicit overriding)
+- Fixed bugs with refreshing and clearing inbox
+- Introduced a temporary fix for the admin bar issue (altering its z-index so that it doesn't interfer with interacting with elements 'underneath' it). See [#1](https://github.com/stephenharris/WordPressBehatExtension/issues/1)
+- Bugfix: Fixed timestamp not parsed properly from the mail file name
+- Fix step implementation for clicking first-level menu item
+
+
 ## [0.3.0] - 2016-06-08
 ### Changed
 - Fixed various bugs with the MailContext
