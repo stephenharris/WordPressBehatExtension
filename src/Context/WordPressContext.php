@@ -44,7 +44,7 @@ class WordPressContext extends MinkContext
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';
         wp_install($name, $username, $email, true, '', $password);
 
-        //This is a bit of a hack, we care about the notification e-mails here so clear the inbox
+        //This is a bit of a hack, we don't care about the notification e-mails here so clear the inbox
         //we run the risk of deleting stuff we want!
         $factory = InboxFactory::getInstance();
         $inbox   = $factory->getInbox($email);
