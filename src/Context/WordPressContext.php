@@ -161,10 +161,12 @@ class WordPressContext extends MinkContext
 
         // Assert that we are on the dashboard
         \PHPUnit_Framework_Assert::assertTrue(
-            $this->spin(function ($context) {
-                $context->getSession()->getPage()->hasContent('Dashboard');
-                return true;
-            })
+            $this->getSession()->getPage()->hasContent('Dashboard'),
+            sprintf(
+                "Could not log in with details: username %s, password: %s",
+                $username,
+                $password
+            )
         );
         
     }

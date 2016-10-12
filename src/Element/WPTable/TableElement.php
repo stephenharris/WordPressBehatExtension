@@ -1,8 +1,8 @@
 <?php
-namespace StephenHarris\WordPressBehatExtension\Element;
-
+namespace StephenHarris\WordPressBehatExtension\Element\WPTable;
+use StephenHarris\WordPressBehatExtension\Element\WPTableVisitor;
+use StephenHarris\WordPressBehatExtension\Element\WPTableNodeVisitor;
 use Behat\Mink\Element\NodeElement;
-use Behat\Gherkin\Node\TableNode;
 
 /**
  * The WPTableElement 'decorates' NodeElement. It allows to add helper methods (e.g. extracting rows/columns) from a
@@ -13,16 +13,16 @@ use Behat\Gherkin\Node\TableNode;
  * @link http://jrgns.net/decorator-pattern-implemented-properly-in-php/
  * @package StephenHarris\WordPressExtension\Element
  */
-class WPTableElement extends NodeElement
+class TableElement extends NodeElement
 {
 
     /**
      * Stores the original node element corresponding to the table
      */
     private $nodeElement;
-    
+
     private $xpath;
-    
+
     /**
      * Initializes node element.
      *
@@ -30,9 +30,26 @@ class WPTableElement extends NodeElement
      */
     public function __construct(NodeElement $nodeElement)
     {
-        $this->xpath       = $nodeElement->getXpath();
         $this->nodeElement = $nodeElement;
+        $this->xpath       = $this->nodeElement->getXpath();
     }
+
+    public function accept( WPTableVisitor $visitor ) {
+
+        if ( $visitor->visitTable( $this ) ) {
+            if ( ! $this->getHeadingRow()->accept( $visitor ) ) {
+                return;
+            }
+
+            foreach( $this->getRows() as $row ) {
+                $continue = $row->accept( $visitor );
+                if ( ! $continue ) {
+                    break;
+                }
+            }
+        }
+    }
+
 
     /**
      * Return a table node, i.e. extract the data of the table
@@ -40,64 +57,58 @@ class WPTableElement extends NodeElement
      */
     public function getTableNode()
     {
-
-        //An array of rows. Each row is an array of columns
-        $hash = array();
-
-        $columns = $this->extractColumns();
-        $rows    = $this->getRows();
-
-        //TODO Assuming a checkbox column might not be safe. Could we check for it?
-        array_shift($columns);//Ignore checkbox column
-        $hash[] = $columns->getCleanedRowValues();
-
-        foreach ($rows as $row_index => $row) {
-            $hash[] = $row->getCleanedRowValues();
-        }
-
-        try {
-            $table_node = new TableNode($hash);
-        } catch ( \Exception $e ) {
-            throw new \Exception( "Unable to parse post list table. Found: " . print_r( $hash, true ) );
-        }
-
-        return $table_node;
-
+        $visitor = new WPTableNodeVisitor();
+        $this->accept( $visitor );
+        return $visitor->getTableNode();
     }
     
     /**
      * Get the table's header cells
      * @param array of NodeElements (corresponding to the column headers)
      */
-    public function extractColumns()
+    public function getHeadingRow()
     {
-        $columns = $this->nodeElement->findAll('css', 'thead .manage-column');
+        //static $WPTableHeadingRow = null;
 
-        if (! $columns) {
-            throw new \Exception('Table does not contain any columns (thead .manage-column)');
-        }
-        return $this->decorateWithTableRow( $columns );
+        //if ( is_null( $WPTableHeadingRow ) ) {
+
+            $headingRowNode = $this->nodeElement->find('css', 'thead tr');
+            if (! $headingRowNode) {
+                throw new \Exception('Table does not contain any columns (thead tr)');
+            }
+
+            $WPTableHeadingRow = new TableRowElement( $headingRowNode );
+        //}
+
+        return $WPTableHeadingRow;
     }
 
     /**
      * Get the table's rows
-     * @param array of WPTableRowElement (corresponding to each row)
+     * @param array of TableRowElement (corresponding to each row)
      */
     private function getRows()
     {
-        $rows = $this->nodeElement->findAll('css', 'tbody tr');
+        //static $WPTableRows = null;
 
-        if (! $rows) {
-            throw new \Exception('Table does not contain any rows (tbody tr)');
-        }
+        //if ( is_null( $WPTableRows ) ) {
 
-        return $this->decorateWithTableRow( $rows );
+            $rows = $this->nodeElement->findAll('css', 'tbody tr');
+            if (! $rows) {
+                throw new \Exception('Table does not contain any rows (tbody tr)');
+            }
+
+            $WPTableRows = $this->decorateWithTableRow( $rows );
+        //}
+
+        return $WPTableRows;
     }
 
     private function decorateWithTableRow( $rows ) {
         foreach( $rows as $row ) {
-            $tableRows[] = new WPTableRowElement( $row, $this );
+            $tableRows[] = new TableRowElement( $row );
         }
+        return $tableRows;
     }
 
     /**
@@ -111,7 +122,7 @@ class WPTableElement extends NodeElement
     public function getRowWithColumnValue($value, $columnHeader)
     {
 
-        $columnIndex = $this->getColumnIndexWithHeading();
+        $columnIndex = $this->getColumnIndexWithHeading($columnHeader);
         $rows = $this->getRows();
 
         foreach ($rows as $row) {
@@ -133,10 +144,10 @@ class WPTableElement extends NodeElement
      * @throws \Exception If a matching column could not be found
      */
     public function getColumnIndexWithHeading( $columnHeading ) {
-        $columns     = $this->extractColumns();
+        $headingRow     = $this->getHeadingRow();
         $columnIndex = false;
 
-        foreach ($columns as $index => $column) {
+        foreach ($headingRow->getCells() as $index => $column) {
             if ($columnHeading === $column->getText()) {
                 $columnIndex = $index;
                 break;
@@ -149,10 +160,52 @@ class WPTableElement extends NodeElement
 
         return $columnIndex;
     }
-    
+
     /**
      * Decorator pattern: pass all other methods to the decorated element
      */
+    public function has($selector, $locator)
+    {
+        return $this->nodeElement->has($selector, $locator);
+    }
+
+    public function isValid()
+    {
+        return $this->nodeElement->isValid();
+    }
+
+    public function waitFor($timeout, $callback)
+    {
+        return $this->nodeElement->waitFor($timeout, $callback);
+    }
+
+    public function getHtml()
+    {
+        return $this->nodeElement->getHtml();
+    }
+
+    public function getOuterHtml()
+    {
+        return $this->nodeElement->getOuterHtml();
+    }
+
+    public function hasClass($class) {
+        return $this->nodeElement->hasClass($class);
+    }
+
+    public function getText() {
+        return $this->nodeElement->getText();
+    }
+
+    public function find($selector, $locator)
+    {
+        return $this->nodeElement->find($selector, $locator);
+    }
+
+    public function findAll($selector, $locator)
+    {
+        return $this->nodeElement->findAll($selector, $locator);
+    }
 
     public function __call($method, $args)
     {

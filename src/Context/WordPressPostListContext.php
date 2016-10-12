@@ -10,7 +10,7 @@ use Behat\Gherkin\Node\TableNode;
 
 use Behat\MinkExtension\Context\RawMinkContext;
 
-use StephenHarris\WordPressBehatExtension\Element\WPTableElement;
+use StephenHarris\WordPressBehatExtension\Element\WPTable\TableElement;
 
 /**
  * WordPress Post List context
@@ -24,7 +24,7 @@ class WordPressPostListContext extends RawMinkContext implements Context, Snippe
      */
     public function iHoverOverTheRowContainingInTheColumnOf($value, $column_text, $table_selector)
     {
-        $WPTable = new WPTableElement($this->getSession()->getPage()->find('css', $table_selector));
+        $WPTable = new TableElement($this->getSession()->getPage()->find('css', $table_selector));
         $row = $WPTable->getRowWithColumnValue($value, $column_text);
         $row->mouseOver();
     }
@@ -87,9 +87,8 @@ class WordPressPostListContext extends RawMinkContext implements Context, Snippe
     public function thePostListTableLooksLike(TableNode $expectedTable)
     {
 
-        $WPTable = new WPTableElement($this->getSession()->getPage()->find('css', '.wp-list-table'));
+        $WPTable = new TableElement($this->getSession()->getPage()->find('css', '.wp-list-table'));
         $actualTable  = $WPTable->getTableNode();
-
 
         $expectedTableHeader = $expectedTable->getRow(0);
         $actualTableHeader = $actualTable->getRow(0);
@@ -110,7 +109,7 @@ class WordPressPostListContext extends RawMinkContext implements Context, Snippe
         }
 
         //Check rows
-        $expectedRows = $actualTable->getRows();
+        $expectedRows = $expectedTable->getRows();
         foreach ($expectedRows as $rowIndex => $rowColumns) {
             $actualRow = $actualTable->getRow($rowIndex);
 
@@ -130,7 +129,8 @@ class WordPressPostListContext extends RawMinkContext implements Context, Snippe
      */
     public function iShouldSeeThatBookingHasInTheColumn($post_title, $value, $column_heading)
     {
-        $WPTable = new WPTableElement($this->getSession()->getPage()->find('css', '.wp-list-table'));
+
+        $WPTable = new TableElement($this->getSession()->getPage()->find('css', '.wp-list-table'));
         $row = $WPTable->getRowWithColumnValue($post_title, 'Title');
         $columnIndex = $WPTable->getColumnIndexWithHeading( $column_heading );
 
@@ -147,7 +147,7 @@ class WordPressPostListContext extends RawMinkContext implements Context, Snippe
      */
     public function iSelectThePostInTheTable($arg1)
     {
-        $WPTable = new WPTableElement($this->getSession()->getPage()->find('css', '.wp-list-table'));
+        $WPTable = new TableElement($this->getSession()->getPage()->find('css', '.wp-list-table'));
         $row = $WPTable->getRowWithColumnValue($arg1, 'Title');
         $checkbox = $row->find('css', '.check-column input[type=checkbox]');
         $checkbox->check();
@@ -159,12 +159,21 @@ class WordPressPostListContext extends RawMinkContext implements Context, Snippe
      */
     public function iQuickEdit($arg1)
     {
-        $WPTable = new WPTableElement($this->getSession()->getPage()->find('css', '.wp-list-table'));
+        $WPTable = new TableElement($this->getSession()->getPage()->find('css', '.wp-list-table'));
         $row = $WPTable->getRowWithColumnValue($arg1, 'Title');
         
         $row->mouseOver();
 
         $quick_edit_link = $row->find('css', '.editinline');
         $quick_edit_link->click();
+    }
+
+    /**
+     * @When I perform the bulk action :arg1
+     */
+    public function iPerformTheBulkAction($action)
+    {
+        $this->getSession()->getPage()->selectFieldOption('action', $action);
+        $this->getSession()->getPage()->pressButton('doaction');
     }
 }
