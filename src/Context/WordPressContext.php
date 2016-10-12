@@ -71,22 +71,6 @@ class WordPressContext extends MinkContext
         }
     }
 
-    /**
-     * Add these posts to this wordpress installation
-     *
-     * @see wp_insert_post
-     *
-     * @Given /^there are posts$/
-     */
-    public function thereArePosts(TableNode $table)
-    {
-        foreach ($table->getHash() as $postData) {
-            if (!is_int(wp_insert_post($postData))) {
-                throw new \InvalidArgumentException("Invalid post information schema.");
-            }
-        }
-    }
-    
 
     /**
      * @Given there are :taxonomy terms
@@ -169,105 +153,6 @@ class WordPressContext extends MinkContext
             )
         );
         
-    }
-    
-    
-    /**
-     * @Given /^the ([a-zA-z_-]+) "([^"]*)" has ([a-zA-z_-]+) terms ((?:[^,]+)(?:,\s*([^,]+))*)$/i
-     */
-    public function thePostTypeHasTerms($post_type, $title, $taxonomy, $terms)
-    {
-        $post = get_page_by_title($title, OBJECT, $post_type);
-        if (! $post) {
-            throw new \Exception(
-                sprintf('Post "%s" of post type %s not found', $title, $post_type)
-            );
-        }
-            
-        $names = array_map('trim', explode(',', $terms));
-        $terms = array();
-        foreach ($names as $name) {
-            $term = get_term_by('name', htmlspecialchars($name), $taxonomy);
-            if (! $term) {
-                throw new \Exception(
-                    sprintf('Could not find "%s" term %s', $taxonomy, $name)
-                );
-            }
-            $terms[] = $term->slug;
-        }
-        $term_ids = wp_set_object_terms($post->ID, $terms, $taxonomy, false);
-    
-        if (! $term_ids) {
-            throw new \Exception(
-                sprintf('Could not set the %s terms of post "%s"', $taxonomy, $title)
-            );
-        } elseif (is_wp_error($term_ids)) {
-            throw new \Exception(
-                sprintf('Could not set the %s terms of post "%s": %s', $taxonomy, $title, $terms->get_error_message())
-            );
-        }
-    }
-    
-    
-    /**
-     * @Then /^the ([a-z0-9_\-]*) "([^"]*)" should have ([a-z0-9_\-]*) terms "([^"]*)"$/
-     */
-    public function thePostTypeShouldHaveTerms($post_type, $title, $taxonomy, $terms)
-    {
-        $post = get_page_by_title($title, OBJECT, $post_type);
-        if (! $post) {
-            throw new \InvalidArgumentException(sprintf('Post "%s" of post type %s not found', $title, $post_type));
-        }
-        clean_post_cache($post->ID);
-        $actual_terms = get_the_terms($post->ID, $taxonomy);
-    
-        if (! $actual_terms) {
-            throw new \InvalidArgumentException(
-                sprintf('Could not get the %s terms of post "%s"', $taxonomy, $title)
-            );
-        } elseif (is_wp_error($terms)) {
-            throw new \InvalidArgumentException(
-                sprintf('Could not get the %s terms of post "%s": %s', $taxonomy, $title, $terms->get_error_message())
-            );
-        }
-    
-        $actual_slugs   = wp_list_pluck($actual_terms, 'slug');
-        $expected_slugs = array_map('trim', explode(',', $terms));
-    
-        $does_not_have   = array_diff($expected_slugs, $actual_slugs);
-        $should_not_have = array_diff($actual_slugs, $expected_slugs);
-        
-        if ($does_not_have || $should_not_have) {
-            throw new \Exception(
-                sprintf(
-                    'Failed asserting "%s" has the %s terms: "%s"' . "\n" . "Actual terms: %s",
-                    $title,
-                    $taxonomy,
-                    implode(',', $expected_slugs),
-                    implode(',', $actual_slugs)
-                )
-            );
-        }
-    }
-    
-    /**
-     * @Then /^the ([a-z0-9_\-]*) "([^"]*)" should have status "([^"]*)"$/
-     */
-    public function thePostTypeShouldHaveStatus($post_type, $title, $status)
-    {
-        $post = get_page_by_title($title, OBJECT, $post_type);
-        if (! $post) {
-            throw new \Exception(sprintf('Post "%s" of post type %s not found', $title, $post_type));
-        }
-    
-        clean_post_cache($post->ID);
-        $actual_status = get_post_status($post->ID);
-
-        \PHPUnit_Framework_Assert::assertTrue(
-            $status,
-            $actual_status,
-            "The post status does not match the expected status"
-        );
     }
 
     /**
