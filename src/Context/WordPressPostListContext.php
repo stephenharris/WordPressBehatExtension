@@ -169,7 +169,7 @@ class WordPressPostListContext extends RawMinkContext implements Context, Snippe
     }
 
     /**
-     * @When I perform the bulk action :arg1
+     * @When I perform the bulk action :action
      */
     public function iPerformTheBulkAction($action)
     {
