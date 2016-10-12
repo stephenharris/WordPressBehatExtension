@@ -16,7 +16,6 @@ Feature: You can read blog posts
     Scenario: List my blog posts
         Given I am on the homepage
         Then I should see "Just my article"
-        And I should see "Hello World"
         And I should not see "My draft"
 
     Scenario: Read a blog post

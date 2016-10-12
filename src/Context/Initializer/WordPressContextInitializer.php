@@ -99,6 +99,7 @@ class WordPressContextInitializer implements ContextInitializer
 
         $this->copyIfNotExists( dirname(__FILE__) . DIRECTORY_SEPARATOR . 'wp-mail.php', $mu_plugin . DIRECTORY_SEPARATOR . 'wp-mail.php' );
         $this->copyIfNotExists( dirname(__FILE__) . DIRECTORY_SEPARATOR . 'move-admin-bar-to-back.php', $mu_plugin . DIRECTORY_SEPARATOR . 'move-admin-bar-to-back.php' );
+        $this->copyIfNotExists( dirname(__FILE__) . DIRECTORY_SEPARATOR . 'wp-install.php', $mu_plugin . DIRECTORY_SEPARATOR . 'wp-install.php' );
 
         //TODO: Find a better way: read the entire string
         $str = file_get_contents($mu_plugin . DIRECTORY_SEPARATOR . 'wp-mail.php');
