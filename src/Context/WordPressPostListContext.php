@@ -24,7 +24,7 @@ class WordPressPostListContext extends RawMinkContext implements Context, Snippe
      */
     public function iHoverOverTheRowContainingInTheColumnOf($value, $column_text)
     {
-        $WPTable = new TableElement($this->getSession()->getPage()->find('css', '.wp-list-table'));
+        $WPTable = $this->getTable();
         $row = $WPTable->getRowWithColumnValue($value, $column_text);
         $row->mouseOver();
     }
@@ -34,7 +34,7 @@ class WordPressPostListContext extends RawMinkContext implements Context, Snippe
      */
     public function iHoverOverTheRowForThePost($postTitle)
     {
-        $this->iHoverOverTheRowContainingInTheColumnOf( $postTitle, 'Title' );
+        $this->iHoverOverTheRowContainingInTheColumnOf($postTitle, 'Title');
     }
 
     /**
@@ -95,7 +95,6 @@ class WordPressPostListContext extends RawMinkContext implements Context, Snippe
                 count($action_nodes)
             ));
         }
-
     }
     
     /**
@@ -104,14 +103,14 @@ class WordPressPostListContext extends RawMinkContext implements Context, Snippe
     public function thePostListTableLooksLike(TableNode $expectedTable)
     {
 
-        $WPTable = new TableElement($this->getSession()->getPage()->find('css', '.wp-list-table'));
+        $WPTable = $this->getTable();
         $actualTable  = $WPTable->getTableNode();
 
         $expectedTableHeader = $expectedTable->getRow(0);
         $actualTableHeader = $actualTable->getRow(0);
 
         //Check table headers
-        if ( count( $actualTableHeader ) != count( $expectedTableHeader ) ) {
+        if (count($actualTableHeader) != count($expectedTableHeader)) {
             $message = "Columns do no match:\n";
             $message .= $actualTable->getTableAsString();
             throw new \Exception($message);
@@ -132,13 +131,12 @@ class WordPressPostListContext extends RawMinkContext implements Context, Snippe
 
             foreach ($rowColumns as $column => $expectedCellValue) {
                 if (trim($expectedCellValue) != $actualRow[$column]) {
-                    $message = sprintf( "(Row %d) %s does not match expected %s:\n", $rowIndex, $actualRow[$column], $expectedCellValue );
+                    $message = sprintf("(Row %d) %s does not match expected %s:\n", $rowIndex, $actualRow[$column], $expectedCellValue);
                     $message .= $actualTable->getTableAsString();
                     throw new \Exception($message);
                 }
             }
         }
-
     }
 
     /**
@@ -147,15 +145,15 @@ class WordPressPostListContext extends RawMinkContext implements Context, Snippe
     public function iShouldSeeThatBookingHasInTheColumn($post_title, $value, $column_heading)
     {
 
-        $WPTable = new TableElement($this->getSession()->getPage()->find('css', '.wp-list-table'));
+        $WPTable = $this->getTable();
         $row = $WPTable->getRowWithColumnValue($post_title, 'Title');
-        $columnIndex = $WPTable->getColumnIndexWithHeading( $column_heading );
+        $columnIndex = $WPTable->getColumnIndexWithHeading($column_heading);
 
-        $cell = $row->getCell( $columnIndex );
+        $cell = $row->getCell($columnIndex);
 
         $actual = $cell->getText();
-        if ( $actual != $value ) {
-            throw new Exception( 'Expected: %s. Found: %s', $value, $actual );
+        if ($actual != $value) {
+            throw new Exception('Expected: %s. Found: %s', $value, $actual);
         }
     }
 
@@ -164,7 +162,7 @@ class WordPressPostListContext extends RawMinkContext implements Context, Snippe
      */
     public function iSelectThePostInTheTable($arg1)
     {
-        $WPTable = new TableElement($this->getSession()->getPage()->find('css', '.wp-list-table'));
+        $WPTable = $this->getTable();
         $row = $WPTable->getRowWithColumnValue($arg1, 'Title');
         $row->check();
     }
@@ -175,11 +173,10 @@ class WordPressPostListContext extends RawMinkContext implements Context, Snippe
      */
     public function iQuickEdit($arg1)
     {
-        $WPTable = new TableElement($this->getSession()->getPage()->find('css', '.wp-list-table'));
+        $WPTable = $this->getTable();
         $row = $WPTable->getRowWithColumnValue($arg1, 'Title');
         
         $row->mouseOver();
-
         $quick_edit_link = $row->find('css', '.editinline');
         $quick_edit_link->click();
     }
@@ -191,5 +188,9 @@ class WordPressPostListContext extends RawMinkContext implements Context, Snippe
     {
         $this->getSession()->getPage()->selectFieldOption('action', $action);
         $this->getSession()->getPage()->pressButton('doaction');
+    }
+
+    public function getTable(){
+        return new TableElement($this->getSession()->getPage()->find('css', '.wp-list-table'));
     }
 }
