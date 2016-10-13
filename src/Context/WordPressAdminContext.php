@@ -83,15 +83,18 @@ class WordPressAdminContext extends RawMinkContext implements Context, SnippetAc
      * @see https://make.wordpress.org/core/2015/10/28/headings-hierarchy-changes-in-the-admin-screens/
      * @return \Behat\Mink\Element\NodeElement|mixed|null
      */
-    protected function getPageHeader() {
+    protected function getPageHeader()
+    {
         $header2     = $this->getSession()->getPage()->find('css', '.wrap > h2');
         $header1     = $this->getSession()->getPage()->find('css', '.wrap > h1');
 
         if ($header1) {
             return $header1;
-        } else {
+        } elseif ($header2) {
             return $header2;
         }
+
+        throw new \Exception('Header could not be found');
     }
 
 
