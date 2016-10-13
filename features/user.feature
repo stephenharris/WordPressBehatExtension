@@ -22,3 +22,9 @@ Feature: Managing users
     And I select "editor" from "role"
     And I press "Add New User"
     Then I should see "New user created"
+
+  @javascript
+  Scenario: I can go straight to the Add New User screen
+    Given I am on "/wp-admin/"
+    When I go to menu item "Users > Add New"
+    Then I should see "Add New User"

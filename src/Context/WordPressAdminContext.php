@@ -15,6 +15,7 @@ use Behat\Gherkin\Node\TableNode;
  */
 class WordPressAdminContext extends RawMinkContext implements Context, SnippetAcceptingContext
 {
+    use \StephenHarris\WordPressBehatExtension\StripHtml;
 
     /**
      * @When /^I go to edit "([^"]*)" screen for "([^"]*)"$/
@@ -112,12 +113,22 @@ class WordPressAdminContext extends RawMinkContext implements Context, SnippetAc
         $first_level_items = $menu->findAll('css', 'li.menu-top');
 
         foreach ($first_level_items as $first_level_item) {
-            if (strtolower($item[0]) == strtolower($first_level_item->find('css', '.wp-menu-name')->getText())) {
+
+            //We use getHtml and strip the tags, as `.wp-menu-name` might not be visible (i.e. when the menu is collapsed)
+            //so getText() will be empty.
+            //@link https://github.com/stephenharris/WordPressBehatExtension/issues/2
+            $itemName = $this->stripTagsAndContent($first_level_item->find('css', '.wp-menu-name')->getHtml());
+
+            if (strtolower($item[0]) == strtolower($itemName)) {
                 if (isset($item[1])) {
                     $second_level_items = $first_level_item->findAll('css', 'ul li a');
 
                     foreach ($second_level_items as $second_level_item) {
-                        if (strtolower($item[1]) == strtolower($second_level_item->getText())) {
+
+                        $itemName = $this->stripTagsAndContent($second_level_item->getHtml());
+                        if (strtolower($item[1]) == strtolower($itemName)) {
+                            //Focus on the menu link so the submenu appears
+                            $first_level_item->find('css','a.menu-top')->focus();
                             $click_node = $second_level_item;
                             break;
                         }
