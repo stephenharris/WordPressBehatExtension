@@ -56,6 +56,6 @@ Feature: Posts admin page
     Then I should see "1 post restored from the Trash."
     And the post list table looks like
       | Title           | Author | Categories    | Tags |   | Date                    |
-      | Just my article | admin  | Uncategorized | —    | — | Published2016/10/11     |
-      | My draft        | admin  | Uncategorized | —    | — | Last Modified2016/09/02 |
+      | Just my article | admin  | Uncategorized | —    | — | Published 2016/10/11     |
+      | My draft        | admin  | Uncategorized | —    | — | Last Modified 2016/09/02 |
 
