@@ -149,8 +149,7 @@ class WordPressPostListContext extends RawMinkContext implements Context, Snippe
     {
         $WPTable = new TableElement($this->getSession()->getPage()->find('css', '.wp-list-table'));
         $row = $WPTable->getRowWithColumnValue($arg1, 'Title');
-        $checkbox = $row->find('css', '.check-column input[type=checkbox]');
-        $checkbox->check();
+        $row->check();
     }
 
 
