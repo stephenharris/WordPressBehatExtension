@@ -1,11 +1,11 @@
 <?php
 namespace StephenHarris\WordPressBehatExtension\Context\PostTypes;
 
-use Behat\Behat\Context\ClosuredContextInterface,
-    Behat\Behat\Context\TranslatedContextInterface,
-    Behat\Behat\Context\BehatContext,
-    Behat\Behat\Context\Context,
-    Behat\Behat\Exception\PendingException;
+use Behat\Behat\Context\ClosuredContextInterface;
+use Behat\Behat\Context\TranslatedContextInterface;
+use Behat\Behat\Context\BehatContext;
+use Behat\Behat\Context\Context;
+use Behat\Behat\Exception\PendingException;
 
 /**
  * A 'helper' class primarily used by WordPressPostContext which holds the step definitions.
@@ -15,25 +15,31 @@ use Behat\Behat\Context\ClosuredContextInterface,
  *
  * @package StephenHarris\WordPressBehatExtension\Context
  */
-class WordPressPostRawContext implements Context
+trait WordPressPostRawContext
 {
 
-    public function insert($postData){
+    public function insert($postData)
+    {
         if (!is_int(wp_insert_post($postData))) {
             throw new \InvalidArgumentException("Invalid post information schema.");
         }
     }
 
-    public function getPostByName( $title, $postType ) {
+    public function getPostByName($title, $postType)
+    {
         $post = get_page_by_title($title, OBJECT, $postType);
         if (! $post) {
+            if (is_array($postType)) {
+                $postType = implode('/', $postType);
+            }
             throw new \Exception(
                 sprintf('Post "%s" of post type %s not found', $title, $postType)
             );
         }
     }
 
-    public function assignPostTypeTerms( $post, $taxonomy, $terms ) {
+    public function assignPostTypeTerms($post, $taxonomy, $terms)
+    {
 
         $term_ids = wp_set_object_terms($post->ID, $terms, $taxonomy, false);
 
@@ -48,7 +54,8 @@ class WordPressPostRawContext implements Context
         }
     }
 
-    public function assertPostTypeTerms( $post, $taxonomy, $term_slugs ) {
+    public function assertPostTypeTerms($post, $taxonomy, $term_slugs)
+    {
         clean_post_cache($post->ID);
         $actual_terms = get_the_terms($post->ID, $taxonomy);
 
@@ -81,7 +88,8 @@ class WordPressPostRawContext implements Context
         }
     }
 
-    public function assertPostTypeStatus( $post, $status ) {
+    public function assertPostTypeStatus($post, $status)
+    {
         clean_post_cache($post->ID);
         $actual_status = get_post_status($post->ID);
 
@@ -91,5 +99,4 @@ class WordPressPostRawContext implements Context
             "The post status does not match the expected status"
         );
     }
-
 }

@@ -16,18 +16,14 @@ use Behat\Gherkin\Node\TableNode;
 class WordPressAdminContext extends RawMinkContext implements Context, SnippetAcceptingContext
 {
     use \StephenHarris\WordPressBehatExtension\StripHtml;
+    use \StephenHarris\WordPressBehatExtension\Context\PostTypes\WordPressPostRawContext;
 
     /**
      * @When /^I go to edit "([^"]*)" screen for "([^"]*)"$/
      */
-    public function iGoToEditScreenForPostType($post_type, $title)
+    public function iGoToEditScreenForPostType($postType, $title)
     {
-        $post = get_page_by_title($title, OBJECT, $post_type);
-
-        if (! $post) {
-            throw new \InvalidArgumentException(sprintf('Post "%s" of post type %s not found', $title, $post_type));
-        }
-
+        $post = $this->getPostByName($title, $postType);
         $this->visitPath(sprintf('/wp-admin/post.php?post=%d&action=edit', $post->ID));
     }
 
@@ -36,17 +32,8 @@ class WordPressAdminContext extends RawMinkContext implements Context, SnippetAc
      */
     public function iGoToEditScreenFor($title)
     {
-
-        $post_types = get_post_types('', 'names');
-        $post       = get_page_by_title($title, OBJECT, $post_types);
-
-        if (! $post) {
-            //If you get this you might want to check $post_types
-            throw new \InvalidArgumentException(
-                sprintf('Post "%s" not found. Is it of the following post types? ', $title, implode(', ', $post_types))
-            );
-        }
-
+        $postTypes = get_post_types('', 'names');
+        $post = $this->getPostByName($title, $postTypes);
         $this->visitPath(sprintf('/wp-admin/post.php?post=%d&action=edit', $post->ID));
     }
 
