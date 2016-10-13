@@ -89,6 +89,62 @@ class TableCellElement extends NodeElement
     /**
      * Decorator pattern: pass all other methods to the decorated element
      */
+
+    public function getParent()
+    {
+        $this->nodeElement->getParent();
+    }
+
+    public function getTagName()
+    {
+        return $this->nodeElement->getTagName();
+    }
+
+    public function hasAttribute($name)
+    {
+        return $this->nodeElement->hasAttribute($name);
+    }
+
+    public function getAttribute($name)
+    {
+        return $this->nodeElement->getAttribute($name);
+    }
+
+    public function isVisible()
+    {
+        return $this->nodeElement->isVisible();
+    }
+
+    public function mouseOver()
+    {
+        return $this->nodeElement->mouseOver();
+    }
+
+    public function focus()
+    {
+        return $this->nodeElement->focus();
+    }
+
+    public function blur()
+    {
+        return $this->nodeElement->blur();
+    }
+
+    public function keyPress($char, $modifier = null)
+    {
+        return $this->nodeElement->keyPress($char, $modifier);
+    }
+
+    public function keyDown($char, $modifier = null)
+    {
+        return $this->nodeElement->keyDown($char, $modifier);
+    }
+
+    public function keyUp($char, $modifier = null)
+    {
+        return $this->nodeElement->keyUp($char, $modifier);
+    }
+
     public function has($selector, $locator)
     {
         return $this->nodeElement->has($selector, $locator);
@@ -134,12 +190,10 @@ class TableCellElement extends NodeElement
 
     public function __call($method, $args)
     {
-        echo "$method\n\n\n";
-        var_dump( $args );
         if (is_callable($this->nodeElement, $method)) {
             return call_user_func_array(array($this->nodeElement, $method), $args);
         }
-        throw new Exception(
+        throw new \Exception(
             'Undefined method - ' . get_class($this->nodeElement) . '::' . $method
         );
     }

@@ -66,8 +66,92 @@ class TableRowElement extends NodeElement
     }
 
     /**
+     * Checks the current row
+     */
+    public function check()
+    {
+        $checkbox = $this->find('css', '.check-column input[type=checkbox]');
+        $checkbox->check();
+    }
+
+    /**
+     * Unchecks current node if it's a checkbox field.
+     */
+    public function uncheck()
+    {
+        $checkbox = $this->find('css', '.check-column input[type=checkbox]');
+        $checkbox->uncheck();
+    }
+
+    /**
+     * Checks whether this row is checked
+     * @return Boolean
+     */
+    public function isChecked()
+    {
+        $checkbox = $this->find('css', '.check-column input[type=checkbox]');
+        $checkbox->isChecked();
+    }
+
+    /**
      * Decorator pattern: pass all other methods to the decorated element
      */
+
+    public function getParent()
+    {
+        $this->nodeElement->getParent();
+    }
+
+    public function getTagName()
+    {
+        return $this->nodeElement->getTagName();
+    }
+
+    public function hasAttribute($name)
+    {
+        return $this->nodeElement->hasAttribute($name);
+    }
+
+    public function getAttribute($name)
+    {
+        return $this->nodeElement->getAttribute($name);
+    }
+
+    public function isVisible()
+    {
+        return $this->nodeElement->isVisible();
+    }
+
+    public function mouseOver()
+    {
+        return $this->nodeElement->mouseOver();
+    }
+
+    public function focus()
+    {
+        return $this->nodeElement->focus();
+    }
+
+    public function blur()
+    {
+        return $this->nodeElement->blur();
+    }
+
+    public function keyPress($char, $modifier = null)
+    {
+        return $this->nodeElement->keyPress($char, $modifier);
+    }
+
+    public function keyDown($char, $modifier = null)
+    {
+        return $this->nodeElement->keyDown($char, $modifier);
+    }
+
+    public function keyUp($char, $modifier = null)
+    {
+        return $this->nodeElement->keyUp($char, $modifier);
+    }
+
     public function has($selector, $locator)
     {
         return $this->nodeElement->has($selector, $locator);
