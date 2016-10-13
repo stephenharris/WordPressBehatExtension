@@ -20,16 +20,33 @@ class WordPressPostListContext extends RawMinkContext implements Context, Snippe
 
 
     /**
-     * @When I hover over the row containing :value in the :column_text column of :table_selector
+     * @When I hover over the row containing :value in the :column_text column
      */
-    public function iHoverOverTheRowContainingInTheColumnOf($value, $column_text, $table_selector)
+    public function iHoverOverTheRowContainingInTheColumnOf($value, $column_text)
     {
-        $WPTable = new TableElement($this->getSession()->getPage()->find('css', $table_selector));
+        $WPTable = new TableElement($this->getSession()->getPage()->find('css', '.wp-list-table'));
         $row = $WPTable->getRowWithColumnValue($value, $column_text);
         $row->mouseOver();
     }
 
     /**
+     * @When I hover over the row for the :postTitle post
+     */
+    public function iHoverOverTheRowForThePost($postTitle)
+    {
+        $this->iHoverOverTheRowContainingInTheColumnOf( $postTitle, 'Title' );
+    }
+
+    /**
+     *
+     * Example
+     *    Then I should see the following actions
+     *      | actions    |
+     *      | Edit       |
+     *      | Quick Edit |
+     *      | Trash      |
+     *      | View       |
+     *
      * @Then I should see the following row actions
      */
     public function iShouldSeeTheFollowingRowActions(TableNode $table)

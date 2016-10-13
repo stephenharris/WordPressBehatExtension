@@ -36,3 +36,26 @@ Feature: Posts admin page
       | Just my article | admin  | Uncategorized | —    | — 0 | Published2016/10/11     |
       | My draft        | admin  | Uncategorized | —    | — 0 | Last Modified2016/09/02 |
 
+  @javascript
+  Scenario: I trash an individual post, then undo the action
+    Given I go to menu item Posts
+    When I hover over the row for the "Just my article" post
+    Then I should see the following row actions
+      | actions    |
+      | Edit       |
+      | Quick Edit |
+      | Trash      |
+      | View       |
+
+    When I follow "Trash"
+    Then I should see "1 post moved to the Trash."
+    And I should not see "Just my article"
+    But I should see "Undo"
+
+    When I follow "Undo"
+    Then I should see "1 post restored from the Trash."
+    And the post list table looks like
+      | Title           | Author | Categories    | Tags |   | Date                    |
+      | Just my article | admin  | Uncategorized | —    | — | Published2016/10/11     |
+      | My draft        | admin  | Uncategorized | —    | — | Last Modified2016/09/02 |
+

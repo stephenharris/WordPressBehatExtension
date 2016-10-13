@@ -7,6 +7,7 @@ Breaking changes:
 - Moved `StephenHarris\WordPressBehatExtension\Element\WPTableElement` to `StephenHarris\WordPressBehatExtension\Element\WPTable\TableElement`
 - Refactored `StephenHarris\WordPressBehatExtension\Element\WPTable\TableElement` to add row and cell element decorations
 - Extracted `WordPressPostContext` from `WordPressContext` and extracted helper methods into `WordPressPostRawContext`
+- Replaced `When I hover over the row containing :value in the :column_text column of :table_selector` to `When I hover over the row containing :value in the :column_text` (`:table_selector` removed, and is internally set to `.wp-list-table`
 
 Enhancements:
 - Added tests to run on Travis
@@ -19,7 +20,7 @@ Enhancements:
 - Added `When I click on the :link link in the header` step definition
 - Added `Then I should see that post :post_title has :value in the :column_heading column` step
 - Added `When I perform the bulk action :action` step
-
+- Added `When I hover over the row for the :postTitle post` step
 
 Bugfixes:
 - Bugfix: Fixed decorations (methods require explicit overriding)
