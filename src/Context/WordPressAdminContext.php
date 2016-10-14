@@ -7,8 +7,10 @@ use Behat\Behat\Context\TranslatedContextInterface;
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Behat\Exception\PendingException;
+use Behat\Mink\Exception\UnsupportedDriverActionException;
 use Behat\MinkExtension\Context\RawMinkContext;
 use Behat\Gherkin\Node\TableNode;
+
 
 /**
  * Babble feature context.
@@ -117,8 +119,12 @@ class WordPressAdminContext extends RawMinkContext implements Context, SnippetAc
 
                         $itemName = $this->stripTagsAndContent($second_level_item->getHtml());
                         if (strtolower($item[1]) == strtolower($itemName)) {
-                            //Focus on the menu link so the submenu appears
-                            $first_level_item->find('css','a.menu-top')->focus();
+                        	try {
+                        		//Focus on the menu link so the submenu appears
+                        		$first_level_item->find('css','a.menu-top')->focus();
+                        	} catch ( UnsupportedDriverActionException $e ) {
+                        		//This will fail for GoutteDriver but neither is it necessary
+                        	}
                             $click_node = $second_level_item;
                             break;
                         }
