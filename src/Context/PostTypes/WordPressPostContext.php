@@ -1,10 +1,11 @@
 <?php
 namespace StephenHarris\WordPressBehatExtension\Context\PostTypes;
 
-use Behat\Behat\Context\ClosuredContextInterface,
-    Behat\Behat\Context\TranslatedContextInterface,
-    Behat\Behat\Context\BehatContext,
-    Behat\Behat\Exception\PendingException;
+use Behat\Behat\Context\Context;
+use Behat\Behat\Context\ClosuredContextInterface;
+use Behat\Behat\Context\TranslatedContextInterface;
+use Behat\Behat\Context\BehatContext;
+use Behat\Behat\Exception\PendingException;
 
 use Behat\Gherkin\Node\TableNode;
 
@@ -29,7 +30,7 @@ class WordPressPostContext implements Context
     public function thereArePosts(TableNode $table)
     {
         foreach ($table->getHash() as $postData) {
-            $this->insert( $postData );
+            $this->insert($postData);
         }
     }
 
@@ -40,7 +41,7 @@ class WordPressPostContext implements Context
      */
     public function thePostTypeHasTerms($postType, $title, $taxonomy, $terms)
     {
-        $post = $this->getPostByName( $title, $postType );
+        $post = $this->getPostByName($title, $postType);
 
         $names = array_map('trim', explode(',', $terms));
         $terms = array();
@@ -55,7 +56,7 @@ class WordPressPostContext implements Context
         }
         $term_ids = wp_set_object_terms($post->ID, $terms, $taxonomy, false);
 
-        $this->assignPostTypeTerms( $post, $taxonomy, $term_ids );
+        $this->assignPostTypeTerms($post, $taxonomy, $term_ids);
     }
     
     
@@ -65,8 +66,8 @@ class WordPressPostContext implements Context
      */
     public function thePostTypeShouldHaveTerms($postType, $title, $taxonomy, $terms)
     {
-        $post = $this->getPostByName( $title, $postType );
-        $this->assertPostTypeTerms( $post, $taxonomy, $terms );
+        $post = $this->getPostByName($title, $postType);
+        $this->assertPostTypeTerms($post, $taxonomy, $terms);
     }
     
     /**
@@ -75,8 +76,7 @@ class WordPressPostContext implements Context
      */
     public function thePostTypeShouldHaveStatus($postType, $title, $status)
     {
-        $post = $this->getPostByName( $title, $postType );
-        $this->assertPostTypeStatus( $post, $status );
+        $post = $this->getPostByName($title, $postType);
+        $this->assertPostTypeStatus($post, $status);
     }
-
 }
