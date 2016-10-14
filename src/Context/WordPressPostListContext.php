@@ -169,7 +169,7 @@ class WordPressPostListContext extends RawMinkContext implements Context, Snippe
 
 
     /**
-     * @When I quick edit :arg1
+     * @When I quick edit the post :arg1
      */
     public function iQuickEdit($arg1)
     {

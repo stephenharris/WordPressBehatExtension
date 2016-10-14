@@ -28,6 +28,15 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
     }
 
     /**
+     * Wait for AJAX to finish.
+     *
+     * @Then /^I wait for AJAX to finish$/
+     */
+    public function iWaitForAjaxToFinish() {
+        $this->getSession()->wait( 10000, '(typeof(jQuery)=="undefined" || (0 === jQuery.active && 0 === jQuery(\':animated\').length))' );
+    }
+
+    /**
      * @AfterScenario
      */
     public function takeScreenshotAfterFailedStep(AfterScenarioScope $scope)
