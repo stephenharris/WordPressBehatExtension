@@ -7,7 +7,6 @@ use SensioLabs\Behat\PageObjectExtension\PageObject\Page;
 class AdminPage extends Page
 {
 
-
     public function getHeaderText()
     {
         $header = $this->getHeaderElement();
@@ -40,6 +39,11 @@ class AdminPage extends Page
     {
         $header = $this->getHeaderElement();
         $header->clickLink($link);
+    }
+
+    function getMenu()
+    {
+        return $this->getElement('Admin menu');
     }
 
 

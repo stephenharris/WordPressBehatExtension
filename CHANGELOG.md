@@ -22,6 +22,7 @@ Enhancements:
 - Added `Then I should see that post :post_title has :value in the :column_heading column` step
 - Added `When I perform the bulk action :action` step
 - Added `When I hover over the row for the :postTitle post` step
+- Added `StephenHarris\WordPressBehatExtension\Context\Page\Element\AdminMenu` page object element
 
 Bugfixes:
 - Bugfix: Fixed decorations (methods require explicit overriding)
