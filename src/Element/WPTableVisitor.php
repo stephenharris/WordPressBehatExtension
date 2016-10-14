@@ -1,8 +1,10 @@
 <?php
 namespace StephenHarris\WordPressBehatExtension\Element;
-use StephenHarris\WordPressBehatExtension\Element\WPTable\TableElement;
-use StephenHarris\WordPressBehatExtension\Element\WPTable\TableRowElement;
-use StephenHarris\WordPressBehatExtension\Element\WPTable\TableCellElement;
+
+use StephenHarris\WordPressBehatExtension\Context\Page\Element\WPTable;
+use StephenHarris\WordPressBehatExtension\Context\Page\Element\WPTableRow;
+use StephenHarris\WordPressBehatExtension\Context\Page\Element\WPTableCell;
+
 /**
  * The TableRowElement 'decorates' NodeElement. It adds context the <tr> element such as getting
  * values from a specific column.
@@ -20,7 +22,8 @@ abstract class WPTableVisitor
      * @param TableElement $table
      * @return bool Return true to visit the table's rows. Or false not to not visit them.
      */
-    public function visitTable( TableElement $table ) {
+    public function visitTable(WPTable $table)
+    {
         return true;
     }
 
@@ -29,7 +32,8 @@ abstract class WPTableVisitor
      * @param TableRowElement $row The row to visit
      * @return bool Return false to not visit the row's cells. Return true to visit the cells.
      */
-    public function visitRow( TableRowElement $row ) {
+    public function visitRow(WPTableRow $row)
+    {
         return true;
     }
 
@@ -39,7 +43,8 @@ abstract class WPTableVisitor
      * @param TableRowElement $row The row element that we're finished with
      * @return bool Return false to stop parsing any more rows. True to continue;
      */
-    public function leaveRow( TableRowElement $row ) {
+    public function leaveRow(WPTableRow $row)
+    {
         return true;
     }
 
@@ -49,7 +54,8 @@ abstract class WPTableVisitor
      * @param TableRowElement $row The row element that we're finished with
      * @return bool Return false to stop parsing any more cells in the current row. True to continue;
      */
-    public function visitCell( TableCellElement $cell ) {
+    public function visitCell(WPTableCell $cell)
+    {
         return true;
     }
 }

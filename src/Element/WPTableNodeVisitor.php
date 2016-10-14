@@ -1,8 +1,9 @@
 <?php
 namespace StephenHarris\WordPressBehatExtension\Element;
-use StephenHarris\WordPressBehatExtension\Element\WPTable\TableElement;
-use StephenHarris\WordPressBehatExtension\Element\WPTable\TableRowElement;
-use StephenHarris\WordPressBehatExtension\Element\WPTable\TableCellElement;
+
+use StephenHarris\WordPressBehatExtension\Context\Page\Element\WPTable;
+use StephenHarris\WordPressBehatExtension\Context\Page\Element\WPTableRow;
+use StephenHarris\WordPressBehatExtension\Context\Page\Element\WPTableCell;
 use Behat\Gherkin\Node\TableNode;
 
 class WPTableNodeVisitor extends WPTableVisitor
@@ -33,7 +34,8 @@ class WPTableNodeVisitor extends WPTableVisitor
      * @param WPTableElement $table
      * @return bool Return true to visit the table's rows. Or false not to not visit them.
      */
-    public function visitTable( TableElement $table ) {
+    public function visitTable(WPTable $table)
+    {
         //Reset everything
         $this->tableNodeHash = array();
         $this->visitingRowIndex = $this->visitingColumnIndex = 0;
@@ -46,7 +48,8 @@ class WPTableNodeVisitor extends WPTableVisitor
      * @param TableRowElement $row The row to visit
      * @return bool Return false to not visit the row's cells. Return true to visit the cells.
      */
-    public function visitRow( TableRowElement $row ) {
+    public function visitRow(WPTableRow $row)
+    {
         $this->tableNodeHash[$this->visitingRowIndex] = array();
         $this->visitingColumnIndex = 0;
         return true;
@@ -58,7 +61,8 @@ class WPTableNodeVisitor extends WPTableVisitor
      * @param TableRowElement $row The row element that we're finished with
      * @return bool Return false to stop parsing any more rows. True to continue;
      */
-    public function leaveRow( TableRowElement $row ) {
+    public function leaveRow(WPTableRow $row)
+    {
         $this->visitingRowIndex++;
         return true;
     }
@@ -69,12 +73,13 @@ class WPTableNodeVisitor extends WPTableVisitor
      * @param TableRowElement $row The row element that we're finished with
      * @return bool Return false to stop parsing any more cells in the current row. True to continue;
      */
-    public function visitCell( TableCellElement $cell ) {
-        if ( 0 === $this->visitingRowIndex && $cell->hasClass('column-cb') ) {
+    public function visitCell(WPTableCell $cell)
+    {
+        if (0 === $this->visitingRowIndex && $cell->hasClass('column-cb')) {
             $this->checkboxColumnIndex = $this->visitingColumnIndex;
         }
         //Skip column
-        if ( ! $this->isCheckBoxColumn( $this->visitingColumnIndex ) ) {
+        if (! $this->isCheckBoxColumn($this->visitingColumnIndex)) {
             $this->tableNodeHash[$this->visitingRowIndex][] = $cell->getCleanedText();
         }
 
@@ -82,15 +87,17 @@ class WPTableNodeVisitor extends WPTableVisitor
         return true;
     }
 
-    private function isCheckBoxColumn( $index ) {
+    private function isCheckBoxColumn($index)
+    {
         return $this->checkboxColumnIndex === $index;
     }
 
-    public function getTableNode() {
+    public function getTableNode()
+    {
         try {
             $table_node = new TableNode($this->tableNodeHash);
-        } catch ( \Exception $e ) {
-            throw new \Exception( "Unable to parse post list table. Found: " . print_r( $this->tableNodeHash, true ) );
+        } catch (\Exception $e) {
+            throw new \Exception("Unable to parse post list table. Found: " . print_r($this->tableNodeHash, true));
         }
         return $table_node;
     }

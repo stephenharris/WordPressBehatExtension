@@ -10,13 +10,19 @@ use Behat\Gherkin\Node\TableNode;
 
 use Behat\MinkExtension\Context\RawMinkContext;
 
-use StephenHarris\WordPressBehatExtension\Element\WPTable\TableElement;
+use \StephenHarris\WordPressBehatExtension\Context\Page\Element\WPTable;
 
 /**
  * WordPress Post List context
  */
 class WordPressPostListContext extends RawMinkContext implements Context, SnippetAcceptingContext
 {
+
+
+    public function __construct(WPTable $adminTable)
+    {
+        $this->adminTable = $adminTable;
+    }
 
 
     /**
@@ -190,7 +196,8 @@ class WordPressPostListContext extends RawMinkContext implements Context, Snippe
         $this->getSession()->getPage()->pressButton('doaction');
     }
 
-    public function getTable(){
-        return new TableElement($this->getSession()->getPage()->find('css', '.wp-list-table'));
+    public function getTable()
+    {
+        return $this->adminTable;
     }
 }
