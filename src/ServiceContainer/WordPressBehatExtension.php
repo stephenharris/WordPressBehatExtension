@@ -34,6 +34,7 @@ class WordPressBehatExtension implements ExtensionInterface
      */
     public function initialize(ExtensionManager $extensionManager)
     {
+        $extensionManager->activateExtension('SensioLabs\Behat\PageObjectExtension');
     }
 
     /**
@@ -41,7 +42,6 @@ class WordPressBehatExtension implements ExtensionInterface
      */
     public function process(ContainerBuilder $container)
     {
-
     }
 
   /**

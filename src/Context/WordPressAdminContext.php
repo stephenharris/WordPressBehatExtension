@@ -11,6 +11,7 @@ use Behat\Mink\Exception\UnsupportedDriverActionException;
 use Behat\MinkExtension\Context\RawMinkContext;
 use Behat\Gherkin\Node\TableNode;
 
+use \StephenHarris\WordPressBehatExtension\Context\Page\AdminPage;
 
 /**
  * Babble feature context.
@@ -19,6 +20,11 @@ class WordPressAdminContext extends RawMinkContext implements Context, SnippetAc
 {
     use \StephenHarris\WordPressBehatExtension\StripHtml;
     use \StephenHarris\WordPressBehatExtension\Context\PostTypes\WordPressPostRawContext;
+
+    public function __construct(AdminPage $adminPage)
+    {
+        $this->adminPage = $adminPage;
+    }
 
     /**
      * @When /^I go to edit "([^"]*)" screen for "([^"]*)"$/
@@ -44,8 +50,7 @@ class WordPressAdminContext extends RawMinkContext implements Context, SnippetAc
      */
     public function iClickOnHeaderLink($link)
     {
-        $header = $this->getPageHeader();
-        $header->clickLink($link);
+        $this->adminPage->clickLinkInHeader($link);
     }
     
     /**
@@ -53,39 +58,9 @@ class WordPressAdminContext extends RawMinkContext implements Context, SnippetAc
      */
     public function iShouldBeOnThePage($admin_page)
     {
-        $header = $this->getPageHeader();
-        $header_text = $header->getText();
-        $header_link = $header->find('css', 'a');
-
-        //The page headers can often incude an 'add new link'. Strip that out of the header text.
-        if ($header_link) {
-            $header_text  = trim(str_replace($header_link->getText(), '', $header_text));
-        }
-
-        \PHPUnit_Framework_Assert::assertEquals($admin_page, $header_text, "Potentially on the wrong page, the page headings do not match");
+        $header = $this->adminPage->getHeaderText();
+        \PHPUnit_Framework_Assert::assertEquals($admin_page, $header, "Potentially on the wrong page, the page headings do not match");
     }
-
-    /**
-     * Returns the h1 or h2 element of a page
-     *
-     * H2s were used prior to 4.3/4 and H1s after
-     * @see https://make.wordpress.org/core/2015/10/28/headings-hierarchy-changes-in-the-admin-screens/
-     * @return \Behat\Mink\Element\NodeElement|mixed|null
-     */
-    protected function getPageHeader()
-    {
-        $header2     = $this->getSession()->getPage()->find('css', '.wrap > h2');
-        $header1     = $this->getSession()->getPage()->find('css', '.wrap > h1');
-
-        if ($header1) {
-            return $header1;
-        } elseif ($header2) {
-            return $header2;
-        }
-
-        throw new \Exception('Header could not be found');
-    }
-
 
     /**
      * @Given I go to menu item :item
@@ -98,14 +73,13 @@ class WordPressAdminContext extends RawMinkContext implements Context, SnippetAc
 
         $menu = $this->getSession()->getPage()->find('css', '#adminmenu');
 
-        if ( ! $menu ) {
-            throw new \Exception( "Admin menu could not be found" );
+        if (! $menu) {
+            throw new \Exception("Admin menu could not be found");
         }
 
         $first_level_items = $menu->findAll('css', 'li.menu-top');
 
         foreach ($first_level_items as $first_level_item) {
-
             //We use getHtml and strip the tags, as `.wp-menu-name` might not be visible (i.e. when the menu is collapsed)
             //so getText() will be empty.
             //@link https://github.com/stephenharris/WordPressBehatExtension/issues/2
@@ -116,15 +90,14 @@ class WordPressAdminContext extends RawMinkContext implements Context, SnippetAc
                     $second_level_items = $first_level_item->findAll('css', 'ul li a');
 
                     foreach ($second_level_items as $second_level_item) {
-
                         $itemName = $this->stripTagsAndContent($second_level_item->getHtml());
                         if (strtolower($item[1]) == strtolower($itemName)) {
-                        	try {
-                        		//Focus on the menu link so the submenu appears
-                        		$first_level_item->find('css','a.menu-top')->focus();
-                        	} catch ( UnsupportedDriverActionException $e ) {
-                        		//This will fail for GoutteDriver but neither is it necessary
-                        	}
+                            try {
+                                //Focus on the menu link so the submenu appears
+                                $first_level_item->find('css', 'a.menu-top')->focus();
+                            } catch (UnsupportedDriverActionException $e) {
+                                //This will fail for GoutteDriver but neither is it necessary
+                            }
                             $click_node = $second_level_item;
                             break;
                         }
@@ -147,47 +120,48 @@ class WordPressAdminContext extends RawMinkContext implements Context, SnippetAc
     /**
      * @Then the admin menu should appear as
      */
-    public function theAdminMenuShouldAppearAs( TableNode $table ) {
+    public function theAdminMenuShouldAppearAs(TableNode $table)
+    {
 
-        $menu_items = $this->getSession()->getPage()->findAll( 'css', '#adminmenu > li a .wp-menu-name' );
+        $menu_items = $this->getSession()->getPage()->findAll('css', '#adminmenu > li a .wp-menu-name');
 
-        foreach ( $menu_items as $index => $element ) {
+        foreach ($menu_items as $index => $element) {
             try {
-                if ( ! $element->isVisible() ) {
-                    unset( $menu_items[$index] );
+                if (! $element->isVisible()) {
+                    unset($menu_items[$index]);
                 }
-            } catch ( \Exception $e ) {
+            } catch (\Exception $e) {
                 //do nothing.
             }
         }
 
-        foreach ( $menu_items as $n => $element ) {
+        foreach ($menu_items as $n => $element) {
             $actual[] = array( $menu_items[$n]->getText() );
         }
-        $actual_table = new TableNode( $actual );
+        $actual_table = new TableNode($actual);
 
         try {
-            $this->assertColumnIsLike( $table, $actual_table, 0 );
-        } catch ( \Exception $e ) {
-            throw new \Exception( sprintf(
-                    "Found elements:\n%s",
-                    $actual_table->getTableAsString()
-                ) . "\n" . $e->getMessage() );
+            $this->assertColumnIsLike($table, $actual_table, 0);
+        } catch (\Exception $e) {
+            throw new \Exception(sprintf(
+                "Found elements:\n%s",
+                $actual_table->getTableAsString()
+            ) . "\n" . $e->getMessage());
         }
-
     }
 
-    protected function assertColumnIsLike( $table, $actual_table, $column ) {
+    protected function assertColumnIsLike($table, $actual_table, $column)
+    {
         $expected = $table->getColumn($column);
         $actual   = $actual_table->getColumn($column);
 
-        if ( count( $expected ) != count( $actual ) ) {
-            throw new \Exception( 'Number of rows do not match' );
+        if (count($expected) != count($actual)) {
+            throw new \Exception('Number of rows do not match');
         }
 
-        foreach( $actual as $row => $actual_value ) {
+        foreach ($actual as $row => $actual_value) {
             $expected_value = $expected[$row];
-            if ( ! preg_match( "/$expected_value/", $actual_value ) ) {
+            if (! preg_match("/$expected_value/", $actual_value)) {
                 throw new \Exception(sprintf(
                     'Expected "%s" but found "%s"',
                     $expected_value,
@@ -196,5 +170,4 @@ class WordPressAdminContext extends RawMinkContext implements Context, SnippetAc
             }
         }
     }
-
 }

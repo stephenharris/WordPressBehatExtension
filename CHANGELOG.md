@@ -7,6 +7,7 @@ Breaking changes:
 - Moved `StephenHarris\WordPressBehatExtension\Element\WPTableElement` to `StephenHarris\WordPressBehatExtension\Element\WPTable\TableElement`
 - Refactored `StephenHarris\WordPressBehatExtension\Element\WPTable\TableElement` to add row and cell element decorations
 - Extracted `WordPressPostContext` from `WordPressContext` and extracted helper methods into `WordPressPostRawContext` trait
+- Extracted a `AdminPage` page object from `WordPressAdminContext` (see http://behat-page-object-extension.readthedocs.io/en/latest/index.html)
 - Replaced `When I hover over the row containing :value in the :column_text column of :table_selector` to `When I hover over the row containing :value in the :column_text` (`:table_selector` removed, and is internally set to `.wp-list-table`
 
 Enhancements:
