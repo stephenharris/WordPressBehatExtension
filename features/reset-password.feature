@@ -25,8 +25,8 @@ Feature: Resetting a password
     And I fill in "pass1-text" with "newpassword"
     And I press "Reset Password"
     And I follow "Log in"
-    And I fill in "Username" with "admin"
-    And I fill in "Password" with "newpassword"
+    And I fill in "user_login" with "admin"
+    And I fill in "user_pass" with "newpassword"
     And I press "Log In"
     Then I should be on the "Dashboard" page
     And I should see "At a Glance"
