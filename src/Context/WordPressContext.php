@@ -52,7 +52,6 @@ class WordPressContext extends MinkContext
 
         $wp_rewrite->init();
         $wp_rewrite->set_permalink_structure('/%year%/%monthnum%/%day%/%postname%/');
-
     }
 
     /**
@@ -111,106 +110,5 @@ class WordPressContext extends MinkContext
     public function iSetOptionTo($option, $value)
     {
         update_option($option, $value);
-    }
-
-    /**
-     * Login into the reserved area of this wordpress
-     *
-     * @Given /^I am logged in as "([^"]*)" with password "([^"]*)"$/
-     */
-    public function login($username, $password)
-    {
-
-        $user = get_user_by( 'login', $username );
-
-        if ( ! $user ) {
-            throw new \Exception( sprintf( 'User with username %s not found', $username ) );
-        }
-
-        if ( ! wp_check_password( $password, $user->data->user_pass, $user->ID ) ) {
-            throw new \Exception( sprintf( 'Password for user %s incorrect', $password ) );
-        }
-
-        $this->getSession()->reset();
-        $this->visit("wp-login.php");
-        $currentPage = $this->getSession()->getPage();
-
-        $this->spin(function ($context) use ($currentPage, $username, $password) {
-            $currentPage->fillField('user_login', $username);
-            $currentPage->fillField('user_pass', $password);
-            $context->checkOption('rememberme');
-            $currentPage->findButton('wp-submit')->click();
-            return true;
-        });
-
-        // Assert that we are on the dashboard
-        \PHPUnit_Framework_Assert::assertTrue(
-            $this->getSession()->getPage()->hasContent('Dashboard'),
-            sprintf(
-                "Could not log in with details: username %s, password: %s",
-                $username,
-                $password
-            )
-        );
-        
-    }
-
-    /**
-     * @When I am on the log-in page
-     */
-    public function iAmOnTheLogInPage()
-    {
-        $this->visitPath('/wp-login.php');
-    }
-
-    /**
-     * @Then I should be on the log-in page
-     */
-    public function iShouldBeOnTheLogInPage()
-    {
-        $session = $this->getSession();
-        $request_uri = parse_url( $session->getCurrentUrl(), PHP_URL_PATH );
-        if (!preg_match('/wp-login.php/i', $request_uri)) {
-            throw new \Behat\Mink\Exception\ExpectationException( 'Current page URI does not match wp-login.php', $session);
-        }
-    }
-
-    /**
-     * Fills in form field with specified id|name|label|value.
-     *
-     * @overide When /^(?:|I )fill in "(?P<field>(?:[^"]|\\")*)" with "(?P<value>(?:[^"]|\\")*)"$/
-     * @overide When /^(?:|I )fill in "(?P<field>(?:[^"]|\\")*)" with:$/
-     * @overide When /^(?:|I )fill in "(?P<value>(?:[^"]|\\")*)" for "(?P<field>(?:[^"]|\\")*)"$/
-     */
-    public function fillField($field, $value)
-    {
-        $field = $this->fixStepArgument($field);
-        $value = $this->fixStepArgument($value);
-    
-        $this->spin(function ($context) use ($field, $value) {
-            $context->getSession()->getPage()->fillField($field, $value);
-            return true;
-        });
-    }
-    
-    public function spin($lambda, $wait = 60)
-    {
-        for ($i = 0; $i < $wait; $i++) {
-            try {
-                if ($lambda($this)) {
-                    return true;
-                }
-            } catch (Exception $e) {
-                // do nothing
-            }
-    
-            sleep(1);
-        }
-    
-        $backtrace = debug_backtrace();
-    
-        throw new Exception(
-            "Timeout thrown by " . $backtrace[1]['class'] . "::" . $backtrace[1]['function'] . "()\n"
-        );
     }
 }

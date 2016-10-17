@@ -44,6 +44,8 @@ class WordPressBehatExtension implements ExtensionInterface
     {
         //TODO This over-rides the config file, what if the end user wanted to add their own namespaces?
         //How can we place nice?
+        $pages = array( 'StephenHarris\WordPressBehatExtension\Context\Page' );
+        $container->setParameter('sensio_labs.page_object_extension.namespaces.page', $pages);
         $elements = array( 'StephenHarris\WordPressBehatExtension\Context\Page\Element' );
         $container->setParameter('sensio_labs.page_object_extension.namespaces.element', $elements);
     }

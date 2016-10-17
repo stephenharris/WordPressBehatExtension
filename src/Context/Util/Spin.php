@@ -2,7 +2,8 @@
 
 namespace StephenHarris\WordPressBehatExtension\Context\Util;
 
-trait Spin {
+trait Spin
+{
 
     /**
      * Fills in form field with specified id|name|label|value.

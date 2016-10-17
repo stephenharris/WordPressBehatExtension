@@ -21,10 +21,11 @@ class AdminPage extends Page
         return $header_text;
     }
 
-    public function assertHasHeader( $expected ) {
+    public function assertHasHeader($expected)
+    {
         $actual = $this->getHeaderText();
-        if ( $expected !== $actual ) {
-            throw new \Exception( sprintf( 'Expected page header "%s", found "%s".', $expected, $actual ) );
+        if ($expected !== $actual) {
+            throw new \Exception(sprintf('Expected page header "%s", found "%s".', $expected, $actual));
         }
     }
 

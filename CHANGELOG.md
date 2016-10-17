@@ -10,6 +10,8 @@ Breaking changes:
 - Extracted a `AdminPage` page object from `WordPressAdminContext` (see http://behat-page-object-extension.readthedocs.io/en/latest/index.html)
 - Replaced `When I hover over the row containing :value in the :column_text column of :table_selector` to `When I hover over the row containing :value in the :column_text` (`:table_selector` removed, and is internally set to `.wp-list-table`
 - The `Given there are posts` step expects the `post_author` column to the be username of the user, not the ID.
+- Split out log-in related steps into their own context and introduce  `Login` and `Dashboard` page object
+- Split out the `Util\Spin` helper class from `WordPressContext` so that it can be used in other contexts (currently it is only relevant to the new `WordPressLoginContext`
 
 Enhancements:
 - Added tests to run on Travis
