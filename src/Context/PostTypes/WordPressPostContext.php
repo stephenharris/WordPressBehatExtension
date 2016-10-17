@@ -30,8 +30,21 @@ class WordPressPostContext implements Context
     public function thereArePosts(TableNode $table)
     {
         foreach ($table->getHash() as $postData) {
+            $postData = $this->parseArgs($postData);
             $this->insert($postData);
         }
+    }
+
+    private function parseArgs($postData)
+    {
+        if (isset($postData['post_author'])) {
+            $user = get_user_by('login', $postData['post_author']);
+            if (! ( $user instanceof \WP_User )) {
+                throw new \Exception(sprintf('User "%s" not found', $postData['post_author']));
+            }
+            $postData['post_author'] = (int) $user->ID;
+        }
+        return $postData;
     }
 
     /**

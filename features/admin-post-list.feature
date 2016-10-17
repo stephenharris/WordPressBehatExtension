@@ -6,8 +6,8 @@ Feature: Posts admin page
       | BDD WordPress | walter.dalmut@gmail.com | admin    | password |
     And there are posts
       | post_title      | post_content              | post_status | post_author | post_date           |
-      | Just my article | The content of my article | publish     | 1           | 2016-10-11 08:30:00 |
-      | My draft        | This is just a draft      | draft       | 1           | 2016-09-02 17:00:00 |
+      | Just my article | The content of my article | publish     | admin       | 2016-10-11 08:30:00 |
+      | My draft        | This is just a draft      | draft       | admin       | 2016-09-02 17:00:00 |
     And I am logged in as "admin" with password "password"
 
 
