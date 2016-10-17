@@ -21,6 +21,13 @@ class AdminPage extends Page
         return $header_text;
     }
 
+    public function assertHasHeader( $expected ) {
+        $actual = $this->getHeaderText();
+        if ( $expected !== $actual ) {
+            throw new \Exception( sprintf( 'Expected page header "%s", found "%s".', $expected, $actual ) );
+        }
+    }
+
     private function getHeaderElement()
     {
         $header2     = $this->find('css', '.wrap > h2');
@@ -41,7 +48,7 @@ class AdminPage extends Page
         $header->clickLink($link);
     }
 
-    function getMenu()
+    public function getMenu()
     {
         return $this->getElement('Admin menu');
     }
