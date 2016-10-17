@@ -59,7 +59,7 @@ Feature: Posts admin page
       | Just my article | admin  | Uncategorized | —    | — | Published 2016/10/11     |
       | My draft        | admin  | Uncategorized | —    | — | Last Modified 2016/09/02 |
 
-  @javascript
+  @javascript @travis-flaky
   Scenario: Quick edit posts
     Given I go to menu item Posts
     And I quick edit the post "Just my article"

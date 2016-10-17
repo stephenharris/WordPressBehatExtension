@@ -35,4 +35,4 @@ before_script:
 
 script:
   # Run behat tests.
-  - vendor/bin/behat;
+  - vendor/bin/behat --tags=~@travis-flaky
