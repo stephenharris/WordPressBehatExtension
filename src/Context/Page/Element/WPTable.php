@@ -4,7 +4,6 @@ namespace StephenHarris\WordPressBehatExtension\Context\Page\Element;
 
 use StephenHarris\WordPressBehatExtension\Element\WPTableVisitor;
 use StephenHarris\WordPressBehatExtension\Element\WPTableNodeVisitor;
-use StephenHarris\WordPressBehatExtension\Element\WPTable\TableRowElement;
 
 use SensioLabs\Behat\PageObjectExtension\PageObject\Element;
 use SensioLabs\Behat\PageObjectExtension\PageObject\Factory;
@@ -104,6 +103,7 @@ class WPTable extends Element
 
     private function decorateWithTableRow($rows)
     {
+        $tableRows = array();
         foreach ($rows as $row) {
             $tableRows[] = new WPTableRow($row, $this->session);
         }
