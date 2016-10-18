@@ -34,7 +34,10 @@ class WordPressLoginContext extends RawMinkContext implements Context, SnippetAc
         $this->loginPage->open();
         $redirectedToPage = $this->loginPage->loginAs($username, $password);
 
-        return \PHPUnit_Framework_Assert::assertTrue($redirectedToPage->isOpen(), 'The current page should be the dashboard');
+        \PHPUnit_Framework_Assert::assertTrue(
+            $redirectedToPage->isOpen(),
+            'The current page should be the dashboard'
+        );
     }
 
     /**
@@ -50,6 +53,9 @@ class WordPressLoginContext extends RawMinkContext implements Context, SnippetAc
      */
     public function iShouldBeOnTheLogInPage()
     {
-        return \PHPUnit_Framework_Assert::assertTrue($this->loginPage->isOpen(), 'The current page should be the log-in page');
+        \PHPUnit_Framework_Assert::assertTrue(
+            $this->loginPage->isOpen(),
+            'The current page should be the log-in page'
+        );
     }
 }

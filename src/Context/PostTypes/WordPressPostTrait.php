@@ -49,7 +49,12 @@ trait WordPressPostRawContext
             );
         } elseif (is_wp_error($term_ids)) {
             throw new \Exception(
-                sprintf('Could not set the %s terms of post "%s": %s', $taxonomy, $post->post_title, $terms->get_error_message())
+                sprintf(
+                    'Could not set the %s terms of post "%s": %s',
+                    $taxonomy,
+                    $post->post_title,
+                    $terms->get_error_message()
+                )
             );
         }
     }
@@ -65,7 +70,12 @@ trait WordPressPostRawContext
             );
         } elseif (is_wp_error($term_slugs)) {
             throw new \InvalidArgumentException(
-                sprintf('Could not get the %s terms of post "%s": %s', $taxonomy, $post->post_title, $term_slugs->get_error_message())
+                sprintf(
+                    'Could not get the %s terms of post "%s": %s',
+                    $taxonomy,
+                    $post->post_title,
+                    $term_slugs->get_error_message()
+                )
             );
         }
 

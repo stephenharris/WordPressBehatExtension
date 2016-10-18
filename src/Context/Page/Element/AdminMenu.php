@@ -34,8 +34,8 @@ class AdminMenu extends Element
         $first_level_items = $this->findAll('css', 'li.menu-top');
 
         foreach ($first_level_items as $first_level_item) {
-            //We use getHtml and strip the tags, as `.wp-menu-name` might not be visible (i.e. when the menu is collapsed)
-            //so getText() will be empty.
+            //We use getHtml and strip the tags, as `.wp-menu-name` might not be visible (i.e. when the menu is
+            // collapsed) so getText() will be empty.
             //@link https://github.com/stephenharris/WordPressBehatExtension/issues/2
             $itemName = $this->stripTagsAndContent($first_level_item->find('css', '.wp-menu-name')->getHtml());
 

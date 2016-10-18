@@ -61,7 +61,13 @@ class Login extends Page
     {
         $cleanedUrl = strtok($this->getDriver()->getCurrentUrl(), '?');
         if ($cleanedUrl !== $this->getUrl($urlParameters)) {
-            throw new UnexpectedPageException(sprintf('Expected to be on "%s" but found "%s" instead', $this->getUrl($urlParameters), $this->getDriver()->getCurrentUrl()));
+            throw new UnexpectedPageException(
+                sprintf(
+                    'Expected to be on "%s" but found "%s" instead',
+                    $this->getUrl($urlParameters),
+                    $this->getDriver()->getCurrentUrl()
+                )
+            );
         }
     }
 }
