@@ -71,20 +71,7 @@ class WordPressContext extends MinkContext
     }
 
 
-    /**
-     * @Given there are :taxonomy terms
-     */
-    public function thereAreTerms($taxonomy, TableNode $terms)
-    {
-        foreach ($terms->getHash() as $termData) {
-            $return = wp_insert_term($termData['name'], $taxonomy, $termData);
-            if (is_wp_error($return)) {
-                throw new \InvalidArgumentException(
-                    sprintf("Invalid taxonomy term information schema: %s", $return->get_error_message())
-                );
-            }
-        }
-    }
+
 
     /**
      * Activate/Deactivate plugins

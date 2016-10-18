@@ -8,6 +8,7 @@ default:
         - \StephenHarris\WordPressBehatExtension\Context\WordPressContext
         - \StephenHarris\WordPressBehatExtension\Context\WordPressLoginContext
         - \StephenHarris\WordPressBehatExtension\Context\PostTypes\WordPressPostContext
+        - \StephenHarris\WordPressBehatExtension\Context\Terms\WordPressTermContext
         - \StephenHarris\WordPressBehatExtension\Context\WordPressAdminContext
         - \StephenHarris\WordPressBehatExtension\Context\WordPressPostListContext
         - \StephenHarris\WordPressBehatExtension\Context\WordPressMailContext
