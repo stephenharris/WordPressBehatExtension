@@ -55,25 +55,6 @@ class WordPressContext extends MinkContext
     }
 
     /**
-     * Add these users to this wordpress installation
-     *
-     * @see wp_insert_user
-     *
-     * @Given /^there are users$/
-     */
-    public function thereAreUsers(TableNode $table)
-    {
-        foreach ($table->getHash() as $userData) {
-            if (!is_int(wp_insert_user($userData))) {
-                throw new \InvalidArgumentException("Invalid user information schema.");
-            }
-        }
-    }
-
-
-
-
-    /**
      * Activate/Deactivate plugins
      * | plugin          | status  |
      * | plugin/name.php | enabled |

@@ -7,6 +7,8 @@ use SensioLabs\Behat\PageObjectExtension\PageObject\Page;
 class Login extends Page
 {
     use \StephenHarris\WordPressBehatExtension\Context\Util\Spin;
+    use \StephenHarris\WordPressBehatExtension\Context\Users\WordPressUserTrait;
+
     /**
      * @var string $path
      */
@@ -16,15 +18,8 @@ class Login extends Page
     public function loginAs($username, $password)
     {
 
-        $user = get_user_by('login', $username);
-
-        if (! $user) {
-            throw new \Exception(sprintf('User with username %s not found', $username));
-        }
-
-        if (! wp_check_password($password, $user->data->user_pass, $user->ID)) {
-            throw new \Exception(sprintf('Password for user %s incorrect', $password));
-        }
+        $user = $this->getUserByLogin($username);
+        $this->validatePassword($user, $password);
 
         $currentPage = $this;
 
