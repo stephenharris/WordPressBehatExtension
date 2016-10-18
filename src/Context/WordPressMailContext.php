@@ -40,7 +40,7 @@ class WordPressMailContext extends RawMinkContext implements Context, SnippetAcc
     /**
      * @Given /^I follow the (\w+) URL in the latest email to ([^ ]+@[^ ]+)$/
      */
-    public function followEmailUrl($ordinal, $email)
+    public function followEmailUrl($ordinal, $emailAddress)
     {
         
         $factory = InboxFactory::getInstance();
