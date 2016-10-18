@@ -16,7 +16,7 @@ use Behat\Gherkin\Node\TableNode;
  */
 class WordPressPostContext implements Context
 {
-    use \StephenHarris\WordPressBehatExtension\Context\PostTypes\WordPressPostRawContext;
+    use \StephenHarris\WordPressBehatExtension\Context\PostTypes\WordPressPostTrait;
 
     /**
      * Add these posts to this wordpress installation

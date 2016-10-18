@@ -18,7 +18,7 @@ use \StephenHarris\WordPressBehatExtension\Context\Page\AdminPage;
  */
 class WordPressAdminContext extends RawMinkContext implements Context, SnippetAcceptingContext
 {
-    use \StephenHarris\WordPressBehatExtension\Context\PostTypes\WordPressPostRawContext;
+    use \StephenHarris\WordPressBehatExtension\Context\PostTypes\WordPressPostTrait;
 
     public function __construct(AdminPage $adminPage)
     {
