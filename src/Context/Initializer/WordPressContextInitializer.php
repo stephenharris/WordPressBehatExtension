@@ -84,8 +84,36 @@ class WordPressContextInitializer implements ContextInitializer
             define('WP_INSTALLING', true);
         }
 
-        $finder = new Finder();
+        $this->installMuPlugins();
 
+        //TODO: Find a better way: read the entire string
+        $mu_plugin = $this->getMuPluginDir();
+        $str = file_get_contents($mu_plugin . DIRECTORY_SEPARATOR . 'wp-mail.php');
+        $str = str_replace('WORDPRESS_FAKE_MAIL_DIR', "'" . WORDPRESS_FAKE_MAIL_DIR . "'", $str);
+        $str = str_replace('WORDPRESS_FAKE_MAIL_DIVIDER', "'" . WORDPRESS_FAKE_MAIL_DIVIDER . "'", $str);
+        file_put_contents($mu_plugin . DIRECTORY_SEPARATOR . 'wp-mail.php', $str);
+
+        $this->loadWordPress();
+    }
+
+    protected function installMuPlugins()
+    {
+        $finder = new Finder();
+        $finder->files()->in(__DIR__.'/mu-plugins')->depth('== 0');
+
+        foreach ($finder as $muPluginFile) {
+            $this->installMuPlugin($muPluginFile);
+        }
+    }
+
+    protected function installMuPlugin($path)
+    {
+        $mu_plugin = $this->getMuPluginDir();
+        $this->copyIfNotExists($path, $mu_plugin . DIRECTORY_SEPARATOR . basename($path));
+    }
+
+    protected function getMuPluginDir()
+    {
         // load our wp_mail mu-plugin
         $mu_plugin = implode(DIRECTORY_SEPARATOR, array(
             rtrim($this->wordpressParams['path'], DIRECTORY_SEPARATOR),
@@ -96,28 +124,24 @@ class WordPressContextInitializer implements ContextInitializer
         if (!is_dir($mu_plugin)) {
             mkdir($mu_plugin, 0777, true);
         }
+        return $mu_plugin;
+    }
 
-        $this->copyIfNotExists( dirname(__FILE__) . DIRECTORY_SEPARATOR . 'wp-mail.php', $mu_plugin . DIRECTORY_SEPARATOR . 'wp-mail.php' );
-        $this->copyIfNotExists( dirname(__FILE__) . DIRECTORY_SEPARATOR . 'move-admin-bar-to-back.php', $mu_plugin . DIRECTORY_SEPARATOR . 'move-admin-bar-to-back.php' );
-        $this->copyIfNotExists( dirname(__FILE__) . DIRECTORY_SEPARATOR . 'wp-install.php', $mu_plugin . DIRECTORY_SEPARATOR . 'wp-install.php' );
+    protected function copyIfNotExists($source, $dest)
+    {
+        if (!file_exists($dest)) {
+            copy($source, $dest);
+        }
+    }
 
-        //TODO: Find a better way: read the entire string
-        $str = file_get_contents($mu_plugin . DIRECTORY_SEPARATOR . 'wp-mail.php');
-        $str = str_replace('WORDPRESS_FAKE_MAIL_DIR', "'" . WORDPRESS_FAKE_MAIL_DIR . "'", $str);
-        $str = str_replace('WORDPRESS_FAKE_MAIL_DIVIDER', "'" . WORDPRESS_FAKE_MAIL_DIVIDER . "'", $str);
-        file_put_contents($mu_plugin . DIRECTORY_SEPARATOR . 'wp-mail.php', $str);
-
+    protected function loadWordPress()
+    {
         // load the wordpress "stack"
+        $finder = new Finder();
         $finder->files()->in($this->wordpressParams['path'])->depth('== 0')->name('wp-load.php');
 
         foreach ($finder as $bootstrapFile) {
             require_once $bootstrapFile->getRealpath();
-        }
-    }
-
-    protected function copyIfNotExists( $source, $dest ) {
-        if (!file_exists($dest)) {
-            copy($source, $dest);
         }
     }
 
@@ -141,17 +165,6 @@ class WordPressContextInitializer implements ContextInitializer
                     sprintf("'DB_PASSWORD', '%s'", $this->wordpressParams['connection']['password']),
                 ), $file->getContents());
             $fs->dumpFile($file->getPath() . '/wp-config.php', $configContent);
-        }
-
-        if (isset($this->wordpressParams['symlink']['from']) && isset($this->wordpressParams['symlink']['to'])) {
-            $from = $this->wordpressParams['symlink']['from'];
-
-            if (substr($from, 0, 1) != '/') {
-                $from = $this->basePath . DIRECTORY_SEPARATOR . $from;
-            }
-            if ($fs->exists($this->wordpressParams['symlink']['from'])) {
-                $fs->symlink($from, $this->wordpressParams['symlink']['to']);
-            }
         }
     }
 
