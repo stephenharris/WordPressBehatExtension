@@ -10,7 +10,7 @@ Feature: Resetting a password
 
   @javascript @insulated
   Scenario: Accessing admin initially and being redirected
-    Given I am on "/wp-admin/"
+    When I go to "/wp-admin/"
     Then I should be on the log-in page
 
   @javascript @insulated
