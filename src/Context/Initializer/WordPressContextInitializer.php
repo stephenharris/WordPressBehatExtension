@@ -65,10 +65,7 @@ class WordPressContextInitializer implements ContextInitializer
         // wordpress will try to "fix" php_self variable based on the request uri, if not present
         $GLOBALS['PHP_SELF'] = $_SERVER['PHP_SELF'] = '/index.php';
 
-        //Fake mail settings
-        if (! defined('WORDPRESS_FAKE_MAIL_DIVIDER')) {
-            define('WORDPRESS_FAKE_MAIL_DIVIDER', $this->wordpressParams['mail']['divider']);
-        }
+        //Fake mail directory
         if (! defined('WORDPRESS_FAKE_MAIL_DIR')) {
             define('WORDPRESS_FAKE_MAIL_DIR', $this->wordpressParams['mail']['directory']);
         }
@@ -90,7 +87,6 @@ class WordPressContextInitializer implements ContextInitializer
         $mu_plugin = $this->getMuPluginDir();
         $str = file_get_contents($mu_plugin . DIRECTORY_SEPARATOR . 'wp-mail.php');
         $str = str_replace('WORDPRESS_FAKE_MAIL_DIR', "'" . WORDPRESS_FAKE_MAIL_DIR . "'", $str);
-        $str = str_replace('WORDPRESS_FAKE_MAIL_DIVIDER', "'" . WORDPRESS_FAKE_MAIL_DIVIDER . "'", $str);
         file_put_contents($mu_plugin . DIRECTORY_SEPARATOR . 'wp-mail.php', $str);
 
         $this->loadWordPress();

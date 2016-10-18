@@ -45,7 +45,7 @@ class Inbox
      * If no subject is present then the latest e-mail recieved is returned.
      *
      * @param string|null $subject
-     * @return StephenHarris\WordPressBehatExtension\WordPress\Email
+     * @return \StephenHarris\WordPressBehatExtension\WordPress\Email
      */
     public function getLatestEmail($subject = null)
     {
@@ -73,19 +73,15 @@ class Inbox
      */
     protected function parseMail($file)
     {
-        $fileContents = file_get_contents($file);
+        $fileContents = json_decode(file_get_contents($file), true);
+
+        if (is_null($fileContents)) {
+            throw new \Exception(sprintf('Invalid file format of %s. Expected json', $file));
+        }
         $titleParts   = explode('-', basename($file)); //timestamp, email, subject
-        
-        preg_match('/^TO:(.*)$/mi', $fileContents, $to_matches);
-        $recipient = trim($to_matches[1]);
-        
-        preg_match('/^SUBJECT:(.*)$/mi', $fileContents, $subj_matches);
-        $subject = trim($subj_matches[1]);
-        
-        $parts = explode(WORDPRESS_FAKE_MAIL_DIVIDER, $fileContents);
-        $body = trim($parts[1]);
-        
-        return new Email($recipient, $subject, $body, $titleParts[0]);
+        $timestamp    = $titleParts[0];
+
+        return new Email($fileContents['to'], $fileContents['subject'], $fileContents['message'], $timestamp);
     }
         
     /**
@@ -109,7 +105,6 @@ class Inbox
         }
 
         usort($this->emails, function ($email1, $email2) {
-        
             //sort by timestamp, descending
             return $email2->getTimestamp() - $email1->getTimestamp();
         });

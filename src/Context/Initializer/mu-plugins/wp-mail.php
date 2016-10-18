@@ -14,12 +14,15 @@ function wp_mail($to, $subject, $message)
 {
     $file_name = sanitize_file_name(time() . "-$to-" . sanitize_title_with_dashes($subject));
     $file_path = trailingslashit(WORDPRESS_FAKE_MAIL_DIR) . $file_name;
-    $content = "TO: $to" . PHP_EOL;
-    $content .= "SUBJECT: $subject" . PHP_EOL;
-    $content .= WORDPRESS_FAKE_MAIL_DIVIDER . PHP_EOL . $message;
+
+    $data = array(
+        'to'      => $to,
+        'subject' => $subject,
+        'message' => $message
+    );
     if (!is_dir(WORDPRESS_FAKE_MAIL_DIR)) {
         mkdir(WORDPRESS_FAKE_MAIL_DIR, 0777, true);
     }
-    $result = (bool) file_put_contents($file_path, $content);
+    $result = (bool) file_put_contents($file_path, json_encode($data));
     return $result;
 }

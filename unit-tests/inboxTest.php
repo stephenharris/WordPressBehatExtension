@@ -74,20 +74,23 @@ class inboxTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( 'Latest', $email->getBody() );
 	}
 	
-	private function sendEmail( $to, $subject = '', $body = '', $timestamp = null ) {
-		
+	private function sendEmail( $to, $subject = '', $message = '', $timestamp = null ) {
+
 		$dir       = rtrim(WORDPRESS_FAKE_MAIL_DIR, DIRECTORY_SEPARATOR);
 		$timestamp = is_null($timestamp) ? time() : (int) $timestamp;
 		$fileName  = $timestamp . "-$to-" . $subject;
-
 		$filePath = $dir . DIRECTORY_SEPARATOR . $fileName;
-		$content  = "TO: $to" . PHP_EOL;
-		$content .= "SUBJECT: $subject" . PHP_EOL;
-		$content .= WORDPRESS_FAKE_MAIL_DIVIDER . PHP_EOL . $body;
+
+		$data = array(
+			'to'      => $to,
+			'subject' => $subject,
+			'message' => $message
+		);
 		if (!is_dir(WORDPRESS_FAKE_MAIL_DIR)) {
 			mkdir(WORDPRESS_FAKE_MAIL_DIR, 0777, true);
 		}
-		$result = (bool) file_put_contents($filePath, $content);
+
+		$result = (bool) file_put_contents($filePath, json_encode($data));
 		return $result;
 	}
 	
