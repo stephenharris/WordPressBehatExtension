@@ -57,8 +57,7 @@ class WordPressAdminContext extends RawMinkContext implements Context, SnippetAc
      */
     public function iShouldBeOnThePage($admin_page)
     {
-        $header = $this->adminPage->getHeaderText();
-        \PHPUnit_Framework_Assert::assertEquals($admin_page, $header, "Potentially on the wrong page, the page headings do not match");
+        $this->adminPage->assertHasHeader($admin_page);
     }
 
     /**
