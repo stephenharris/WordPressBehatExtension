@@ -1,12 +1,6 @@
 <?php
 namespace StephenHarris\WordPressBehatExtension\Context\PostTypes;
 
-use Behat\Behat\Context\ClosuredContextInterface;
-use Behat\Behat\Context\TranslatedContextInterface;
-use Behat\Behat\Context\BehatContext;
-use Behat\Behat\Context\Context;
-use Behat\Behat\Exception\PendingException;
-
 /**
  * A 'helper' class primarily used by WordPressPostContext which holds the step definitions.
  *
@@ -15,7 +9,7 @@ use Behat\Behat\Exception\PendingException;
  *
  * @package StephenHarris\WordPressBehatExtension\Context
  */
-trait WordPressPostRawContext
+trait WordPressPostTrait
 {
 
     public function insert($postData)
