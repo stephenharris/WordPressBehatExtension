@@ -5,8 +5,8 @@ Feature: You can read blog posts
 
     Background:
         Given I have a vanilla wordpress installation
-            | name          | email                   | username | password |
-            | BDD WordPress | walter.dalmut@gmail.com | admin    | test     |
+            | name          | email             | username | password |
+            | BDD WordPress | admin@example.com | admin    | password |
         And there are posts
             | post_title      | post_content              | post_status | post_author |
             | Just my article | The content of my article | publish     | admin       |

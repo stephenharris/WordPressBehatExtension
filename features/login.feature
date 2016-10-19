@@ -5,13 +5,13 @@ Feature: Login
 
     Background:
         Given I have a vanilla wordpress installation
-            | name          | email                   | username | password |
-            | BDD WordPress | walter.dalmut@gmail.com | admin    | test     |
+            | name          | email             | username | password |
+            | BDD WordPress | admin@example.com | admin    | password |
 
     Scenario: A valid user access to the platform
         When I am on the log-in page
         And I fill in "user_login" with "admin"
-        And I fill in "pwd" with "test"
+        And I fill in "pwd" with "password"
         And I press "Log In"
         Then I should be on the "Dashboard" page
         And I should see "Howdy, admin"
@@ -19,7 +19,7 @@ Feature: Login
     Scenario: An existing user tries to login with a wrong password
         When I am on the log-in page
         And I fill in "user_login" with "admin"
-        And I fill in "pwd" with "password"
+        And I fill in "pwd" with "test"
         And I press "Log In"
         Then I should be on the log-in page
         And I should see "ERROR: The password you entered for the username admin is incorrect."
