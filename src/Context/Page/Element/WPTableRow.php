@@ -5,8 +5,6 @@ namespace StephenHarris\WordPressBehatExtension\Context\Page\Element;
 use Behat\Mink\Element\NodeElement;
 use Behat\Mink\Session;
 
-use StephenHarris\WordPressBehatExtension\Element\WPTableVisitor;
-
 class WPTableRow extends NodeElement
 {
     use \StephenHarris\WordPressBehatExtension\StripHtml;

@@ -2,9 +2,6 @@
 
 namespace StephenHarris\WordPressBehatExtension\Context\Page\Element;
 
-use StephenHarris\WordPressBehatExtension\Element\WPTableVisitor;
-use StephenHarris\WordPressBehatExtension\Element\WPTableNodeVisitor;
-
 use SensioLabs\Behat\PageObjectExtension\PageObject\Element;
 use SensioLabs\Behat\PageObjectExtension\PageObject\Factory;
 

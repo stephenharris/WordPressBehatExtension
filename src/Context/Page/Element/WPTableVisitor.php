@@ -1,9 +1,5 @@
 <?php
-namespace StephenHarris\WordPressBehatExtension\Element;
-
-use StephenHarris\WordPressBehatExtension\Context\Page\Element\WPTable;
-use StephenHarris\WordPressBehatExtension\Context\Page\Element\WPTableRow;
-use StephenHarris\WordPressBehatExtension\Context\Page\Element\WPTableCell;
+namespace StephenHarris\WordPressBehatExtension\Context\Page\Element;
 
 /**
  * The TableRowElement 'decorates' NodeElement. It adds context the <tr> element such as getting

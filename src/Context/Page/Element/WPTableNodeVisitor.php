@@ -1,9 +1,6 @@
 <?php
-namespace StephenHarris\WordPressBehatExtension\Element;
+namespace StephenHarris\WordPressBehatExtension\Context\Page\Element;
 
-use StephenHarris\WordPressBehatExtension\Context\Page\Element\WPTable;
-use StephenHarris\WordPressBehatExtension\Context\Page\Element\WPTableRow;
-use StephenHarris\WordPressBehatExtension\Context\Page\Element\WPTableCell;
 use Behat\Gherkin\Node\TableNode;
 
 class WPTableNodeVisitor extends WPTableVisitor
