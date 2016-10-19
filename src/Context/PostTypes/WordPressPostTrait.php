@@ -19,8 +19,11 @@ trait WordPressPostTrait
         }
     }
 
-    public function getPostByName($title, $postType)
+    public function getPostByName($title, $postType = null)
     {
+        if (is_null($postType)) {
+            $postType = get_post_types('', 'names');
+        }
         $post = get_page_by_title($title, OBJECT, $postType);
         if (! $post) {
             if (is_array($postType)) {
