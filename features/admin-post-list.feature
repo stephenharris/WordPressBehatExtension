@@ -72,3 +72,9 @@ Feature: Posts admin page
       | Title                | Author | Categories    | Tags |   | Date                    |
       | Just another article | admin  | Uncategorized | —    | — | Published 2016/10/11     |
       | My draft             | admin  | Uncategorized | —    | — | Last Modified 2016/09/02 |
+
+
+  Scenario: Viewing the edit post page
+    Given I go to menu item Posts
+    And I follow "Just my article"
+    Then I should be on the edit "post" screen for "Just my article"

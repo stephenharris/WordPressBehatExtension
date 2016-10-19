@@ -2,46 +2,18 @@
 
 namespace StephenHarris\WordPressBehatExtension\Context;
 
-use Behat\Behat\Context\ClosuredContextInterface;
-use Behat\Behat\Context\TranslatedContextInterface;
 use Behat\Behat\Context\Context;
-use Behat\Behat\Context\SnippetAcceptingContext;
-use Behat\Behat\Exception\PendingException;
-use Behat\Mink\Exception\UnsupportedDriverActionException;
 use Behat\MinkExtension\Context\RawMinkContext;
 use Behat\Gherkin\Node\TableNode;
 
 use \StephenHarris\WordPressBehatExtension\Context\Page\AdminPage;
 
-/**
- * Babble feature context.
- */
-class WordPressAdminContext extends RawMinkContext implements Context, SnippetAcceptingContext
+class WordPressAdminContext extends RawMinkContext implements Context
 {
-    use \StephenHarris\WordPressBehatExtension\Context\PostTypes\WordPressPostTrait;
 
     public function __construct(AdminPage $adminPage)
     {
         $this->adminPage = $adminPage;
-    }
-
-    /**
-     * @When /^I go to edit "([^"]*)" screen for "([^"]*)"$/
-     */
-    public function iGoToEditScreenForPostType($postType, $title)
-    {
-        $post = $this->getPostByName($title, $postType);
-        $this->visitPath(sprintf('/wp-admin/post.php?post=%d&action=edit', $post->ID));
-    }
-
-    /**
-     * @When /^I go to the edit screen for "(?P<title>[^"]*)"$/
-     */
-    public function iGoToEditScreenFor($title)
-    {
-        $postTypes = get_post_types('', 'names');
-        $post = $this->getPostByName($title, $postTypes);
-        $this->visitPath(sprintf('/wp-admin/post.php?post=%d&action=edit', $post->ID));
     }
 
     /**
@@ -85,7 +57,6 @@ class WordPressAdminContext extends RawMinkContext implements Context, SnippetAc
         $actualTableNode = new TableNode($actualHash);
 
         if (count($topLevel) != count($table->getRows())) {
-            //var_dump( $topLevel );
             throw new \Exception("Number of rows do not match. Found: \n" . $actualTableNode);
         }
 

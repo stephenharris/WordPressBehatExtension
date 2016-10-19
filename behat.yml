@@ -11,6 +11,7 @@ default:
         - \StephenHarris\WordPressBehatExtension\Context\Terms\WordPressTermContext
         - \StephenHarris\WordPressBehatExtension\Context\Users\WordPressUserContext
         - \StephenHarris\WordPressBehatExtension\Context\WordPressAdminContext
+        - \StephenHarris\WordPressBehatExtension\Context\WordPressEditPostContext
         - \StephenHarris\WordPressBehatExtension\Context\WordPressPostListContext
         - \StephenHarris\WordPressBehatExtension\Context\WordPressMailContext
 

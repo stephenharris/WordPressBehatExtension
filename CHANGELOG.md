@@ -9,6 +9,7 @@ Breaking changes:
 - Extracted `WordPressPostContext` from `WordPressContext` and extracted helper methods into `WordPressPostRawContext` trait
 - Extracted `WordPressTermContext` from `WordPressContext` and extracted helper methods into `WordPressTermTrait` trait
 - Extracted `WordPressUserContext` from `WordPressContext` and extracted helper methods into `WordPressUserTrait` trait
+- Extracted `WordPressEditPostContext` from `WordPressAdminContext`
 - Extracted a `AdminPage` page object from `WordPressAdminContext` (see http://behat-page-object-extension.readthedocs.io/en/latest/index.html)
 - Replaced `When I hover over the row containing :value in the :column_text column of :table_selector` to `When I hover over the row containing :value in the :column_text` (`:table_selector` removed, and is internally set to `.wp-list-table`
 - The `Given there are posts` step expects the `post_author` column to the be username of the user, not the ID.
