@@ -30,6 +30,7 @@ trait WordPressPostTrait
                 sprintf('Post "%s" of post type %s not found', $title, $postType)
             );
         }
+        return $post;
     }
 
     public function assignPostTypeTerms($post, $taxonomy, $terms)
