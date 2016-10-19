@@ -142,7 +142,7 @@ class WordPressContextInitializer implements ContextInitializer
     }
 
     /**
-     * create a wp-config.php and link plugins / themes
+     * create a wp-config.php
      */
     public function installFileFixtures()
     {

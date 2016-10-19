@@ -42,13 +42,11 @@ class WordPressMailContext extends RawMinkContext implements Context, SnippetAcc
      */
     public function followEmailUrl($ordinal, $emailAddress)
     {
-        
         $factory = InboxFactory::getInstance();
         $inbox   = $factory->getInbox($emailAddress);
         $email   = $inbox->getLatestEmail();
         $body    = $email->getBody();
 
-        // Nicked this regex from WordPress make_clickable
         preg_match_all(
             '#\bhttps?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#',
             $body,
