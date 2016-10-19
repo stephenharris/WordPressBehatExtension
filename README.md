@@ -1,14 +1,10 @@
 ## WordPress Extension for Behat 3
 
 This is a Behat 3.0 Extension for WordPress plugin and theme development. 
-You can use it to test your WordPress installation, or just test your plugin/theme without installing them in a normal WordPress installation (i.e. stand-alone).
 
-The Extension allows you to use WordPress functions in your context class (if you extend your `FeatureContext` from `StephenHarris\WordPressBehatExtension\Context\WordPressContext`).
+The Extension allows you to use WordPress functions in your context class if you include `StephenHarris\WordPressBehatExtension\Context\WordPressContext` (or create and include a child class of it, i.e. make your `FeatureContext` ).
 
-It also provides other contexts:
-
- - `StephenHarris\WordPressBehatExtension\Context\WordPressAdminContext.php` - navigating the WordPress admin
- - `StephenHarris\WordPressBehatExtension\Context\WordPressPostListContext.php` - default WordPress admin post type page 
+It also provides [other contexts](docs/Contexts.md).
 
 **Version:** 0.3.0  
 
@@ -42,17 +38,21 @@ This repository started off as a fork of:
     ```
     You don't *have* to install WordPress via composer. But you shall need a path to a WordPress install below.
 
-2. Add the following Behat configuration file:
+2. Add the following Behat configuration file below. You should need:
+
+ - path to your WordPress install (here assumed `vendor/wordpress`, relative to your project's root directory.
+ - The database, and database username and password of your WordPress install (here assumed `wordress_test`, `root`, `''`)
+ - The URL of your WordPress install (In this example we'll be using php's build in server)
+ - A temporary directory to store e-mails that are 'sent'
+
 
     ```yml
     default:
       suites:
         default:
           contexts:
-            - FeatureContext:
-                screenshot_dir: '%paths.base%/failed-scenerios/'
-            - WordPressAdminContext
-            - WordPressPostListContext
+            - FeatureContext
+            - WordPressContext
       extensions:
         StephenHarris\WordPressBehatExtension:
           path: '%paths.base%/vendor/wordpress'
@@ -60,29 +60,24 @@ This repository started off as a fork of:
             db: 'wordpress_test'
             username: 'root'
             password: ''
+          mail:
+            directory: '/tmp/mail'
         Behat\MinkExtension:
           base_url:    'http://localhost:8000'
           goutte: ~
           selenium2: ~
     ```
-    changing the directories as appropriate. The **screenshot_dir** will store screenshots of any failed tests. It will also include the mark-up. This helps you review failed tests and debug the issue. 
-
+    
 3. Install the vendors and initialize behat test suites
 
     ```bash
     composer update
     # You will need to ensure a WordPress install is available, with database credentials that
-    # mach the configuratin file above
+    # mach the configuration file above
     vendor/bin/behat --init
     ```
 
-4. Start your development web server and point its document root to the wordpress directory in vendors (without mail function)
-
-    ```bash
-    php -S localhost:8000 -t vendor/wordpress -d disable_functions=mail
-    ```
-
-5. Write some Behat features and test them
+4. Write some Behat features and test them
 
     ```
     Feature: Manage plugins
@@ -112,7 +107,14 @@ This repository started off as a fork of:
     
     ```
 
-6. Run the tests
+5. Run the tests
+
+
+ > In our example, since we using PHP's built-in web sever, this will need to be started so that  Behat can access our site. 
+
+ > ```bash
+    php -S localhost:8000 -t vendor/wordpress -d disable_functions=mail
+    ```
 
     ```bash
     vendor/bin/behat
@@ -121,6 +123,14 @@ This repository started off as a fork of:
 ## Aim
 
 The aim of this project is to provide a collection of context classes that allow for easy testing of WordPress' core functionality. Those contexts can then be built upon to test your site/plugin/theme-specific functionality. 
+
+
+## Health Warning
+
+This is not to be used on a live site. Your WordPress tables **will** be cleared of all data. 
+
+Currently this extension also over-rides your `wp-config.php` but this implementation may change in the future.
+
 
 ## Changelog
 
