@@ -10,19 +10,26 @@
  *
  * @return bool True if the email got sent (i.e. if the fake email file was written)
  */
-function wp_mail($to, $subject, $message)
+function wp_mail($recipients, $subject, $message)
 {
-    $file_name = sanitize_file_name(time() . "-$to-" . sanitize_title_with_dashes($subject));
-    $file_path = trailingslashit(WORDPRESS_FAKE_MAIL_DIR) . $file_name;
+    $recipients = is_array($recipients) ? $recipients : array( $recipients );
 
-    $data = array(
-        'to'      => $to,
-        'subject' => $subject,
-        'message' => $message
-    );
-    if (!is_dir(WORDPRESS_FAKE_MAIL_DIR)) {
-        mkdir(WORDPRESS_FAKE_MAIL_DIR, 0777, true);
+    foreach ($recipients as $recipient) {
+        $file_name = sanitize_file_name(time() . "-$recipient-" . sanitize_title_with_dashes($subject));
+        $file_path = trailingslashit(WORDPRESS_FAKE_MAIL_DIR) . $file_name;
+
+        $data = array(
+            'to'      => $recipient,
+            'subject' => $subject,
+            'message' => $message
+        );
+        if (!is_dir(WORDPRESS_FAKE_MAIL_DIR)) {
+            mkdir(WORDPRESS_FAKE_MAIL_DIR, 0777, true);
+        }
+        $result = (bool) file_put_contents($file_path, json_encode($data));
+
+        if (! $result) {
+            throw new \Exception(sprintf('Unable to send e-mail with subject "%s" to %s', $subject, $recipient));
+        }
     }
-    $result = (bool) file_put_contents($file_path, json_encode($data));
-    return $result;
 }
