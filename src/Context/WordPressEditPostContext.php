@@ -52,7 +52,7 @@ class WordPressEditPostContext implements Context
      */
     public function iAmOnEditScreenFor($title)
     {
-        $post = $this->getPostByName($title, NULL);
+        $post = $this->getPostByName($title, null);
         $this->editPostPage->isOpen(array(
             'id' => $post->ID,
         ));
