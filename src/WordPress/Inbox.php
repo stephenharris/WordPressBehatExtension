@@ -93,7 +93,7 @@ class Inbox
     {
         $filePattern = $this->getInboxDirectory() . '*' . $this->emailAddress . '*';
         foreach (glob($filePattern) as $email) {
-            unset($email);
+            unlink($email);
         }
         $this->emails = array();
     }
