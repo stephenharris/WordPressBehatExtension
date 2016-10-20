@@ -131,6 +131,12 @@ This is not to be used on a live site. Your WordPress tables **will** be cleared
 
 Currently this extension also over-rides your `wp-config.php` but this implementation may change in the future.
 
+The extension installs three `mu-plugins` into your install (which it assumes is at `{site-path}/wp-content/mu-plugins`). These plug-ins do the following:
+ 
+ - `wp-mail.php` - over-rides `wp_mail()` function to store the e-mails locally
+ - `wp-install.php` - over-rides `wp_install_defaults()` to prevent any default content being created, with the exception of the 'Uncategorised' category.
+ - `move-admin-bar-to-back.php` - a workaround for [#1](https://github.com/stephenharris/WordPressBehatExtension/issues/1) which prevent elements from being hidden from Selenium behind the admin menu bar.
+
 
 ## Changelog
 
