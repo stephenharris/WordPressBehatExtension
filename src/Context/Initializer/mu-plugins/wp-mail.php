@@ -33,4 +33,6 @@ function wp_mail($recipients, $subject, $message, $headers = '', $attachments = 
             throw new \Exception(sprintf('Unable to send e-mail with subject "%s" to %s', $subject, $recipient));
         }
     }
+
+    return true;
 }
