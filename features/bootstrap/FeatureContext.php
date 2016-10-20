@@ -1,14 +1,12 @@
 <?php
 
-use Behat\Behat\Context\ClosuredContextInterface,
-    Behat\Behat\Context\TranslatedContextInterface,
-    Behat\Behat\Context\BehatContext,
-    Behat\Behat\Context\Context,
+use Behat\Behat\Context\Context,
     Behat\Behat\Context\SnippetAcceptingContext,
-    Behat\Behat\Exception\PendingException,
-    Behat\Behat\Hook\Scope\AfterScenarioScope;
+    Behat\Behat\Hook\Scope\AfterScenarioScope,
 use Behat\Testwork\Tester\Result\TestResult;
 use Behat\MinkExtension\Context\RawMinkContext;
+
+use Ifsnop\Mysqldump\Mysqldump;
 
 /**
  * Features context.
@@ -54,6 +52,28 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
 
             //Store HTML markup of the page also - useful for non-js tests
             file_put_contents( $this->screenshot_dir . $filename . '.html', $this->getSession()->getPage()->getHtml());
+        }
+    }
+
+    /**
+     * @AfterScenario
+     */
+    public function takeDatabaseDumpAfterFailedStep(AfterScenarioScope $scope)
+    {
+        if ($this->screenshot_dir && TestResult::FAILED === $scope->getTestResult()->getResultCode()) {
+
+            $feature  = $scope->getFeature();
+            $scenario = $scope->getScenario();
+            $filename = basename( $feature->getFile(), '.feature' ) . '-' . $scenario->getLine();
+
+            $filepath = $this->screenshot_dir . $filename . '.sql';
+
+            try {
+                $dump = new Mysqldump('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD);
+                $dump->start($filepath);
+            } catch (\Exception $e) {
+                echo 'mysqldump-php error: ' . $e->getMessage();
+            }
         }
     }
 
