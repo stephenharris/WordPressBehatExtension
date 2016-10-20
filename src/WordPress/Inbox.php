@@ -24,10 +24,12 @@ class Inbox
     /**
      * Will set up an inbox with all recorded emails sent to $emailAddress
      * @param string $emailAddress The e-mail address of the recipient.
+     * @param string $dir The location to store the e-mails at
      */
-    public function __construct($emailAddress)
+    public function __construct($emailAddress, $dir)
     {
         $this->emailAddress = $emailAddress;
+        $this->dir = $dir;
         $this->refresh();
     }
     
@@ -114,6 +116,6 @@ class Inbox
 
     protected function getInboxDirectory()
     {
-        return rtrim(WORDPRESS_FAKE_MAIL_DIR, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+        return rtrim($this->dir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
     }
 }

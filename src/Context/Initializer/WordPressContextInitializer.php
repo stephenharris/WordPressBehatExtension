@@ -5,6 +5,9 @@ namespace StephenHarris\WordPressBehatExtension\Context\Initializer;
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\Initializer\ContextInitializer;
 
+use StephenHarris\WordPressBehatExtension\Context\WordPressInboxFactoryAwareContext;
+use \StephenHarris\WordPressBehatExtension\WordPress\InboxFactory;
+
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -42,6 +45,12 @@ class WordPressContextInitializer implements ContextInitializer
      */
     public function initializeContext(Context $context)
     {
+        $factory = new InboxFactory($this->wordpressParams['mail']['directory']);
+
+        if ($context instanceof WordPressInboxFactoryAwareContext) {
+            $context->setInboxFactory($factory);
+        }
+
         if (!$context instanceof WordPressContext) {
             return;
         }
@@ -65,9 +74,8 @@ class WordPressContextInitializer implements ContextInitializer
         // wordpress will try to "fix" php_self variable based on the request uri, if not present
         $GLOBALS['PHP_SELF'] = $_SERVER['PHP_SELF'] = '/index.php';
 
-        //Fake mail directory
-        if (! defined('WORDPRESS_FAKE_MAIL_DIR')) {
-            define('WORDPRESS_FAKE_MAIL_DIR', $this->wordpressParams['mail']['directory']);
+        if ($this->wordpressParams['mail']['directory'] && !is_dir($this->wordpressParams['mail']['directory'])) {
+            mkdir($this->wordpressParams['mail']['directory'], 0777, true);
         }
     }
 
@@ -83,10 +91,9 @@ class WordPressContextInitializer implements ContextInitializer
 
         $this->installMuPlugins();
 
-        //TODO: Find a better way: read the entire string
         $mu_plugin = $this->getMuPluginDir();
         $str = file_get_contents($mu_plugin . DIRECTORY_SEPARATOR . 'wp-mail.php');
-        $str = str_replace('WORDPRESS_FAKE_MAIL_DIR', "'" . WORDPRESS_FAKE_MAIL_DIR . "'", $str);
+        $str = str_replace('WORDPRESS_FAKE_MAIL_DIR', "'" . $this->wordpressParams['mail']['directory'] . "'", $str);
         file_put_contents($mu_plugin . DIRECTORY_SEPARATOR . 'wp-mail.php', $str);
 
         $this->loadWordPress();

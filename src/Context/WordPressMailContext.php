@@ -10,8 +10,18 @@ use Behat\MinkExtension\Context\RawMinkContext;
 /**
  * Features context.
  */
-class WordPressMailContext extends RawMinkContext implements Context, SnippetAcceptingContext
+class WordPressMailContext extends RawMinkContext implements
+    Context,
+    SnippetAcceptingContext,
+    WordPressInboxFactoryAwareContext
 {
+
+    protected $inboxFactory;
+
+    public function setInboxFactory(InboxFactory $factory)
+    {
+        $this->inboxFactory = $factory;
+    }
 
     /**
      * @Then /^the latest email to ([^ ]+@[^ ]+) should contain "([^"]*)"$/
@@ -19,9 +29,8 @@ class WordPressMailContext extends RawMinkContext implements Context, SnippetAcc
     public function assertFakeEmailReceipt($emailAddress, $pattern)
     {
         $regex = $this->fixStepArgument($pattern);
-        
-        $factory = InboxFactory::getInstance();
-        $inbox   = $factory->getInbox($emailAddress);
+
+        $inbox   = $this->inboxFactory->getInbox($emailAddress);
         $email   = $inbox->getLatestEmail();
         $body    = $email->getBody();
 
@@ -42,8 +51,7 @@ class WordPressMailContext extends RawMinkContext implements Context, SnippetAcc
      */
     public function followEmailUrl($ordinal, $emailAddress)
     {
-        $factory = InboxFactory::getInstance();
-        $inbox   = $factory->getInbox($emailAddress);
+        $inbox   = $this->inboxFactory->getInbox($emailAddress);
         $email   = $inbox->getLatestEmail();
         $body    = $email->getBody();
 

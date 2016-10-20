@@ -5,7 +5,7 @@ class inboxTest extends PHPUnit_Framework_TestCase
 {
 	
 	public function setUp(){
-		$this->inboxFactory = InboxFactory::getInstance();
+		$this->inboxFactory = new InboxFactory(WORDPRESS_FAKE_MAIL_DIR);
 	}
 	
 	public function tearDown(){

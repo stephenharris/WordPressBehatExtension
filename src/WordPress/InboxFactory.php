@@ -9,20 +9,11 @@ namespace StephenHarris\WordPressBehatExtension\WordPress;
 class InboxFactory
 {
 
-    private static $instance = null;
-    
     private $inboxes = array();
     
-    private function __construct()
+    public function __construct($dir)
     {
-    }
-    
-    public static function getInstance()
-    {
-        if (null == self::$instance) {
-            self::$instance = new InboxFactory();
-        }
-        return self::$instance;
+        $this->dir = $dir;
     }
 
     /**
@@ -32,7 +23,7 @@ class InboxFactory
     public function getInbox($emailAddress)
     {
         if (!isset($this->inboxes[$emailAddress])) {
-            $this->inboxes[$emailAddress] = new Inbox($emailAddress);
+            $this->inboxes[$emailAddress] = new Inbox($emailAddress, $this->dir);
         }
         return $this->inboxes[$emailAddress]->refresh();
     }

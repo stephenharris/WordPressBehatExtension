@@ -23,9 +23,7 @@ function wp_mail($recipients, $subject, $message)
             'subject' => $subject,
             'message' => $message
         );
-        if (!is_dir(WORDPRESS_FAKE_MAIL_DIR)) {
-            mkdir(WORDPRESS_FAKE_MAIL_DIR, 0777, true);
-        }
+
         $result = (bool) file_put_contents($file_path, json_encode($data));
 
         if (! $result) {
