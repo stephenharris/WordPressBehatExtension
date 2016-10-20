@@ -55,7 +55,7 @@ class WordPressContextInitializer implements ContextInitializer
             return;
         }
         $this->prepareEnvironment();
-        $this->installFileFixtures();
+        $this->overwriteConfig();
         $this->flushDatabase();
         $this->loadStack();
     }
@@ -65,14 +65,8 @@ class WordPressContextInitializer implements ContextInitializer
      */
     private function prepareEnvironment()
     {
-        // wordpress uses these superglobal fields everywhere...
         $urlParts = parse_url($this->minkParams['base_url']);
-        $_SERVER['HTTP_HOST']       = $urlParts['host'] . (isset($urlParts['port']) ? ':' . $urlParts['port'] : '');
-        $_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.1';
-
-        // we don't have a request uri in headless scenarios:
-        // wordpress will try to "fix" php_self variable based on the request uri, if not present
-        $GLOBALS['PHP_SELF'] = $_SERVER['PHP_SELF'] = '/index.php';
+        $_SERVER['HTTP_HOST'] = $urlParts['host'] . (isset($urlParts['port']) ? ':' . $urlParts['port'] : '');
 
         if ($this->wordpressParams['mail']['directory'] && !is_dir($this->wordpressParams['mail']['directory'])) {
             mkdir($this->wordpressParams['mail']['directory'], 0777, true);
@@ -151,7 +145,7 @@ class WordPressContextInitializer implements ContextInitializer
     /**
      * create a wp-config.php
      */
-    public function installFileFixtures()
+    public function overwriteConfig()
     {
         $finder = new Finder();
         $fs = new Filesystem();
