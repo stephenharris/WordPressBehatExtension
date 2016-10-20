@@ -2,7 +2,7 @@
 
 use Behat\Behat\Context\Context,
     Behat\Behat\Context\SnippetAcceptingContext,
-    Behat\Behat\Hook\Scope\AfterScenarioScope,
+    Behat\Behat\Hook\Scope\AfterScenarioScope;
 use Behat\Testwork\Tester\Result\TestResult;
 use Behat\MinkExtension\Context\RawMinkContext;
 
