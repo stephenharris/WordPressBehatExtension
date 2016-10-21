@@ -5,12 +5,12 @@ Feature: You can write and read blogs
 
     Background:
         Given I have a vanilla wordpress installation
-            | name          | email                   | username | password |
-            | BDD WordPress | walter.dalmut@gmail.com | admin    | test     |
+            | name          | email             | username | password |
+            | BDD WordPress | admin@example.com | admin    | password |
         And there are users
-            | user_login | user_pass | user_nicename | user_email              | role   |
-            | walter     | test      | Walter        | walter.dalmut@corley.it | editor |
-        And I am logged in as "walter" with password "test"
+            | user_login | user_pass | user_nicename | user_email         | role   |
+            | editor     | test      | editor        | editor@example.com | editor |
+        And I am logged in as "editor" with password "test"
 
     Scenario: I can publish a new blog post
         When I am on "/wp-admin/post-new.php"

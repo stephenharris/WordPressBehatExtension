@@ -1,38 +1,32 @@
 <?php
 
-namespace Johnbillion\WordPressExtension\Context\Initializer;
+namespace StephenHarris\WordPressBehatExtension\Context\Initializer;
 
-use Behat\Behat\Context\Context,
-    Behat\Behat\Context\Initializer\ContextInitializer;
+use Behat\Behat\Context\Context;
+use Behat\Behat\Context\Initializer\ContextInitializer;
 
-use Symfony\Component\Finder\Finder,
-    Symfony\Component\Filesystem\Filesystem;
+use StephenHarris\WordPressBehatExtension\Context\WordPressInboxFactoryAwareContext;
+use \StephenHarris\WordPressBehatExtension\WordPress\InboxFactory;
 
-use Johnbillion\WordPressExtension\Context\WordPressContext;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Filesystem\Filesystem;
 
-/**
- * Class FeatureListener
- *
- * @package Johnbillion\WordPressExtension\Listener
- */
+use StephenHarris\WordPressBehatExtension\Context\WordPressContext;
+
 class WordPressContextInitializer implements ContextInitializer
 {
     private $wordpressParams;
     private $minkParams;
-    private $basePath;
-
     /**
      * inject the wordpress extension parameters and the mink parameters
      *
      * @param array  $wordpressParams
      * @param array  $minkParams
-     * @param string $basePath
      */
-    public function __construct($wordpressParams, $minkParams, $basePath)
+    public function __construct($wordpressParams, $minkParams)
     {
         $this->wordpressParams = $wordpressParams;
         $this->minkParams = $minkParams;
-        $this->basePath = $basePath;
     }
 
     /**
@@ -42,11 +36,17 @@ class WordPressContextInitializer implements ContextInitializer
      */
     public function initializeContext(Context $context)
     {
+        $factory = new InboxFactory($this->wordpressParams['mail']['directory']);
+
+        if ($context instanceof WordPressInboxFactoryAwareContext) {
+            $context->setInboxFactory($factory);
+        }
+
         if (!$context instanceof WordPressContext) {
             return;
         }
         $this->prepareEnvironment();
-        $this->installFileFixtures();
+        $this->overwriteConfig();
         $this->flushDatabase();
         $this->loadStack();
     }
@@ -56,15 +56,12 @@ class WordPressContextInitializer implements ContextInitializer
      */
     private function prepareEnvironment()
     {
-        // wordpress uses these superglobal fields everywhere...
-        $urlComponents = parse_url($this->minkParams['base_url']);
-        $_SERVER['HTTP_HOST'] = $urlComponents['host'] . (isset($urlComponents['port']) ? ':' . $urlComponents['port'] : '');
-        $_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.1';
+        $urlParts = parse_url($this->minkParams['base_url']);
+        $_SERVER['HTTP_HOST'] = $urlParts['host'] . (isset($urlParts['port']) ? ':' . $urlParts['port'] : '');
 
-
-        // we don't have a request uri in headless scenarios:
-        // wordpress will try to "fix" php_self variable based on the request uri, if not present
-        $PHP_SELF = $GLOBALS['PHP_SELF'] = $_SERVER['PHP_SELF'] = '/index.php';
+        if ($this->wordpressParams['mail']['directory'] && !is_dir($this->wordpressParams['mail']['directory'])) {
+            mkdir($this->wordpressParams['mail']['directory'], 0777, true);
+        }
     }
 
     /**
@@ -77,9 +74,58 @@ class WordPressContextInitializer implements ContextInitializer
             define('WP_INSTALLING', true);
         }
 
-        $finder = new Finder();
+        $this->installMuPlugins();
 
+        $mu_plugin = $this->getMuPluginDir();
+        $str = file_get_contents($mu_plugin . DIRECTORY_SEPARATOR . 'wp-mail.php');
+        $str = str_replace('WORDPRESS_FAKE_MAIL_DIR', "'" . $this->wordpressParams['mail']['directory'] . "'", $str);
+        file_put_contents($mu_plugin . DIRECTORY_SEPARATOR . 'wp-mail.php', $str);
+
+        $this->loadWordPress();
+    }
+
+    protected function installMuPlugins()
+    {
+        $finder = new Finder();
+        $finder->files()->in(__DIR__.'/mu-plugins')->depth('== 0');
+
+        foreach ($finder as $muPluginFile) {
+            $this->installMuPlugin($muPluginFile);
+        }
+    }
+
+    protected function installMuPlugin($path)
+    {
+        $mu_plugin = $this->getMuPluginDir();
+        $this->copyIfNotExists($path, $mu_plugin . DIRECTORY_SEPARATOR . basename($path));
+    }
+
+    protected function getMuPluginDir()
+    {
+        // load our wp_mail mu-plugin
+        $mu_plugin = implode(DIRECTORY_SEPARATOR, array(
+            rtrim($this->wordpressParams['path'], DIRECTORY_SEPARATOR),
+            'wp-content',
+            'mu-plugins'
+        ));
+
+        if (!is_dir($mu_plugin)) {
+            mkdir($mu_plugin, 0777, true);
+        }
+        return $mu_plugin;
+    }
+
+    protected function copyIfNotExists($source, $dest)
+    {
+        if (!file_exists($dest)) {
+            copy($source, $dest);
+        }
+    }
+
+    protected function loadWordPress()
+    {
         // load the wordpress "stack"
+        $finder = new Finder();
         $finder->files()->in($this->wordpressParams['path'])->depth('== 0')->name('wp-load.php');
 
         foreach ($finder as $bootstrapFile) {
@@ -88,9 +134,9 @@ class WordPressContextInitializer implements ContextInitializer
     }
 
     /**
-     * create a wp-config.php and link plugins / themes
+     * create a wp-config.php
      */
-    public function installFileFixtures()
+    public function overwriteConfig()
     {
         $finder = new Finder();
         $fs = new Filesystem();
@@ -108,17 +154,6 @@ class WordPressContextInitializer implements ContextInitializer
                 ), $file->getContents());
             $fs->dumpFile($file->getPath() . '/wp-config.php', $configContent);
         }
-
-        if (isset($this->wordpressParams['symlink']['from']) && isset($this->wordpressParams['symlink']['to'])) {
-            $from = $this->wordpressParams['symlink']['from'];
-
-            if (substr($from, 0, 1) != '/') {
-                $from = $this->basePath . DIRECTORY_SEPARATOR . $from;
-            }
-            if ($fs->exists($this->wordpressParams['symlink']['from'])) {
-                $fs->symlink($from, $this->wordpressParams['symlink']['to']);
-            }
-        }
     }
 
     /**
@@ -128,14 +163,15 @@ class WordPressContextInitializer implements ContextInitializer
     {
         if ($this->wordpressParams['flush_database']) {
             $connection = $this->wordpressParams['connection'];
+            $database   = $connection['db'];
             $mysqli = new \Mysqli(
                 'localhost',
                 $connection['username'],
                 $connection['password'],
-                $connection['db']
+                $database
             );
 
-            $result = $mysqli->multi_query("DROP DATABASE IF EXISTS ${connection['db']}; CREATE DATABASE ${connection['db']};");
+            $mysqli->multi_query("DROP DATABASE IF EXISTS $database; CREATE DATABASE $database;");
         }
     }
 }

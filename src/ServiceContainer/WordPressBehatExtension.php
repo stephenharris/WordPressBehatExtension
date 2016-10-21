@@ -1,24 +1,24 @@
 <?php
 
-namespace Johnbillion\WordPressExtension\ServiceContainer;
+namespace StephenHarris\WordPressBehatExtension\ServiceContainer;
 
-use Behat\Behat\Context\ServiceContainer\ContextExtension,
-    Behat\Testwork\ServiceContainer\Extension as ExtensionInterface,
-    Behat\Testwork\ServiceContainer\ExtensionManager,
-    Behat\Testwork\EventDispatcher\ServiceContainer\EventDispatcherExtension;
+use Behat\Behat\Context\ServiceContainer\ContextExtension;
+use Behat\Testwork\ServiceContainer\Extension as ExtensionInterface;
+use Behat\Testwork\ServiceContainer\ExtensionManager;
+use Behat\Testwork\EventDispatcher\ServiceContainer\EventDispatcherExtension;
 
-use Symfony\Component\Config\FileLocator,
-    Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition,
-    Symfony\Component\DependencyInjection\ContainerBuilder,
-    Symfony\Component\DependencyInjection\Loader\XmlFileLoader,
-    Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Definition;
 
 /**
- * Class WordPressExtension
+ * Class WordPressBehat
  *
- * @package Johnbillion\WordPressExtension\ServiceContainer
+ * @package StephenHarris\WordPressBehat\ServiceContainer
  */
-class WordPressExtension implements ExtensionInterface
+class WordPressBehatExtension implements ExtensionInterface
 {
 
     /**
@@ -34,6 +34,7 @@ class WordPressExtension implements ExtensionInterface
      */
     public function initialize(ExtensionManager $extensionManager)
     {
+        $extensionManager->activateExtension('SensioLabs\Behat\PageObjectExtension');
     }
 
     /**
@@ -41,7 +42,12 @@ class WordPressExtension implements ExtensionInterface
      */
     public function process(ContainerBuilder $container)
     {
-
+        //TODO This over-rides the config file, what if the end user wanted to add their own namespaces?
+        //How can we place nice?
+        $pages = array( 'StephenHarris\WordPressBehatExtension\Context\Page' );
+        $container->setParameter('sensio_labs.page_object_extension.namespaces.page', $pages);
+        $elements = array( 'StephenHarris\WordPressBehatExtension\Context\Page\Element' );
+        $container->setParameter('sensio_labs.page_object_extension.namespaces.element', $elements);
     }
 
   /**
@@ -81,6 +87,16 @@ class WordPressExtension implements ExtensionInterface
                         ->end()
                     ->end()
                 ->end()
+                ->arrayNode('mail')
+                    ->children()
+                        ->scalarNode('directory')
+                            ->defaultValue(getenv('WORDPRESS_FAKE_MAIL_DIR'))
+                        ->end()
+                        ->scalarNode('divider')
+                            ->defaultValue('%%===================%%')
+                        ->end()
+                    ->end()
+                ->end()
             ->end();
     }
 
@@ -96,15 +112,17 @@ class WordPressExtension implements ExtensionInterface
     /**
      * Register a Context Initializer service for the behat
      *
-     * @param ContainerBuilder $container the service will check for Johnbillion\WordPressExtension\Context\WordPressContext contexts
+     * @param ContainerBuilder $container the service will check for WordPressContext contexts
      */
     private function loadContextInitializer(ContainerBuilder $container)
     {
-        $definition = new Definition('Johnbillion\WordPressExtension\Context\Initializer\WordPressContextInitializer', array(
-            '%wordpress.parameters%',
-            '%mink.parameters%',
-            '%paths.base%',
-        ));
+        $definition = new Definition(
+            'StephenHarris\WordPressBehatExtension\Context\Initializer\WordPressContextInitializer',
+            array(
+                '%wordpress.parameters%',
+                '%mink.parameters%',
+            )
+        );
         $definition->addTag(ContextExtension::INITIALIZER_TAG, array('priority' => 0));
         $container->setDefinition('behat.wordpress.service.wordpress_context_initializer', $definition);
     }
