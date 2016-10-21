@@ -3,6 +3,7 @@
 namespace StephenHarris\WordPressBehatExtension\Context\Page\Element;
 
 use SensioLabs\Behat\PageObjectExtension\PageObject\Element;
+use Behat\Mink\Exception\UnsupportedDriverActionException;
 
 class AdminMenu extends Element
 {
