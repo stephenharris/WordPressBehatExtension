@@ -17,20 +17,16 @@ class WordPressContextInitializer implements ContextInitializer
 {
     private $wordpressParams;
     private $minkParams;
-    private $basePath;
-
     /**
      * inject the wordpress extension parameters and the mink parameters
      *
      * @param array  $wordpressParams
      * @param array  $minkParams
-     * @param string $basePath
      */
-    public function __construct($wordpressParams, $minkParams, $basePath)
+    public function __construct($wordpressParams, $minkParams)
     {
         $this->wordpressParams = $wordpressParams;
         $this->minkParams = $minkParams;
-        $this->basePath = $basePath;
     }
 
     /**

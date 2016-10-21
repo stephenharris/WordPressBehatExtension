@@ -121,7 +121,6 @@ class WordPressBehatExtension implements ExtensionInterface
             array(
                 '%wordpress.parameters%',
                 '%mink.parameters%',
-                '%paths.base%',
             )
         );
         $definition->addTag(ContextExtension::INITIALIZER_TAG, array('priority' => 0));
