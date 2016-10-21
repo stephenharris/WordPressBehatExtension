@@ -1,7 +1,7 @@
 # Change Log
 This project is currently at an alpha stage. It will continue on the `0.*.*` branch until the first stable release.  
 
-## [develop]
+## [0.4.0] - 2016-10-21
 
 ### Breaking changes:
 

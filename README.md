@@ -6,7 +6,7 @@ The Extension allows you to use WordPress functions in your context class if you
 
 It also provides [other contexts](docs/Contexts.md).
 
-**Version:** 0.3.0 . *This project follows [SemVer](http://semver.org/)*.
+**Version:** 0.4.0 . *This project follows [SemVer](http://semver.org/)*.
 
 
 ## History
@@ -161,10 +161,10 @@ A changelog can be found at [CHANGELOG.md](./CHANGELOG.md).
 
 ## How to help
 
-This project needs a lot of love. The contexts could do we some improved structuring and refactoring to keep things DRYer. It also lacks a consistant coding standard. 
+This project needs a lot of love :). You can help by doing any of the following
 
-You can help by
-
- - Opening an issue to request a context
- - Submitting a PR to add a context
- - Just using this extension in your development / testing workflow
+ - Opening an issue to request a context / step definitions
+ - Submitting a PR to add a context / step definition
+ - Submiting a PR to add to or improve the documentation
+ - Opening an issue you have questions or find any bugs
+ - Just using this extension in your development / testing workflow and providing your feedback
