@@ -31,8 +31,8 @@ This repository started off as a fork of:
             }
         ],
         "require-dev" : {
-            "StephenHarris/wordpress-behat-extension": "~0.1",
-            "johnpbloch/wordpress": "~4.5.2"
+            "stephenharris/wordpress-behat-extension": "~0.3",
+            "johnpbloch/wordpress": "~4.6.1"
         }
     }
     ```
@@ -40,7 +40,7 @@ This repository started off as a fork of:
 
 2. Add the following Behat configuration file below. You should need:
 
- - path to your WordPress install (here assumed `vendor/wordpress`, relative to your project's root directory.
+ - The path to your WordPress install (here assumed `vendor/wordpress`, relative to your project's root directory).
  - The database, and database username and password of your WordPress install (here assumed `wordress_test`, `root`, `''`)
  - The URL of your WordPress install (In this example we'll be using php's build in server)
  - A temporary directory to store e-mails that are 'sent'
@@ -127,7 +127,7 @@ The aim of this project is to provide a collection of context classes that allow
 
 ## Health Warning
 
-This is not to be used on a live site. Your WordPress tables **will** be cleared of all data. 
+This is not to be used on a live site. Your database **will** be cleared of all data. 
 
 Currently this extension also over-rides your `wp-config.php` but this implementation may change in the future.
 
