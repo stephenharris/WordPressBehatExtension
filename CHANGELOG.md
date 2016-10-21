@@ -3,7 +3,8 @@ This project is currently at an alpha stage. It will continue on the `0.*.*` bra
 
 ## [develop]
 
-Breaking changes:
+### Breaking changes:
+
 - Moved `StephenHarris\WordPressBehatExtension\Element\WPTableElement` to `StephenHarris\WordPressBehatExtension\Element\WPTable\TableElement`
 - Refactored `StephenHarris\WordPressBehatExtension\Element\WPTable\TableElement` to add row and cell element decorations
 - Extracted `WordPressPostContext` from `WordPressContext` and extracted helper methods into `WordPressPostRawContext` trait
@@ -16,7 +17,8 @@ Breaking changes:
 - Split out log-in related steps into their own context and introduce  `Login` and `Dashboard` page object
 - Split out the `Util\Spin` helper class from `WordPressContext` so that it can be used in other contexts (currently it is only relevant to the new `WordPressLoginContext`
 
-Enhancements:
+### Enhancements:
+
 - Added tests to run on Travis
 - Added mu-plugin to prevent dummy content (except 'Uncategorised' category) from being created when installing WordPress.
 - Improved feedback for log-in errors (i.e. explicitly checks username and password).
@@ -29,8 +31,13 @@ Enhancements:
 - Added `When I perform the bulk action :action` step
 - Added `When I hover over the row for the :postTitle post` step
 - Added `StephenHarris\WordPressBehatExtension\Context\Page\Element\AdminMenu` page object element
+- Added step `Then I should see the error message :text`
+- Added step `Then I should see the warning message :text`
+- Added step `Then I should see the info message :text`
+- Added step `Then I should see the success message :text`
 
-Bugfixes:
+### Bugfixes:
+
 - Bugfix: Fixed decorations (methods require explicit overriding)
 - Fixed bugs with refreshing and clearing inbox
 - Introduced a temporary fix for the admin bar issue (altering its z-index so that it doesn't interfer with interacting with elements 'underneath' it). See [#1](https://github.com/stephenharris/WordPressBehatExtension/issues/1)

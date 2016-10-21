@@ -33,7 +33,8 @@
     "symfony/filesystem": "~2.3",
     "symfony/finder": "~2.3",
     "phpunit/phpunit": ">=4.8.0",
-    "sensiolabs/behat-page-object-extension": "^2.0"
+    "sensiolabs/behat-page-object-extension": "^2.0",
+    "myclabs/php-enum": "^1.5"
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "2.*",

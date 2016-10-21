@@ -42,6 +42,39 @@ class WordPressAdminContext extends RawMinkContext implements Context
     }
 
     /**
+     * @Then I should see the success message :text
+     */
+    public function iShouldSeeSuccessMessageWithText($text)
+    {
+        $this->adminPage->assertContainsSuccessNotice($text);
+    }
+
+    /**
+     * @Then I should see the error message :text
+     */
+    public function iShouldSeeErrorMessageWithText($text)
+    {
+        $this->adminPage->assertContainsErrorNotice($text);
+    }
+
+    /**
+     * @Then I should see the warning message :text
+     */
+    public function iShouldSeeWarningMessageWithText($text)
+    {
+        $this->adminPage->assertContainsWarningNotice($text);
+    }
+
+    /**
+     * @Then I should see the info message :text
+     */
+    public function iShouldSeeInfoMessageWithText($text)
+    {
+        $this->adminPage->assertContainsInfoNotice($text);
+    }
+
+
+    /**
      * @Then the admin menu should appear as
      */
     public function theAdminMenuShouldAppearAs(TableNode $table)

@@ -3,9 +3,29 @@
 namespace StephenHarris\WordPressBehatExtension\Context\Page;
 
 use SensioLabs\Behat\PageObjectExtension\PageObject\Page;
+use SensioLabs\Behat\PageObjectExtension\PageObject\Factory;
+
+use StephenHarris\WordPressBehatExtension\Context\Page\Element\Notice;
+use StephenHarris\WordPressBehatExtension\Context\Page\Element\NoticeType;
+
+use Behat\Mink\Element\NodeElement;
+use Behat\Mink\Session;
 
 class AdminPage extends Page
 {
+
+    private $session;
+
+    /**
+     * A bit of a hack, we require the Session to create instances of Notice, so we store it here
+     * @param NodeElement $node
+     * @param Session $session
+     */
+    public function __construct(Session $session, Factory $factory, array $parameters = array())
+    {
+        parent::__construct($session, $factory, $parameters);
+        $this->session = $session;
+    }
 
     public function getHeaderText()
     {
@@ -54,6 +74,58 @@ class AdminPage extends Page
     public function getMenu()
     {
         return $this->getElement('Admin menu');
+    }
+
+
+    public function assertContainsErrorNotice($errorMessage)
+    {
+        $this->assertContainsNotice($errorMessage, new NoticeType(NoticeType::ERROR));
+    }
+
+    public function assertContainsWarningNotice($warningmMessage)
+    {
+        $this->assertContainsNotice($warningmMessage, new NoticeType(NoticeType::WARNING));
+    }
+
+    public function assertContainsInfoNotice($infoMessage)
+    {
+        $this->assertContainsNotice($infoMessage, new NoticeType(NoticeType::INFO));
+    }
+
+    public function assertContainsSuccessNotice($successMessage)
+    {
+        $this->assertContainsNotice($successMessage, new NoticeType(NoticeType::SUCCESS));
+    }
+
+    protected function assertContainsNotice($noticeMessage, NoticeType $type)
+    {
+
+        $notices = $this->getNotices($type);
+
+        if (!$notices) {
+            throw new \Exception(sprintf('No %s notices found', $type->label()));
+        }
+
+        foreach ($notices as $notice) {
+            try {
+                $notice->assertHasText($noticeMessage);
+                return true;
+            } catch (\Exception $e) {
+                /* do nothing */
+            }
+        }
+
+        throw new \Exception(sprintf('No %s notice with text "%s" found', $type->label(), $noticeMessage));
+    }
+
+    public function getNotices(NoticeType $type)
+    {
+        $notices = array();
+        $noticeNodes = $this->findAll('css', $type->cssSelector());
+        foreach ($noticeNodes as $node) {
+            $notices[] = new Notice($node, $this->session);
+        }
+        return $notices;
     }
 
 
