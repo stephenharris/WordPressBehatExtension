@@ -14,9 +14,11 @@ trait WordPressPostTrait
 
     public function insert($postData)
     {
-        if (!is_int(wp_insert_post($postData))) {
-            throw new \InvalidArgumentException("Invalid post information schema.");
+        $post_id = wp_insert_post($postData,true);
+        if (!is_int($post_id)) {
+            throw new \InvalidArgumentException("Invalid post information schema: " . $post_id->get_error_message());
         }
+        return $post_id;
     }
 
     public function getPostByName($title, $postType = null)
