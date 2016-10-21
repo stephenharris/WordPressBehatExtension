@@ -6,7 +6,7 @@ The Extension allows you to use WordPress functions in your context class if you
 
 It also provides [other contexts](docs/Contexts.md).
 
-**Version:** 0.3.0  
+**Version:** 0.3.0 . *This project follows [SemVer](http://semver.org/)*.
 
 
 ## History
@@ -124,6 +124,9 @@ This repository started off as a fork of:
 
 The aim of this project is to provide a collection of context classes that allow for easy testing of WordPress' core functionality. Those contexts can then be built upon to test your site/plugin/theme-specific functionality. 
 
+## License
+
+WordPressBehatExtension is open source and released under MIT license. See [LICENSE](LICENSE) file for more info.
 
 ## Health Warning
 
