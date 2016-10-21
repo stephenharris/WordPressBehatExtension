@@ -8,7 +8,7 @@ use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\MinkExtension\Context\RawMinkContext;
 
 /**
- * Features context.
+ * Contains steps relating to e-mails sent by WordPress
  */
 class WordPressMailContext extends RawMinkContext implements
     Context,

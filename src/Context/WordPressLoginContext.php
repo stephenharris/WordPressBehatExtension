@@ -13,7 +13,7 @@ use Behat\MinkExtension\Context\RawMinkContext;
 use \StephenHarris\WordPressBehatExtension\Context\Page\Login;
 
 /**
- * WordPress Post List context
+ * Steps relating to the log-in page.
  */
 class WordPressLoginContext extends RawMinkContext implements Context, SnippetAcceptingContext
 {

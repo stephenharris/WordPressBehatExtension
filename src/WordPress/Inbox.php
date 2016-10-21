@@ -4,6 +4,11 @@ namespace StephenHarris\WordPressBehatExtension\WordPress;
 /**
  * An inbox is a collection of e-mails sent to a given e-mail
  *
+ * The emails themselves live in JSON files stored in the directory passed
+ * to the Inbox's constructor.
+ *
+ * You should not instantiate an Inbox directly, but use InboxFactory
+ *
  * @package StephenHarris\WordPressBehatExtension\WordPress
  */
 class Inbox
@@ -23,6 +28,10 @@ class Inbox
 
     /**
      * Will set up an inbox with all recorded emails sent to $emailAddress
+     *
+     * You should not instantiate an Inbox directly, but use InboxFactory
+     *
+     * @private
      * @param string $emailAddress The e-mail address of the recipient.
      * @param string $dir The location to store the e-mails at
      */

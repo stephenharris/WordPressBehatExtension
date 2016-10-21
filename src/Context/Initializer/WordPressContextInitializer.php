@@ -13,11 +13,6 @@ use Symfony\Component\Filesystem\Filesystem;
 
 use StephenHarris\WordPressBehatExtension\Context\WordPressContext;
 
-/**
- * Class FeatureListener
- *
- * @package StephenHarris\WordPressBehatExtension\Listener
- */
 class WordPressContextInitializer implements ContextInitializer
 {
     private $wordpressParams;

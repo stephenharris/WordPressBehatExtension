@@ -1,6 +1,13 @@
 <?php
 namespace StephenHarris\WordPressBehatExtension;
 
+/**
+ * A trait which extracts 'top level' text from HTML.
+ *
+ * All HTML tags, and their contents are removed.
+ *
+ * e.g. Some <span>HTML and</span>text  -->  Some text
+ */
 trait StripHtml
 {
 

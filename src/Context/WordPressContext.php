@@ -5,11 +5,6 @@ use Behat\Gherkin\Node\TableNode;
 use Behat\MinkExtension\Context\MinkContext;
 use StephenHarris\WordPressBehatExtension\WordPress\InboxFactory;
 
-/**
- * Class WordPressContext
- *
- * @package StephenHarris\WordPressBehatExtension\Context
- */
 class WordPressContext extends MinkContext implements WordPressInboxFactoryAwareContext
 {
     protected $inboxFactory;

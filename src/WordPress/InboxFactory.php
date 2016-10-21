@@ -2,7 +2,7 @@
 namespace StephenHarris\WordPressBehatExtension\WordPress;
 
 /**
- * An inbox is a collection of e-mails sent to a given e-mail
+ * Used to instantiates an inbox for a given e-mail address
  *
  * @package StephenHarris\WordPressBehatExtension\WordPress
  */
@@ -10,7 +10,10 @@ class InboxFactory
 {
 
     private $inboxes = array();
-    
+
+    /**
+     * @param $dir The directory where e-mails will be stored. This is passed to each Inbox created by this factory.
+     */
     public function __construct($dir)
     {
         $this->dir = $dir;
