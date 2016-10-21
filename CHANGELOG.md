@@ -16,6 +16,8 @@ This project is currently at an alpha stage. It will continue on the `0.*.*` bra
 - The `Given there are posts` step expects the `post_author` column to the be username of the user, not the ID.
 - Split out log-in related steps into their own context and introduce  `Login` and `Dashboard` page object
 - Split out the `Util\Spin` helper class from `WordPressContext` so that it can be used in other contexts (currently it is only relevant to the new `WordPressLoginContext`
+- Renamed step `When I go to the edit screen for :title` to `Given I am on the edit screen fir :title`
+- Renamed step `When I go to the edit :post_type screen for :title` to `Given I am on the edit :post_type screen for :title`
 
 ### Enhancements:
 

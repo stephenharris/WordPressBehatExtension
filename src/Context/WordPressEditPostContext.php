@@ -15,7 +15,7 @@ class WordPressEditPostContext implements Context
     }
 
     /**
-     * @When /^I go to edit "([a-zA-z_-]+)" screen for "([^"]*)"$/
+     * @Given /^I am on the edit "([a-zA-z_-]+)" screen for "([^"]*)"$/
      */
     public function iGoToEditScreenForPostType($postType, $title)
     {
@@ -26,7 +26,7 @@ class WordPressEditPostContext implements Context
     }
 
     /**
-     * @When /^I go to the edit screen for "(?P<title>[^"]*)"$/
+     * @Given /^I am on the edit screen for "(?P<title>[^"]*)"$/
      */
     public function iGoToEditScreenFor($title)
     {
@@ -34,6 +34,23 @@ class WordPressEditPostContext implements Context
         $this->editPostPage->open(array(
             'id' => $post->ID,
         ));
+    }
+
+    /**
+     * @When /^I change the title to "(?P<title>[^"]*)"$/
+     */
+    public function iChangeTitleTo($title)
+    {
+        $this->editPostPage->fillField('title', $title);
+    }
+
+    /**
+     * @When /^I press the (publish|update) button$/
+     */
+    public function iPressThePublishButton()
+    {
+        //TODO wait if the button is disabled during auto-save
+        $this->editPostPage->pressButton('publish');
     }
 
     /**
