@@ -30,9 +30,10 @@ These contexts deal with navigating around the WordPress admin and interacting w
 These contexts contain steps which deal with posts, terms and users etc in the abstract. Steps are typically `@Given` steps, to
 create the entities, and `@Then` steps, asserting their existence or properties.
 
-| Context                        | description                             |
-|--------------------------------|-----------------------------------------|
-| PostTypes\WordPressPostContext | Steps relating to posts in the database |
-| Terms\WordPressTermContext     | Steps relating to terms in the database |
-| Users\WordPressTermContext     | Steps relating to terms in the database |
-|
+| Context                        | description                                       |
+|--------------------------------|---------------------------------------------------|
+| PostTypes\WordPressPostContext | Steps relating to posts in the database           |
+| Terms\WordPressTermContext     | Steps relating to terms in the database           |
+| Users\WordPressTermContext     | Steps relating to terms in the database           |
+| Plugins\WordPressPluginContext | Steps relating to activating/deactivating plugins |
+| Options\WordPressOptionContext | Steps relating to configuring settings            |

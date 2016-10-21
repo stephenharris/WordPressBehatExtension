@@ -56,7 +56,9 @@ This repository started off as a fork of:
         default:
           contexts:
             - FeatureContext
-            - StephenHarris\WordPressBehatExtension\Context\WordPressContext
+            - \StephenHarris\WordPressBehatExtension\Context\WordPressContext
+            - \StephenHarris\WordPressBehatExtension\Context\Plugins\WordPressPluginContext
+            # and any other contexts you need, please see the documentation
       extensions:
         StephenHarris\WordPressBehatExtension:
           path: '%paths.base%/vendor/wordpress'
@@ -72,7 +74,7 @@ This repository started off as a fork of:
           selenium2: ~
     ```
     
-    *Note the `StephenHarris\WordPressBehatExtension\Context\WordPressContext` context included. This will cause WordPress to be loaded, and all its functions available in your context classes.*
+    *Note the `StephenHarris\WordPressBehatExtension\Context\WordPressContext` context included. This will cause WordPress to be loaded, and all its functions available in your context classes.*. You can also include [other contexts](docs/Contexts.md).
     
     
 3. Install the vendors and initialize behat test suites

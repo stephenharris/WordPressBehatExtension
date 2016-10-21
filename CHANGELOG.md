@@ -10,8 +10,8 @@ This project is currently at an alpha stage. It will continue on the `0.*.*` bra
 - Extracted `WordPressPostContext` from `WordPressContext` and extracted helper methods into `WordPressPostRawContext` trait
 - Extracted `WordPressTermContext` from `WordPressContext` and extracted helper methods into `WordPressTermTrait` trait
 - Extracted `WordPressUserContext` from `WordPressContext` and extracted helper methods into `WordPressUserTrait` trait
-- Extracted `Plugins\WordPressPluginsContext` from `WordPressContext`
-- Extracted `Options\WordPressOptionsContext` from `WordPressContext`
+- Extracted `Plugins\WordPressPluginContext` from `WordPressContext`
+- Extracted `Options\WordPressOptionContext` from `WordPressContext`
 - Extracted `WordPressUserContext` from `WordPressContext` and extracted helper methods into `WordPressUserTrait` trait
 - Extracted `WordPressEditPostContext` from `WordPressAdminContext`
 - Extracted a `AdminPage` page object from `WordPressAdminContext` (see http://behat-page-object-extension.readthedocs.io/en/latest/index.html)

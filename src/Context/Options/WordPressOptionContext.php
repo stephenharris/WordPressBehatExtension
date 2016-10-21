@@ -1,7 +1,9 @@
 <?php
-namespace StephenHarris\WordPressBehatExtension\Context;
+namespace StephenHarris\WordPressBehatExtension\Context\Options;
 
-class WordPressOptionsContext implements Context
+use Behat\Behat\Context\Context;
+
+class WordPressOptionContext implements Context
 {
 
     /**

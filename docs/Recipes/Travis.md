@@ -27,6 +27,50 @@ We shall using [Composer](https://getcomposer.org/) AND [WP-Cli](http://wp-cli.o
    }
    ```
 
+1. Define your `Behat.yml` as follows:
+
+   ```
+default:
+  suites:
+    default:
+      contexts:
+        - FeatureContext:
+        - \StephenHarris\WordPressBehatExtension\Context\WordPressContext
+        - \StephenHarris\WordPressBehatExtension\Context\WordPressLoginContext
+        - \StephenHarris\WordPressBehatExtension\Context\PostTypes\WordPressPostContext
+        - \StephenHarris\WordPressBehatExtension\Context\Terms\WordPressTermContext
+        - \StephenHarris\WordPressBehatExtension\Context\Users\WordPressUserContext
+        - \StephenHarris\WordPressBehatExtension\Context\Options\WordPressOptionContext
+        - \StephenHarris\WordPressBehatExtension\Context\Plugins\WordPressPluginContext
+        - \StephenHarris\WordPressBehatExtension\Context\WordPressAdminContext
+        - \StephenHarris\WordPressBehatExtension\Context\WordPressEditPostContext
+        - \StephenHarris\WordPressBehatExtension\Context\WordPressPostListContext
+        - \StephenHarris\WordPressBehatExtension\Context\WordPressMailContext
+
+  extensions:
+        StephenHarris\WordPressBehatExtension:
+          path: '/tmp/wordpress'
+          connection:
+            db: 'wordpress'
+            username: 'root'
+            password: ''
+          mail:
+            directory: '/tmp/mail'
+        Behat\MinkExtension:
+            base_url: 'http://localhost:8000'
+            files_path: '%paths.base%/features/files/'
+            goutte:
+              guzzle_parameters:
+                             curl.options:
+                                CURLOPT_SSL_VERIFYPEER: false
+                                CURLOPT_CERTINFO: false
+                                CURLOPT_TIMEOUT: 120
+                             ssl.certificate_authority: false
+            selenium2: ~
+
+   ```
+
+
 1. Create a directory `ci` in the root of your project and add an (executable) file `ci/install-wordpress.sh`
 
    This downloads and installs WordPress, and creates a `wp-config.php` file. It leverages `wp-cli` to do this, but this can be done without `wp-cli`.

@@ -10,8 +10,8 @@ default:
         - \StephenHarris\WordPressBehatExtension\Context\PostTypes\WordPressPostContext
         - \StephenHarris\WordPressBehatExtension\Context\Terms\WordPressTermContext
         - \StephenHarris\WordPressBehatExtension\Context\Users\WordPressUserContext
-        - \StephenHarris\WordPressBehatExtension\Context\Options\WordPressOptionsContext
-        - \StephenHarris\WordPressBehatExtension\Context\Plugins\WordPressPluginsContext
+        - \StephenHarris\WordPressBehatExtension\Context\Options\WordPressOptionContext
+        - \StephenHarris\WordPressBehatExtension\Context\Plugins\WordPressPluginContext
         - \StephenHarris\WordPressBehatExtension\Context\WordPressAdminContext
         - \StephenHarris\WordPressBehatExtension\Context\WordPressEditPostContext
         - \StephenHarris\WordPressBehatExtension\Context\WordPressPostListContext

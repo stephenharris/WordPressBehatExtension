@@ -1,9 +1,10 @@
 <?php
-namespace StephenHarris\WordPressBehatExtension\Context;
+namespace StephenHarris\WordPressBehatExtension\Context\Plugins;
 
+use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
 
-class WordPressPluginsContext implements Context
+class WordPressPluginContext implements Context
 {
 
     /**
