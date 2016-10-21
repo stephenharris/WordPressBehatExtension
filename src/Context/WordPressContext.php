@@ -53,30 +53,4 @@ class WordPressContext extends MinkContext implements WordPressInboxFactoryAware
         $wp_rewrite->init();
         $wp_rewrite->set_permalink_structure('/%year%/%monthnum%/%day%/%postname%/');
     }
-
-    /**
-     * Activate/Deactivate plugins
-     * | plugin          | status  |
-     * | plugin/name.php | enabled |
-     *
-     * @Given /^there are plugins$/
-     */
-    public function thereArePlugins(TableNode $table)
-    {
-        foreach ($table->getHash() as $row) {
-            if ($row["status"] == "enabled") {
-                activate_plugin($row["plugin"]);
-            } else {
-                deactivate_plugins($row["plugin"]);
-            }
-        }
-    }
-
-    /**
-     * @Given I set :option option to :value
-     */
-    public function iSetOptionTo($option, $value)
-    {
-        update_option($option, $value);
-    }
 }
