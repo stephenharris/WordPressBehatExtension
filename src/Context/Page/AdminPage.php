@@ -31,6 +31,8 @@ class AdminPage extends Page
 
     private function getHeaderElement()
     {
+        //h2s were used prior to 4.3/4 and h1s after
+        //@see https://make.wordpress.org/core/2015/10/28/headings-hierarchy-changes-in-the-admin-screens/
         $header2     = $this->find('css', '.wrap > h2');
         $header1     = $this->find('css', '.wrap > h1');
 
