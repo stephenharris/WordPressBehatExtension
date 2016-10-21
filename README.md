@@ -20,6 +20,8 @@ This repository started off as a fork of:
 
 ## Installation
 
+*(For 'quick start' guides, please see the [Recipes](docs/Recipes.md)).*
+
 1. Add a composer development requirement for your WordPress theme or plugin:
 
     ```json
@@ -32,13 +34,15 @@ This repository started off as a fork of:
         ],
         "require-dev" : {
             "stephenharris/wordpress-behat-extension": "~0.3",
+            "behat/mink-goutte-driver": "~1.1",
+            "behat/mink-selenium2-driver": "~1.3.1",
             "johnpbloch/wordpress": "~4.6.1"
         }
     }
     ```
-    You don't *have* to install WordPress via composer. But you shall need a path to a WordPress install below.
+    You don't *have* to install WordPress via composer. But you shall need a path to a WordPress install below. Additionally you don't *have* to use the Goutte and Selenium2 drivers, but these are the most common.
 
-2. Add the following Behat configuration file below. You should need:
+2. Add the following Behat configuration file below. You will need:
 
  - The path to your WordPress install (here assumed `vendor/wordpress`, relative to your project's root directory).
  - The database, and database username and password of your WordPress install (here assumed `wordress_test`, `root`, `''`)
@@ -52,7 +56,7 @@ This repository started off as a fork of:
         default:
           contexts:
             - FeatureContext
-            - WordPressContext
+            - StephenHarris\WordPressBehatExtension\Context\WordPressContext
       extensions:
         StephenHarris\WordPressBehatExtension:
           path: '%paths.base%/vendor/wordpress'
@@ -68,6 +72,9 @@ This repository started off as a fork of:
           selenium2: ~
     ```
     
+    *Note the `StephenHarris\WordPressBehatExtension\Context\WordPressContext` context included. This will cause WordPress to be loaded, and all its functions available in your context classes.*
+    
+    
 3. Install the vendors and initialize behat test suites
 
     ```bash
@@ -77,7 +84,7 @@ This repository started off as a fork of:
     vendor/bin/behat --init
     ```
 
-4. Write some Behat features and test them
+4. Write some Behat features in your project's `features` directory and define any steps. The `WordPressContext` context will make all WordPress functions available in your context classes (but there is a better way).
 
     ```
     Feature: Manage plugins
@@ -119,6 +126,10 @@ This repository started off as a fork of:
     ```bash
     vendor/bin/behat
     ```
+
+## Documentation
+
+Please see the [Docs](docs/Contents.md).
 
 ## Aim
 

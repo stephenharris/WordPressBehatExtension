@@ -27,7 +27,7 @@ These contexts deal with navigating around the WordPress admin and interacting w
 
 ## "Entity" Contexts
 
-These contexts deal with steps which posts, terms and users etc in the abstract. Steps are typically `@Given` steps, to
+These contexts contain steps which deal with posts, terms and users etc in the abstract. Steps are typically `@Given` steps, to
 create the entities, and `@Then` steps, asserting their existence or properties.
 
 | Context                        | description                             |

@@ -6,7 +6,7 @@ start guides on getting these tests set up in your development envrironment or C
 
 The general rule is:
 
- - List Behat, Mink, and your choice of driver(s) (recommended: Goutte and Selenium) as dependencies of your project
+ - List Behat, Mink, and your choice of driver(s) (recommended: Goutte and Selenium) as (composer) dependencies of your project
  - Install and set-up a WordPress instance (including database)
  - Install your project, (and the above dependencies) alongside your WordPress instance
  - Configure your Behat.yml with the database credentials and site URL
