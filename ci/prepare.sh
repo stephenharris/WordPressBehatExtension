@@ -18,17 +18,18 @@ WP_VERSION=${5-latest}
 
 WORDPRESS_SITE_DIR=${WORDPRESS_SITE_DIR-/tmp/wordpress}
 
-# Install database for WordPress
-mysql --user="$DB_USER" --password="$DB_PASS" $EXTRA -e "DROP DATABASE IF EXISTS $DB_NAME";
-mysqladmin --no-defaults create $DB_NAME --user="$DB_USER" --password="$DB_PASS"$EXTRA;
+# Create WordPress root directory
+mkdir -p $WORDPRESS_SITE_DIR
 
 # Download WordPress
-mkdir -p $WORDPRESS_SITE_DIR
-vendor/bin/wp core download --force --version=$WP_VERSION --path=$WORDPRESS_SITE_DIR
+vendor/bin/wp core download --force --version=$WP_VERSION --path=$WORDPRESS_SITE_DIR --allow-root
 
 # Create configs
 rm -f ${WORDPRESS_SITE_DIR}wp-config.php
-vendor/bin/wp core config --path=$WORDPRESS_SITE_DIR --dbname=$DB_NAME --dbuser=$DB_USER --dbpass=$DB_PASS --dbhost=$DB_HOST
+vendor/bin/wp core config --path=$WORDPRESS_SITE_DIR --dbname=$DB_NAME --dbuser=$DB_USER --dbpass=$DB_PASS --dbhost=$DB_HOST --allow-root
+
+# Create Database
+vendor/bin/wp db create --path=$WORDPRESS_SITE_DIR --allow-root
 
 # We only run the install command so that we can run further wp-cli commands
-vendor/bin/wp core install --path=$WORDPRESS_SITE_DIR --url="wp.dev" --title="wp.dev" --admin_user="admin" --admin_password="password" --admin_email="admin@wp.dev"
+vendor/bin/wp core install --path=$WORDPRESS_SITE_DIR --url="wp.dev" --title="wp.dev" --admin_user="admin" --admin_password="password" --admin_email="admin@wp.dev" --allow-root
