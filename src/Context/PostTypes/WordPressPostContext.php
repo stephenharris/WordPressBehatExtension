@@ -12,6 +12,7 @@ use Behat\Gherkin\Node\TableNode;
 class WordPressPostContext implements Context
 {
     use \StephenHarris\WordPressBehatExtension\Context\PostTypes\WordPressPostTrait;
+    use \StephenHarris\WordPressBehatExtension\Context\PostTypes\WordPressPostMetaTrait;
 
     /**
      * Add these posts to this wordpress installation
@@ -66,6 +67,25 @@ class WordPressPostContext implements Context
 
         $this->assignPostTypeTerms($post, $taxonomy, $term_ids);
     }
+
+    /**
+     * Add these posts to this wordpress installation
+     * Example: Given the post "My post" has meta data
+     *              | key   | value |
+     *              | hello | world |
+     *              | foo   | bar   |
+     *              | foo   | baz   |
+     *
+     *
+     * @Given /^the ([a-zA-z_-]+) "([^"]*)" has meta data$/i
+     */
+    public function thePostTypeHasMetaData($postType, $title, TableNode $table)
+    {
+        $post = $this->getPostByName($title, $postType);
+        foreach ($table->getHash() as $metaData) {
+            $this->addMetaKeyValue($post, $metaData['key'], $metaData['value']);
+        }
+    }
     
     
     /**
@@ -86,5 +106,14 @@ class WordPressPostContext implements Context
     {
         $post = $this->getPostByName($title, $postType);
         $this->assertPostTypeStatus($post, $status);
+    }
+    /**
+     * Example: Then the post "My post title" should have the value "%s" for the key "%s"
+     * @Then /^the ([a-z0-9_\-]*) "([^"]*)" should have the value "([^"]*)" for the key "([^"]*)"$/
+     */
+    public function thePostTypeShouldHaveMetaKeyValue($postType, $title, $value, $key)
+    {
+        $post = $this->getPostByName($title, $postType);
+        $this->assertMetaKeyValue($post, $key, $value);
     }
 }
