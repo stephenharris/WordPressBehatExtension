@@ -17,11 +17,99 @@ class WordPressPluginContext implements Context
     public function thereArePlugins(TableNode $table)
     {
         foreach ($table->getHash() as $row) {
+            $plugin = $row["plugin"];
             if ($row["status"] == "enabled") {
-                activate_plugin($row["plugin"]);
+                $this->iActivateThePlugin($plugin);
+                $this->thePluginIsActivated($plugin);
             } else {
-                deactivate_plugins($row["plugin"]);
+                $this->iDeactivateThePlugin($row["plugin"]);
+                $this->thePluginIsDeactivated($plugin);
             }
         }
+    }
+    
+    /**
+     * Example:
+     * The plugin "my-plugin/my-plugin.php" is uninstallable
+     *
+     * @And The plugin :plugin is uninstallable
+     */
+    public function thePluginIsUninstallable($plugin)
+    {
+        if(!is_uninstallable_plugin($plugin)){
+            throw new \Exception(sprintf('The plugin "%s" is not uninstallable', $plugin));   
+        }
+    }
+    
+    /**
+     * Example:
+     * The plugin "my-plugin/my-plugin.php" is not uninstallable
+     *
+     * @And The plugin :plugin is not uninstallable
+     */
+    public function thePluginIsNotUninstallable($plugin)
+    {
+        if(!is_uninstallable_plugin($plugin)){
+            throw new \Exception(sprintf('The plugin "%s" is uninstallable', $plugin));   
+        }
+    }
+    
+     /**
+	 * Example:
+	 * I uninstall the plugin "my-plugin/my-plugin.php"
+	 *
+	 * @And I uninstall the plugin :plugin
+	 */
+    public function iUninstallThePlugin($plugin)
+    {
+        $this->thePluginIsUninstallable($plugin);
+        uninstall_plugin($plugin);
+    }
+    
+    /**
+	 * Example:
+	 * I activate the plugin "my-plugin/my-plugin.php"
+	 *
+	 * @And I activate the plugin :plugin
+	 */
+    public function iActivateThePlugin($plugin)
+    {
+        activate_plugin($plugin);
+    }
+    
+     /**
+     * Example:
+     * The plugin "my-plugin/plugin" is activated
+     *
+     * @And The plugin :plugin is activated
+     */
+    public function thePluginIsActivated($plugin)
+    {
+        if(!is_plugin_active($plugin)){
+            throw new \Exception(sprintf('The plugin "%s" is not activated.', $plugin));  
+        }   
+    }
+
+    /**
+	 * Example:
+	 * I deactivate the plugin "my-plugin/my-plugin.php"
+	 *
+	 * @And I deactivate the plugin :plugin
+	 */
+    public function iDeactivateThePlugin($plugin)
+    {
+        deactivate_plugins($plugin);
+    }
+
+    /**
+     * Example:
+     * The plugin "my-plugin/plugin" is deactivated
+     *
+     * @And The plugin :plugin is deactivated
+     */
+    public function thePluginIsDeactivated($plugin){
+        if(is_plugin_active($plugin)){
+            throw new \Exception(sprintf('The plugin "%s" is not deactivated.', $plugin));  
+        }   
     }
 }
