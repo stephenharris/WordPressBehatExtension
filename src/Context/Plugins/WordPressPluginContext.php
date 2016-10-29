@@ -27,7 +27,7 @@ class WordPressPluginContext implements Context
             }
         }
     }
-    
+
     /**
      * Example:
      * The plugin "my-plugin/my-plugin.php" is uninstallable
@@ -36,11 +36,11 @@ class WordPressPluginContext implements Context
      */
     public function thePluginIsUninstallable($plugin)
     {
-        if(!is_uninstallable_plugin($plugin)){
-            throw new \Exception(sprintf('The plugin "%s" is not uninstallable', $plugin));   
+        if (!is_uninstallable_plugin($plugin)) {
+            throw new \Exception(sprintf('The plugin "%s" is not uninstallable', $plugin));
         }
     }
-    
+
     /**
      * Example:
      * The plugin "my-plugin/my-plugin.php" is not uninstallable
@@ -49,35 +49,35 @@ class WordPressPluginContext implements Context
      */
     public function thePluginIsNotUninstallable($plugin)
     {
-        if(!is_uninstallable_plugin($plugin)){
-            throw new \Exception(sprintf('The plugin "%s" is uninstallable', $plugin));   
+        if (!is_uninstallable_plugin($plugin)) {
+            throw new \Exception(sprintf('The plugin "%s" is uninstallable', $plugin));
         }
     }
-    
-     /**
-	 * Example:
-	 * I uninstall the plugin "my-plugin/my-plugin.php"
-	 *
-	 * @And I uninstall the plugin :plugin
-	 */
+
+    /**
+     * Example:
+     * I uninstall the plugin "my-plugin/my-plugin.php"
+     *
+     * @And I uninstall the plugin :plugin
+     */
     public function iUninstallThePlugin($plugin)
     {
         $this->thePluginIsUninstallable($plugin);
         uninstall_plugin($plugin);
     }
-    
+
     /**
-	 * Example:
-	 * I activate the plugin "my-plugin/my-plugin.php"
-	 *
-	 * @And I activate the plugin :plugin
-	 */
+     * Example:
+     * I activate the plugin "my-plugin/my-plugin.php"
+     *
+     * @And I activate the plugin :plugin
+     */
     public function iActivateThePlugin($plugin)
     {
         activate_plugin($plugin);
     }
-    
-     /**
+
+    /**
      * Example:
      * The plugin "my-plugin/plugin" is activated
      *
@@ -85,17 +85,17 @@ class WordPressPluginContext implements Context
      */
     public function thePluginIsActivated($plugin)
     {
-        if(!is_plugin_active($plugin)){
-            throw new \Exception(sprintf('The plugin "%s" is not activated.', $plugin));  
-        }   
+        if (!is_plugin_active($plugin)) {
+            throw new \Exception(sprintf('The plugin "%s" is not activated.', $plugin));
+        }
     }
 
     /**
-	 * Example:
-	 * I deactivate the plugin "my-plugin/my-plugin.php"
-	 *
-	 * @And I deactivate the plugin :plugin
-	 */
+     * Example:
+     * I deactivate the plugin "my-plugin/my-plugin.php"
+     *
+     * @And I deactivate the plugin :plugin
+     */
     public function iDeactivateThePlugin($plugin)
     {
         deactivate_plugins($plugin);
@@ -107,9 +107,10 @@ class WordPressPluginContext implements Context
      *
      * @And The plugin :plugin is deactivated
      */
-    public function thePluginIsDeactivated($plugin){
-        if(is_plugin_active($plugin)){
-            throw new \Exception(sprintf('The plugin "%s" is not deactivated.', $plugin));  
-        }   
+    public function thePluginIsDeactivated($plugin)
+    {
+        if (is_plugin_active($plugin)) {
+            throw new \Exception(sprintf('The plugin "%s" is not deactivated.', $plugin));
+        }
     }
 }
