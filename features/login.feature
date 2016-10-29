@@ -5,8 +5,6 @@ Feature: Login
 
     Background:
         Given I have a vanilla wordpress installation
-            | name          | email             | username | password |
-            | BDD WordPress | admin@example.com | admin    | password |
 
     Scenario: A valid user access to the platform
         When I am on the log-in page

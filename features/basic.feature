@@ -5,8 +5,6 @@ Feature: Accessing WordPress site
 
   Background:
     Given I have a vanilla wordpress installation
-      | name              | email                   | username | password        |
-      | WordPress Testing | testing@example.invalid | admin    | initialpassword |
 
   @javascript @insulated
   Scenario: Visiting the homepage

@@ -5,8 +5,6 @@ Feature: Managing users
 
   Background:
     Given I have a vanilla wordpress installation
-      | name              | email                   | username | password |
-      | WordPress Testing | testing@example.invalid | admin    | password |
     And I am logged in as "admin" with password "password"
 
   @javascript
