@@ -32,7 +32,7 @@ class WordPressPluginContext implements Context
      * Example:
      * The plugin "my-plugin/my-plugin.php" is uninstallable
      *
-     * @And The plugin :plugin is uninstallable
+     * @Given The plugin :plugin is uninstallable
      */
     public function thePluginIsUninstallable($plugin)
     {
@@ -45,7 +45,7 @@ class WordPressPluginContext implements Context
      * Example:
      * The plugin "my-plugin/my-plugin.php" is not uninstallable
      *
-     * @And The plugin :plugin is not uninstallable
+     * @Given The plugin :plugin is not uninstallable
      */
     public function thePluginIsNotUninstallable($plugin)
     {
@@ -58,7 +58,7 @@ class WordPressPluginContext implements Context
      * Example:
      * I uninstall the plugin "my-plugin/my-plugin.php"
      *
-     * @And I uninstall the plugin :plugin
+     * @Given I uninstall the plugin :plugin
      */
     public function iUninstallThePlugin($plugin)
     {
@@ -70,7 +70,7 @@ class WordPressPluginContext implements Context
      * Example:
      * I activate the plugin "my-plugin/my-plugin.php"
      *
-     * @And I activate the plugin :plugin
+     * @Given I activate the plugin :plugin
      */
     public function iActivateThePlugin($plugin)
     {
@@ -81,7 +81,7 @@ class WordPressPluginContext implements Context
      * Example:
      * The plugin "my-plugin/plugin" is activated
      *
-     * @And The plugin :plugin is activated
+     * @Given The plugin :plugin is activated
      */
     public function thePluginIsActivated($plugin)
     {
@@ -94,7 +94,7 @@ class WordPressPluginContext implements Context
      * Example:
      * I deactivate the plugin "my-plugin/my-plugin.php"
      *
-     * @And I deactivate the plugin :plugin
+     * @Given I deactivate the plugin :plugin
      */
     public function iDeactivateThePlugin($plugin)
     {
@@ -105,7 +105,7 @@ class WordPressPluginContext implements Context
      * Example:
      * The plugin "my-plugin/plugin" is deactivated
      *
-     * @And The plugin :plugin is deactivated
+     * @Given The plugin :plugin is deactivated
      */
     public function thePluginIsDeactivated($plugin)
     {
