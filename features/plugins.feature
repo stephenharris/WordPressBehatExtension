@@ -22,3 +22,15 @@ Feature: Manage plugins
             | hello.php | disabled |
         When I go to "/wp-admin/"
         Then I should not see a "#dolly" element
+
+    Scenario: I activate just the dolly plugin
+        Given I activate the plugin "hello.php"
+        Then The plugin "hello.php" is activated
+
+    Scenario: The dolly plugin is per default deactivated
+        Given I am on "/wp-admin/plugins.php"
+        Then The plugin "hello.php" is deactivated
+
+    Scenario: The dolly plugin is not uninstallable
+        Given I am on "/wp-admin/plugins.php"
+        Then The plugin "hello.php" is not uninstallable
