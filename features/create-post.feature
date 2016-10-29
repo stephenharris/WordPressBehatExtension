@@ -6,6 +6,8 @@ Feature: You can write and read blogs
 
   Background:
     Given I have a vanilla wordpress installation
+      | name              | email                   | username | password |
+      | WordPress Testing | testing@example.invalid | admin    | password |
     And there are users
       | user_login | user_pass  | user_nicename | user_email         | role   |
       | editor     | editorpass | Editor        | editor@example.org | editor |

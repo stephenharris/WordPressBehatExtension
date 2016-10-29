@@ -6,7 +6,7 @@ Feature: Editing a post
       | post_title      | post_content              | post_status | post_author | post_date           |
       | Just my article | The content of my article | publish     | admin       | 2016-10-11 08:30:00 |
       | My draft        | This is just a draft      | draft       | admin       | 2016-09-02 17:00:00 |
-    And I am logged in as "admin" with password "password"
+    And I am logged in as "admin" with password "test"
 
   Scenario: Editing a published post
     Given I am on the edit screen for "Just my article"

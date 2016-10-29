@@ -5,6 +5,8 @@ Feature: You can write and read blogs
 
     Background:
         Given I have a vanilla wordpress installation
+            | name          | email             | username | password |
+            | BDD WordPress | admin@example.com | admin    | password |
         And there are users
             | user_login | user_pass | user_nicename | user_email         | role   |
             | editor     | test      | editor        | editor@example.com | editor |

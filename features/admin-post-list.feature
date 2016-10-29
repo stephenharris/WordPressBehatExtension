@@ -2,6 +2,8 @@ Feature: Posts admin page
 
   Background:
     Given I have a vanilla wordpress installation
+      | name          | email             | username | password |
+      | BDD WordPress | admin@example.com | admin    | password |
     And there are posts
       | post_title      | post_content              | post_status | post_author | post_date           |
       | Just my article | The content of my article | publish     | admin       | 2016-10-11 08:30:00 |
