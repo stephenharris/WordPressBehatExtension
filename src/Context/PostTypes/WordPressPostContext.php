@@ -3,6 +3,7 @@ namespace StephenHarris\WordPressBehatExtension\Context\PostTypes;
 
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
+use StephenHarris\WordPressBehatExtension\Context\MetaData\MetaType;
 
 /**
  * Defines steps related to posts and other post types
@@ -12,7 +13,6 @@ use Behat\Gherkin\Node\TableNode;
 class WordPressPostContext implements Context
 {
     use \StephenHarris\WordPressBehatExtension\Context\PostTypes\WordPressPostTrait;
-    use \StephenHarris\WordPressBehatExtension\Context\PostTypes\WordPressPostMetaTrait;
 
     /**
      * Add these posts to this wordpress installation
@@ -82,12 +82,12 @@ class WordPressPostContext implements Context
     public function thePostTypeHasMetaData($postType, $title, TableNode $table)
     {
         $post = $this->getPostByName($title, $postType);
+        $postMeta = new MetaType(MetaType::POST);
         foreach ($table->getHash() as $metaData) {
-            $this->addMetaKeyValue($post, $metaData['key'], $metaData['value']);
+            $postMeta->addMeta($post, $metaData['key'], $metaData['value']);
         }
     }
-    
-    
+
     /**
      * Example: Then the event "My event title" should have event-category terms "family,sports"
      * @Then /^the ([a-z0-9_\-]*) "([^"]*)" should have ([a-z0-9_\-]*) terms "([^"]*)"$/
@@ -114,6 +114,24 @@ class WordPressPostContext implements Context
     public function thePostTypeShouldHaveMetaKeyValue($postType, $title, $value, $key)
     {
         $post = $this->getPostByName($title, $postType);
-        $this->assertMetaKeyValue($post, $key, $value);
+        //TODO it might be better that we have a 'post meta data' layer between the context
+        //and MetaType where we can ensure the cache is cleaned.
+        clean_post_cache($post->ID);
+        $postMeta = new MetaType(MetaType::POST);
+        $postMeta->assertMetaKeyValue($post, $key, $value);
+    }
+
+    /**
+     * Example: Then the post "My post title" should have the value "%s" for the key "%s"
+     * @Then /^the ([a-z0-9_\-]*) "([^"]*)" should not have the value "([^"]*)" for the key "([^"]*)"$/
+     */
+    public function thePostTypeShouldNotHaveMetaKeyValue($postType, $title, $value, $key)
+    {
+        $post = $this->getPostByName($title, $postType);
+        //TODO it might be better that we have a 'post meta data' layer between the context
+        //and MetaType where we can ensure the cache is cleaned.
+        clean_post_cache($post->ID);
+        $postMeta = new MetaType(MetaType::POST);
+        $postMeta->assertNotMetaKeyValue($post, $key, $value);
     }
 }
