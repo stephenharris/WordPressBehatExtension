@@ -5,20 +5,13 @@ namespace StephenHarris\WordPressBehatExtension\Context\Util;
 trait Spin
 {
 
-    /**
-     * Fills in form field with specified id|name|label|value.
-     *
-     * @overide When /^(?:|I )fill in "(?P<field>(?:[^"]|\\")*)" with "(?P<value>(?:[^"]|\\")*)"$/
-     * @overide When /^(?:|I )fill in "(?P<field>(?:[^"]|\\")*)" with:$/
-     * @overide When /^(?:|I )fill in "(?P<value>(?:[^"]|\\")*)" for "(?P<field>(?:[^"]|\\")*)"$/
-     */
     public function fillField($field, $value)
     {
         $field = $this->fixStepArgument($field);
         $value = $this->fixStepArgument($value);
 
         $this->spin(function ($context) use ($field, $value) {
-            $context->getSession()->getPage()->fillField($field, $value);
+            parent::fillField($field, $value);
             return true;
         });
     }
@@ -30,7 +23,7 @@ trait Spin
                 if ($lambda($this)) {
                     return true;
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // do nothing
             }
 
@@ -38,9 +31,11 @@ trait Spin
         }
 
         $backtrace = debug_backtrace();
+        $class = $backtrace[1]['class'];
+        $method = $backtrace[1]['function'];
 
-        throw new Exception(
-            "Timeout thrown by " . $backtrace[1]['class'] . "::" . $backtrace[1]['function'] . "()\n"
+        throw new \Exception(
+            "Timeout thrown by {$class}::{$method}(): {$e->getMessage()}\n"
         );
     }
 
