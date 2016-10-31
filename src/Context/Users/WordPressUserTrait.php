@@ -67,7 +67,7 @@ trait WordPressUserTrait
     public function validatePassword(\WP_User $WPUser, $password)
     {
         if (! wp_check_password($password, $WPUser->data->user_pass, $WPUser->ID)) {
-            throw new \Exception(sprintf('Password for user %s incorrect', $password));
+            throw new \Exception(sprintf('Password for user %s incorrect', $WPUser->user_login));
         }
     }
 }

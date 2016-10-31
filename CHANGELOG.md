@@ -8,7 +8,13 @@ This project is currently at an alpha stage. It will continue on the `0.*.*` bra
 - `Context\Util\Spin` trait now displays underlying exception message when it times out. 
 
 ### Breaking changes:
+
 - Fix bug in `Context\Util\Spin::fillField()` not calling parent method correctly. This trait can not be used in a `Context` but can be used in page/element objects
+
+
+### Bugfixes:
+
+- Fixes incorrect error message password used for logging in is incorrect [#11](https://github.com/stephenharris/WordPressBehatExtension/issues/11)
 
 
 ## [0.4.0] - 2016-10-21
