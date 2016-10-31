@@ -49,7 +49,7 @@ class WordPressPluginContext implements Context
      */
     public function thePluginIsNotUninstallable($plugin)
     {
-        if (!is_uninstallable_plugin($plugin)) {
+        if (is_uninstallable_plugin($plugin)) {
             throw new \Exception(sprintf('The plugin "%s" is uninstallable', $plugin));
         }
     }
