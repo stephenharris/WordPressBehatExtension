@@ -54,6 +54,29 @@ class WordPressEditPostContext implements Context
     }
 
     /**
+     * @When I add a custom field with name :name and value :value
+     */
+    public function iAddCustomFieldWithNameValue($name, $value)
+    {
+        $this->editPostPage->addCustomField($name, $value);
+    }
+
+    /**
+     * @When I update the value of the custom field with name :name from :oldvalue to :newvalue
+     */
+    public function iUpdateValueCustomFieldWithName($name, $oldvalue, $newvalue)
+    {
+        $this->editPostPage->updateCustomField($name, $oldvalue, $newvalue);
+    }
+    /**
+     * @When I delete the custom field with name :name and value :value
+     */
+    public function iDeleteCustomFieldWithNameValue($name, $value)
+    {
+        $this->editPostPage->deleteCustomField($name, $value);
+    }
+
+    /**
      * @Then /^I should be on the edit "([a-zA-z_-]+)" screen for "([^"]*)"$/
      */
     public function iAmOnEditScreenForPostType($postType, $title)
@@ -73,5 +96,21 @@ class WordPressEditPostContext implements Context
         $this->editPostPage->isOpen(array(
             'id' => $post->ID,
         ));
+    }
+
+    /**
+     * @Then I should see the custom fields metabox contains the key :key with value :value
+     */
+    public function iShouldSeeTheCustomFieldsMetaboxContainsTheKeyWithValue($key, $value)
+    {
+        $this->editPostPage->assertCustomFieldMetaboxContainsKeyValue($key, $value);
+    }
+
+    /**
+     * @Then I should see the custom fields metabox does not contain the key :key with value :value
+     */
+    public function iShouldSeeTheCustomFieldsMetaboxDoesNotContainTheKeyWithValue($key, $value)
+    {
+        $this->editPostPage->assertCustomFieldMetaboxNotContainsKeyValue($key, $value);
     }
 }

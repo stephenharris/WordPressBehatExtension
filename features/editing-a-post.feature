@@ -18,3 +18,24 @@ Feature: Editing a post
 
     When I follow "View post"
     Then I should see "Yet another article"
+
+
+  Scenario: Viewing the custom fields of the post
+    Given the post "Just my article" has meta data
+      | key | value |
+      | foo | bar   |
+    And I am on the edit screen for "Just my article"
+    Then I should see the custom fields metabox contains the key "foo" with value "bar"
+
+  @javascript
+  Scenario: Adding, updating and deleting custom fields to a post
+    Given I am on the edit screen for "Just my article"
+    When I add a custom field with name "foo" and value "baz"
+    Then the post "Just my article" should have the value "baz" for the key "foo"
+
+    When I update the value of the custom field with name "foo" from "baz" to "bat"
+    Then the post "Just my article" should have the value "bat" for the key "foo"
+
+    When I delete the custom field with name "foo" and value "bat"
+    Then the post "Just my article" should not have the value "bat" for the key "foo"
+    And I should see the custom fields metabox does not contain the key "foo" with value "bar"

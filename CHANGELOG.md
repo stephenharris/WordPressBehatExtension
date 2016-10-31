@@ -6,8 +6,17 @@ This project is currently at an alpha stage. It will continue on the `0.*.*` bra
 ### Enhancements:
 
 - `Context\Util\Spin` trait now displays underlying exception message when it times out. 
+- Introduced `StephenHarris\WordPressBehatExtension\Context\MetaData\MetaType` to map generic object-agnostic methods to the WordPress requivalent metadata functions.
+- Add the following steps to the Edit post page context:
+ - `When I add a custom field with name :name and value :value`
+ - `When I update the value of the custom field with name :name from :oldvalue to :newvalue`
+ - `When I delete the custom field with name :name and value :value`
+ - `Then I should see the custom fields metabox does not contain the key :key with value :value`
+ - `Then I should see the custom fields metabox does not contain the key :key with value :value`
+- Introduced `CustomFieldsMetabox` page element
 
 ### Breaking changes:
+
 - Fix bug in `Context\Util\Spin::fillField()` not calling parent method correctly. This trait can not be used in a `Context` but can be used in page/element objects
 
 

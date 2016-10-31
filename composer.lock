@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4c5979bf82aa8c099f0c43517487c56d",
-    "content-hash": "1092d02f940ce6f13635b5db152cb41a",
+    "hash": "5cd20dfeee388285d5decb728863986e",
+    "content-hash": "5cd6770d941a95e13728335821d633b1",
     "packages": [
         {
             "name": "behat/behat",
@@ -2395,6 +2395,53 @@
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
             "time": "2016-10-21 20:59:10"
+        },
+        {
+            "name": "tightenco/collect",
+            "version": "v5.3.20",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tightenco/collect.git",
+                "reference": "07547aa6191f6d05b459ecea7c62526e18f33851"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tightenco/collect/zipball/07547aa6191f6d05b459ecea7c62526e18f33851",
+                "reference": "07547aa6191f6d05b459ecea7c62526e18f33851",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9.4",
+                "phpunit/phpunit": "~4.1"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/Illuminate/Support/helpers.php"
+                ],
+                "psr-4": {
+                    "Illuminate\\": "src/Illuminate"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylorotwell@gmail.com"
+                }
+            ],
+            "description": "Collect - Illuminate Collections as a separate package.",
+            "keywords": [
+                "collection",
+                "laravel"
+            ],
+            "time": "2016-10-25 18:10:45"
         },
         {
             "name": "webmozart/assert",
