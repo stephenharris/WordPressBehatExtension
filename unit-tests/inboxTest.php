@@ -16,11 +16,6 @@ class inboxTest extends PHPUnit_Framework_TestCase
 		}
 	}
 	
-	protected function expectException( $class, $message, $code = null ) {
-		self::setExpectedException( $class, $message, $code );
-	}
-	
-	
 	public function testEmailRecieved(){
 		
 		$this->sendEmail( 'test@example.com', 'Subject', 'Message' );
