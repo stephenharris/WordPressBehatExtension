@@ -27,10 +27,10 @@ function wp_mail($recipients, $subject, $message, $headers = '', $attachments = 
             'attachments' => $attachments,
         );
 
-        $result = file_put_contents($file_path, json_encode($data,JSON_PRETTY_PRINT));
+        $result = file_put_contents($file_path, json_encode($data, JSON_PRETTY_PRINT));
 
-        if ( false === $result) {
-            throw new \Exception(sprintf('Unable to send e-mail with subject "%s" to %s. Storage: %s', $subject, $recipient, $file_path));
+        if (false === $result) {
+            throw new \Exception(sprintf('Unable to send e-mail with subject "%s" to %s.', $subject, $recipient));
         }
     }
 
