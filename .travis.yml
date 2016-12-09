@@ -40,6 +40,7 @@ script:
   # Run behat tests.
   - vendor/bin/behat --tags=~@travis-flaky
   - pkill -f 'java.*selenium-server-standalone.*jar'
+  - pkill -f 'php -S.*'
 
   # Check coding standards.
   - vendor/bin/phpcs
