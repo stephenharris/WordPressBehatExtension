@@ -6,6 +6,7 @@ This project is currently at an alpha stage. It will continue on the `0.*.*` bra
 ### Enhancements:
 
 - `Context\Util\Spin` trait now displays underlying exception message when it times out. 
+- Use "Pretty Print" json for email files to make them more human-friendly.
 
 ### Breaking changes:
 
