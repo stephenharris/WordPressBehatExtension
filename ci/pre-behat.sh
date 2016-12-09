@@ -21,11 +21,11 @@ echo 'start php';
 php -S localhost:8000 -t $WORDPRESS_SITE_DIR -d disable_functions=mail > /dev/null 2>&1 &
 
 # Start Selenium
-wget http://selenium-release.storage.googleapis.com/2.53/selenium-server-standalone-2.53.1.jar
-java -jar selenium-server-standalone-2.53.1.jar -p $SELENIUM_PORT > /dev/null 2>&1 &
+#wget http://selenium-release.storage.googleapis.com/2.53/selenium-server-standalone-2.53.1.jar
+#java -jar selenium-server-standalone-2.53.1.jar -p $SELENIUM_PORT > /dev/null 2>&1 &
 
 # Wait for Selenium, if necessary
-wait_for_port $SELENIUM_PORT
+#wait_for_port $SELENIUM_PORT
 
 echo 'waiting to start tests...';
 sleep 5
