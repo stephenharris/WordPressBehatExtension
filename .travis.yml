@@ -29,6 +29,9 @@ install:
 
   # start selenium
   - bash ./ci/pre-behat.sh
+  - php -S localhost:8000 -t $WORDPRESS_SITE_DIR -d disable_functions=mail > /dev/null 2>&1 & 
+  - pid=$! & echo $pid;
+  - ps -e
 
 
 before_script:
@@ -39,8 +42,12 @@ script:
 
   # Run behat tests.
   - vendor/bin/behat --tags=~@travis-flaky --tags=~@javascript
+  - ps -e
+  - echo $pid;
   - pkill -f 'java.*selenium-server-standalone.*jar'
   - pkill -f 'php -S.*'
+  - kill -9 $pid;
+  - ps -e
 
   # Check coding standards.
   - vendor/bin/phpcs
