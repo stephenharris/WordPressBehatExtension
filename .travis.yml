@@ -1,7 +1,5 @@
 language: php
 
-sudo: false
-
 php:
 - 5.5
 
@@ -15,24 +13,40 @@ matrix:
     - env: WP_VERSION=nightly
 
 before_install:
+  - sudo apt-get update > /dev/null
+  - composer self-update
+
+  # Install Apache
+  - sudo apt-get install -y --force-yes apache2 libapache2-mod-php5 php5-curl php5-mysql php5-intl
+  - sudo a2enmod rewrite
+  - export WORDPRESS_SITE_DIR=$(pwd)/www/
+  - sudo sed -i -e "s,/var/www,$(pwd)/www,g" /etc/apache2/sites-available/default
+  - sudo sed -i -e "/DocumentRoot/i\ServerName wordpress.dev" /etc/apache2/sites-available/default
+  - echo "127.0.0.1 wordpress.dev" | sudo tee -a /etc/hosts
+  - sudo /etc/init.d/apache2 restart
+
   # These variables have to be set here, so they can be used by
   # prepare.sh as well as the commands in the script block below
   - export WORDPRESS_SITE_DIR="/tmp/wordpress/"
-  - composer self-update
 
 install:
+
+  # Build plugin
+  - mkdir $(pwd)/build;
+  - cp -r !(build) $(pwd)/build/
+
   # Install dependencies
   - composer update --no-interaction --prefer-dist;
 
   # install wordpress
   - bash ./ci/prepare.sh wordpress root '' localhost $WP_VERSION
+  - mv ci/sample.htaccess ${WORDPRESS_SITE_DIR}.htaccess
 
   # start selenium
   - bash ./ci/pre-behat.sh
-  - php -S localhost:8000 -t $WORDPRESS_SITE_DIR -d disable_functions=mail > /dev/null 2>&1 & 
-  - pid=$! & echo $pid;
-  - ps -e
-
+  - mkdir /tmp/mail/
+  - chmod ugo+rwx /tmp/mail/
+  - mkdir failed-scenerios/
 
 before_script:
 
@@ -41,13 +55,7 @@ script:
   - vendor/bin/phpunit
 
   # Run behat tests.
-  - vendor/bin/behat --tags=~@travis-flaky --tags=~@javascript
-  - ps -e
-  - echo $pid;
-  - pkill -f 'java.*selenium-server-standalone.*jar'
-  - pkill -f 'php -S.*'
-  - kill -9 $pid;
-  - ps -e
+  - vendor/bin/behat --tags=~@travis-flaky
 
   # Check coding standards.
   - vendor/bin/phpcs

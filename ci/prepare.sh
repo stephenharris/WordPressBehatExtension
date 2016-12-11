@@ -32,4 +32,4 @@ vendor/bin/wp core config --path=$WORDPRESS_SITE_DIR --dbname=$DB_NAME --dbuser=
 vendor/bin/wp db create --path=$WORDPRESS_SITE_DIR --allow-root
 
 # We only run the install command so that we can run further wp-cli commands
-vendor/bin/wp core install --path=$WORDPRESS_SITE_DIR --url="wp.dev" --title="wp.dev" --admin_user="admin" --admin_password="password" --admin_email="admin@wp.dev" --allow-root
+vendor/bin/wp core install --path=$WORDPRESS_SITE_DIR --url="wordpress.dev" --title="wordpress.dev" --admin_user="admin" --admin_password="password" --admin_email="admin@wp.dev" --allow-root
