@@ -21,6 +21,7 @@ before_install:
   - sudo a2enmod rewrite
   - export WORDPRESS_SITE_DIR=$(pwd)/www/
   - sudo sed -i -e "s,/var/www,$(pwd)/www,g" /etc/apache2/sites-available/default
+  - sudo sed -i -e "s,AllowOverride None,AllowOverride All,g" /etc/apache2/sites-available/default
   - sudo sed -i -e "/DocumentRoot/i\ServerName wordpress.dev" /etc/apache2/sites-available/default
   - echo "127.0.0.1 wordpress.dev" | sudo tee -a /etc/hosts
   - sudo /etc/init.d/apache2 restart
