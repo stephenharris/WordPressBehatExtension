@@ -19,7 +19,7 @@ default:
 
   extensions:
         StephenHarris\WordPressBehatExtension:
-          path: '/tmp/wordpress'
+          path: 'www'
           connection:
             db: 'wordpress'
             username: 'root'
