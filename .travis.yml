@@ -25,10 +25,6 @@ before_install:
   - echo "127.0.0.1 wordpress.dev" | sudo tee -a /etc/hosts
   - sudo /etc/init.d/apache2 restart
 
-  # These variables have to be set here, so they can be used by
-  # prepare.sh as well as the commands in the script block below
-  - export WORDPRESS_SITE_DIR="/tmp/wordpress/"
-
 install:
 
   # Build plugin
