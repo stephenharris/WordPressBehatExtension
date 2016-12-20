@@ -19,6 +19,8 @@ exclude:
 # Set the target branch in which to deploy the generated website
 branch: gh-pages
 
+baseUrl: https://stephenharris.github.io/WordPressBehatExtension
+
 # Any variable you put in this file is also available in the Twig layouts:
 title: WordPress Behat Extension
 
