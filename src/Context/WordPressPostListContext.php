@@ -45,13 +45,12 @@ class WordPressPostListContext extends RawMinkContext implements Context, Snippe
 
     /**
      *
-     * Example
-     *    Then I should see the following actions
-     *      | actions    |
-     *      | Edit       |
-     *      | Quick Edit |
-     *      | Trash      |
-     *      | View       |
+     * Example: Then I should see the following actions
+     *            | actions    |
+     *            | Edit       |
+     *            | Quick Edit |
+     *            | Trash      |
+     *            | View       |
      *
      * @Then I should see the following row actions
      */
