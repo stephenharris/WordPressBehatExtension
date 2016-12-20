@@ -39,6 +39,25 @@ class Login extends Page
         $this->findButton('wp-submit')->click();
     }
 
+    /**
+     * @param array $urlParameters
+     *
+     * @return string
+     */
+    protected function getUrl(array $urlParameters = array())
+    {
+        $baseUrl = rtrim($this->getParameter('base_url'), '/').'/';
+        var_dump( $baseUrl );
+        $path = $this->getPath();
+        var_dump( $path );
+        var_dump( $urlParameters );
+
+        var_dump( strpos($path, 'http') );
+        var_dump( $baseUrl );
+
+        return parent::getUrl($urlParameters);
+    }
+
 
     /**
      * Modified isOpen function which throws exceptions
