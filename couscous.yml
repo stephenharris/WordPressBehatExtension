@@ -32,16 +32,16 @@ menu:
         recipes:
             text: Quick start Recipes
             # You can use relative urls
-            relativeUrl: Recipes.html
+            relativeUrl: recipes.html
         contexts:
             text: Contexts
             # Or absolute urls
-            relativeUrl: Contexts.html
+            relativeUrl: contexts.html
         steps:
             text: Step Definitions
             # Or absolute urls
-            relativeUrl: Step_Definitions.html
+            relativeUrl: step_definitions.html
         helper:
             text: Helper Classes
             # Or absolute urls
-            relativeUrl: Helper_Classes.html
+            relativeUrl: helper_classes.html
