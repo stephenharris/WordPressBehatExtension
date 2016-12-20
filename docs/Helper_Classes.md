@@ -2,9 +2,9 @@
 
 While WordPressBehatExtension provides a number of steps relating to WordPress and its UI, it also makes it very easy to define your own steps for your plug-in or theme.
 
-Firstly, assuming you have included the `WordPressContext` class in your `behat.yml`, all WordPress functions and classes are available in you context classes.
+Firstly all WordPress functions and classes are available in you context classes.
 
-However, in addition WordPressBehatExtension provides a layer to sit between your context definitions and WordPress. They take the form of [traits](http://php.net/manual/en/language.oop5.traits.php) and provide helpful methods for interacting with WordPress.
+In addition WordPressBehatExtension provides a layer to sit between your context definitions and WordPress. They take the form of [traits](http://php.net/manual/en/language.oop5.traits.php) and provide helpful methods for interacting with WordPress.
 
 
 ## An example: custom post types
