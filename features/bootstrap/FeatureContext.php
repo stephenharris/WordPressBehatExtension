@@ -4,14 +4,14 @@ use Behat\Behat\Context\Context,
     Behat\Behat\Context\SnippetAcceptingContext,
     Behat\Behat\Hook\Scope\AfterScenarioScope;
 use Behat\Testwork\Tester\Result\TestResult;
-use Behat\MinkExtension\Context\RawMinkContext;
+use Behat\MinkExtension\Context\MinkContext;
 
 use Ifsnop\Mysqldump\Mysqldump;
 
 /**
  * Features context.
  */
-class FeatureContext extends RawMinkContext implements Context, SnippetAcceptingContext {
+class FeatureContext extends MinkContext implements Context, SnippetAcceptingContext {
 
     /**
      * Location to store screenshots, or false if none are to be taken
@@ -23,15 +23,6 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
         if ( $screenshot_dir ) {
             $this->screenshot_dir = rtrim( $screenshot_dir, '/' ) . '/';
         }
-    }
-
-    /**
-     * Wait for AJAX to finish.
-     *
-     * @Then /^I wait for AJAX to finish$/
-     */
-    public function iWaitForAjaxToFinish() {
-        $this->getSession()->wait( 10000, '(typeof(jQuery)=="undefined" || (0 === jQuery.active && 0 === jQuery(\':animated\').length))' );
     }
 
     /**

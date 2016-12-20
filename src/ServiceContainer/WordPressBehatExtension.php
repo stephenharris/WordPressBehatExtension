@@ -92,9 +92,6 @@ class WordPressBehatExtension implements ExtensionInterface
                         ->scalarNode('directory')
                             ->defaultValue(getenv('WORDPRESS_FAKE_MAIL_DIR'))
                         ->end()
-                        ->scalarNode('divider')
-                            ->defaultValue('%%===================%%')
-                        ->end()
                     ->end()
                 ->end()
             ->end();
@@ -120,7 +117,6 @@ class WordPressBehatExtension implements ExtensionInterface
             'StephenHarris\WordPressBehatExtension\Context\Initializer\WordPressContextInitializer',
             array(
                 '%wordpress.parameters%',
-                '%mink.parameters%',
             )
         );
         $definition->addTag(ContextExtension::INITIALIZER_TAG, array('priority' => 0));

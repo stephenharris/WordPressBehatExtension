@@ -2,10 +2,10 @@
 namespace StephenHarris\WordPressBehatExtension\Context;
 
 use Behat\Gherkin\Node\TableNode;
-use Behat\MinkExtension\Context\MinkContext;
 use StephenHarris\WordPressBehatExtension\WordPress\InboxFactory;
+use Behat\Behat\Context\Context;
 
-class WordPressContext extends MinkContext implements WordPressInboxFactoryAwareContext
+class WordPressContext implements Context, WordPressInboxFactoryAwareContext
 {
     protected $inboxFactory;
 

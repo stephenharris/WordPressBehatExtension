@@ -11,7 +11,7 @@ This project is currently at an alpha stage. It will continue on the `0.*.*` bra
 ### Breaking changes:
 
 - Fix bug in `Context\Util\Spin::fillField()` not calling parent method correctly. This trait can not be used in a `Context` but can be used in page/element objects
-
+- `WordPress` context no longer extends `MinkContext`
 
 ### Bugfixes:
 

@@ -16,17 +16,14 @@ use StephenHarris\WordPressBehatExtension\Context\WordPressContext;
 class WordPressContextInitializer implements ContextInitializer
 {
     private $wordpressParams;
-    private $minkParams;
     /**
      * inject the wordpress extension parameters and the mink parameters
      *
      * @param array  $wordpressParams
-     * @param array  $minkParams
      */
-    public function __construct($wordpressParams, $minkParams)
+    public function __construct($wordpressParams)
     {
         $this->wordpressParams = $wordpressParams;
-        $this->minkParams = $minkParams;
     }
 
     /**
@@ -56,8 +53,7 @@ class WordPressContextInitializer implements ContextInitializer
      */
     private function prepareEnvironment()
     {
-        $urlParts = parse_url($this->minkParams['base_url']);
-        $_SERVER['HTTP_HOST'] = $urlParts['host'] . (isset($urlParts['port']) ? ':' . $urlParts['port'] : '');
+        $_SERVER['HTTP_HOST'] = '';
 
         if ($this->wordpressParams['mail']['directory'] && !is_dir($this->wordpressParams['mail']['directory'])) {
             mkdir($this->wordpressParams['mail']['directory'], 0777, true);
