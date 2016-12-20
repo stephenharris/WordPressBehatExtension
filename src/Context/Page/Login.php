@@ -47,13 +47,13 @@ class Login extends Page
     protected function getUrl(array $urlParameters = array())
     {
         $baseUrl = rtrim($this->getParameter('base_url'), '/').'/';
-        var_dump( $baseUrl );
+        var_dump( $baseUrl ); //http://wordpress.dev/
         $path = $this->getPath();
-        var_dump( $path );
-        var_dump( $urlParameters );
+        var_dump( $path ); // /wp-login.php
+        var_dump( $urlParameters ); ///array
 
-        var_dump( strpos($path, 'http') );
-        var_dump( $baseUrl );
+        var_dump( 0 !== strpos($path, 'http') );
+        var_dump( $baseUrl.ltrim($path, '/') );
 
         return parent::getUrl($urlParameters);
     }
