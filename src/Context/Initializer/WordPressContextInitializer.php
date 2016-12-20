@@ -53,7 +53,7 @@ class WordPressContextInitializer implements ContextInitializer
      */
     private function prepareEnvironment()
     {
-        $_SERVER['HTTP_HOST'] = '';
+        $_SERVER['HTTP_HOST'] = $this->wordpressParams['site_url'];
 
         if ($this->wordpressParams['mail']['directory'] && !is_dir($this->wordpressParams['mail']['directory'])) {
             mkdir($this->wordpressParams['mail']['directory'], 0777, true);

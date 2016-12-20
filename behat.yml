@@ -20,6 +20,7 @@ default:
   extensions:
         StephenHarris\WordPressBehatExtension:
           path: 'www'
+          site_url: 'http://wordpress.dev'
           connection:
             db: 'wordpress'
             username: 'root'
