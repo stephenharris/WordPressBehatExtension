@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WordPress Behat Extension</title>
+
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic'
+          rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="/css/grid.css" type="text/css"/>
+    <link rel="stylesheet" href="/css/theme.css" type="text/css"/>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.9.0/styles/dark.min.css">
+</head>
+<body class="wy-body-for-nav">
+
+    <header id="intro">
+        <div class="container">
+            <a href="/"><h1>WordPress Behat Extension</h1></a>
+            <p>Automatted end-user testing for WordPress with Behat 3</p>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <section class="col-md-9">
+
+                        <div class="wy-nav-content">
+                <div class="rst-content">
+                    <div role="main" class="document">
+                        <h1 id="step-definitions">Step Definitions</h1>
+<p>WordPressBehatExtension provides a number of step definitions for interacting with WordPress and it's user interface. This step definitions
+live the <a href="contexts.html">context classes</a>.</p>
+<p>You can view and search all your step definitions (including the one's provided by other extensions, and Behat) via Behat's command line tool: <a href="http://behat.org/en/latest/user_guide/command_line_tool/informative_output.html">http://behat.org/en/latest/user_guide/command_line_tool/informative_output.html</a></p>
+<p><strong>GIVEN</strong> \w+ have a vanilla WordPress installation
+<code>StephenHarris\WordPressBehatExtension\Context\WordPressContext::installWordPress()</code><br />
+Create a new WordPress website from scratch</p>
+<p><strong>GIVEN</strong> I am logged in as &quot;something&quot; with password &quot;something&quot;
+<code>StephenHarris\WordPressBehatExtension\Context\WordPressLoginContext::login()</code><br />
+Login into the reserved area of this wordpress</p>
+<p><strong>WHEN</strong> I am on the log-in page
+<code>StephenHarris\WordPressBehatExtension\Context\WordPressLoginContext::iAmOnTheLogInPage()</code>  </p>
+<p><strong>THEN</strong> I should be on the log-in page
+<code>StephenHarris\WordPressBehatExtension\Context\WordPressLoginContext::iShouldBeOnTheLogInPage()</code>  </p>
+<p><strong>GIVEN</strong> there are posts
+<code>StephenHarris\WordPressBehatExtension\Context\PostTypes\WordPressPostContext::thereArePosts()</code><br />
+Add these posts to this wordpress installation</p>
+<pre><code>Given there are posts
+         | post_title      | post_content              | post_status | post_author | post_date           |
+         | Just my article | The content of my article | publish     | 1           | 2016-10-11 08:30:00 |</code></pre>
+<p><strong>GIVEN</strong> the ([a-zA-z<em>-]+) &quot;something&quot; has ([a-zA-z</em>-]+) terms ([^,]+,\s<em>([^,]+)</em>)$/i
+<code>StephenHarris\WordPressBehatExtension\Context\PostTypes\WordPressPostContext::thePostTypeHasTerms()</code>  </p>
+<pre><code>Given the event "My event title" has event-category terms "family,sports"</code></pre>
+<p><strong>THEN</strong> the ([a-z0-9<em>-]*) &quot;something&quot; should have ([a-z0-9</em>-]*) terms &quot;something&quot;
+<code>StephenHarris\WordPressBehatExtension\Context\PostTypes\WordPressPostContext::thePostTypeShouldHaveTerms()</code>  </p>
+<pre><code>Then the event "My event title" should have event-category terms "family,sports"</code></pre>
+<p><strong>THEN</strong> the ([a-z0-9_-]*) &quot;something&quot; should have status &quot;something&quot;
+<code>StephenHarris\WordPressBehatExtension\Context\PostTypes\WordPressPostContext::thePostTypeShouldHaveStatus()</code>  </p>
+<pre><code>Then the post "My post title" should have status "published"</code></pre>
+<p><strong>GIVEN</strong> there are :taxonomy terms
+<code>StephenHarris\WordPressBehatExtension\Context\Terms\WordPressTermContext::thereAreTerms()</code><br />
+Add these terms to this WordPress installation</p>
+<pre><code>Given there are category terms
+         | name  | slug | description      |
+         | foo   | foo  | The foo category |
+         | bar   | bar  | The bar category |</code></pre>
+<p><strong>GIVEN</strong> there are users
+<code>StephenHarris\WordPressBehatExtension\Context\Users\WordPressUserContext::thereAreUsers()</code><br />
+Add these users to this wordpress installation</p>
+<p><strong>GIVEN</strong> I set :option option to :value
+<code>StephenHarris\WordPressBehatExtension\Context\Options\WordPressOptionContext::iSetOptionTo()</code>  </p>
+<p><strong>THEN</strong> I the :option option should be set to :value
+<code>StephenHarris\WordPressBehatExtension\Context\Options\WordPressOptionContext::theOptionShouldBeSetTo()</code>  </p>
+<p><strong>GIVEN</strong> there are plugins
+<code>StephenHarris\WordPressBehatExtension\Context\Plugins\WordPressPluginContext::thereArePlugins()</code><br />
+Activate/Deactivate plugins
+| plugin          | status  |
+| plugin/name.php | enabled |</p>
+<p><strong>WHEN</strong> I click on the :link link in the header
+<code>StephenHarris\WordPressBehatExtension\Context\WordPressAdminContext::iClickOnHeaderLink()</code>  </p>
+<p><strong>THEN</strong> I should be on the :admin_page page
+<code>StephenHarris\WordPressBehatExtension\Context\WordPressAdminContext::iShouldBeOnThePage()</code>  </p>
+<p><strong>GIVEN</strong> I go to menu item :item
+<code>StephenHarris\WordPressBehatExtension\Context\WordPressAdminContext::iGoToMenuItem()</code>  </p>
+<p><strong>THEN</strong> I should see the success message :text
+<code>StephenHarris\WordPressBehatExtension\Context\WordPressAdminContext::iShouldSeeSuccessMessageWithText()</code>  </p>
+<p><strong>THEN</strong> I should see the error message :text
+<code>StephenHarris\WordPressBehatExtension\Context\WordPressAdminContext::iShouldSeeErrorMessageWithText()</code>  </p>
+<p><strong>THEN</strong> I should see the warning message :text
+<code>StephenHarris\WordPressBehatExtension\Context\WordPressAdminContext::iShouldSeeWarningMessageWithText()</code>  </p>
+<p><strong>THEN</strong> I should see the info message :text
+<code>StephenHarris\WordPressBehatExtension\Context\WordPressAdminContext::iShouldSeeInfoMessageWithText()</code>  </p>
+<p><strong>THEN</strong> the admin menu should appear as
+<code>StephenHarris\WordPressBehatExtension\Context\WordPressAdminContext::theAdminMenuShouldAppearAs()</code>  </p>
+<p><strong>GIVEN</strong> I am on the edit &quot;something&quot; screen for &quot;something&quot;
+<code>StephenHarris\WordPressBehatExtension\Context\WordPressEditPostContext::iGoToEditScreenForPostType()</code>  </p>
+<p><strong>GIVEN</strong> I am on the edit screen for &quot;title&quot;
+<code>StephenHarris\WordPressBehatExtension\Context\WordPressEditPostContext::iGoToEditScreenFor()</code>  </p>
+<p><strong>WHEN</strong> I change the title to &quot;title&quot;
+<code>StephenHarris\WordPressBehatExtension\Context\WordPressEditPostContext::iChangeTitleTo()</code>  </p>
+<p><strong>WHEN</strong> I press the (publish|update) button
+<code>StephenHarris\WordPressBehatExtension\Context\WordPressEditPostContext::iPressThePublishButton()</code>  </p>
+<p><strong>THEN</strong> I should be on the edit &quot;something&quot; screen for &quot;something&quot;
+<code>StephenHarris\WordPressBehatExtension\Context\WordPressEditPostContext::iAmOnEditScreenForPostType()</code>  </p>
+<p><strong>THEN</strong> I should be on the edit screen for &quot;something&quot;
+<code>StephenHarris\WordPressBehatExtension\Context\WordPressEditPostContext::iAmOnEditScreenFor()</code>  </p>
+<p><strong>WHEN</strong> I hover over the row containing :value in the :column_text column
+<code>StephenHarris\WordPressBehatExtension\Context\WordPressPostListContext::iHoverOverTheRowContainingInTheColumnOf()</code>  </p>
+<p><strong>WHEN</strong> I hover over the row for the :postTitle post
+<code>StephenHarris\WordPressBehatExtension\Context\WordPressPostListContext::iHoverOverTheRowForThePost()</code>  </p>
+<p><strong>THEN</strong> I should see the following row actions
+<code>StephenHarris\WordPressBehatExtension\Context\WordPressPostListContext::iShouldSeeTheFollowingRowActions()</code>  </p>
+<pre><code>Then I should see the following actions
+       | actions    |
+       | Edit       |
+       | Quick Edit |
+       | Trash      |
+       | View       |</code></pre>
+<p><strong>THEN</strong> the post list table looks like
+<code>StephenHarris\WordPressBehatExtension\Context\WordPressPostListContext::thePostListTableLooksLike()</code>  </p>
+<p><strong>THEN</strong> I should see that post :post_title has :value in the :column_heading column
+<code>StephenHarris\WordPressBehatExtension\Context\WordPressPostListContext::iShouldSeeThatBookingHasInTheColumn()</code>  </p>
+<p><strong>WHEN</strong> I select the post :arg1 in the table
+<code>StephenHarris\WordPressBehatExtension\Context\WordPressPostListContext::iSelectThePostInTheTable()</code>  </p>
+<p><strong>WHEN</strong> I quick edit the post :arg1
+<code>StephenHarris\WordPressBehatExtension\Context\WordPressPostListContext::iQuickEdit()</code>  </p>
+<p><strong>WHEN</strong> I perform the bulk action :action
+<code>StephenHarris\WordPressBehatExtension\Context\WordPressPostListContext::iPerformTheBulkAction()</code>  </p>
+<p><strong>THEN</strong> the latest email to ([^ ]+@[^ ]+) should contain &quot;something&quot;
+<code>StephenHarris\WordPressBehatExtension\Context\WordPressMailContext::assertFakeEmailReceipt()</code>  </p>
+<p><strong>GIVEN</strong> I follow the (\w+) URL in the latest email to ([^ ]+@[^ ]+)
+<code>StephenHarris\WordPressBehatExtension\Context\WordPressMailContext::followEmailUrl()</code>  </p>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <nav class="col-md-3">
+
+            <div role="navigation" aria-label="main navigation">
+                <ul>
+                                            <li class="toctree-l1 ">
+                            <a class="reference internal "
+                               href="/Recipes.html">
+                                Quick start Recipes
+                            </a>
+                        </li>
+                                            <li class="toctree-l1 ">
+                            <a class="reference internal "
+                               href="/Contexts.html">
+                                Contexts
+                            </a>
+                        </li>
+                                            <li class="toctree-l1 ">
+                            <a class="reference internal "
+                               href="/Step_Definitions.html">
+                                Step Definitions
+                            </a>
+                        </li>
+                                            <li class="toctree-l1 ">
+                            <a class="reference internal "
+                               href="/Helper_Classes.html">
+                                Helper Classes
+                            </a>
+                        </li>
+                                    </ul>
+            </div>
+            &nbsp;
+        </nav>
+
+    </div>
+
+    <footer class="container">
+       <hr/>
+                Built with <a href="http://couscous.io/">Couscous</a>.
+    </footer>
+
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/yaml.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/gherkin.min.js"></script>
+
+    <script>
+        $(function() {
+            hljs.initHighlighting();
+        });
+    </script>
+
+</body>
+</html>

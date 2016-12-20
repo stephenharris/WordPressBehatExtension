@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WordPress Behat Extension</title>
+
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic'
+          rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="/css/grid.css" type="text/css"/>
+    <link rel="stylesheet" href="/css/theme.css" type="text/css"/>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.9.0/styles/dark.min.css">
+</head>
+<body class="wy-body-for-nav">
+
+    <header id="intro">
+        <div class="container">
+            <a href="/"><h1>WordPress Behat Extension</h1></a>
+            <p>Automatted end-user testing for WordPress with Behat 3</p>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <section class="col-md-9">
+
+                        <div class="wy-nav-content">
+                <div class="rst-content">
+                    <div role="main" class="document">
+                        <h1 id="contexts">Contexts</h1>
+<p>This extension provides the following contexts.</p>
+<p>Each must be manually specified in your <code>behat.yml</code> if you wish to use them.</p>
+<h2 id="core-context">Core context</h2>
+<table>
+<thead>
+<tr>
+<th>Context</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WordPressContext</td>
+<td>The base context. Used for setting up the WordPress database.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="adminlogin-ui-contexts">Admin/Login UI Contexts</h2>
+<p>These contexts deal with navigating around the WordPress admin and interacting with admin pages.</p>
+<table>
+<thead>
+<tr>
+<th>Context</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WordPressAdminContext</td>
+<td>Navigating the WordPress admin, and asserting the current admin page being viewed</td>
+</tr>
+<tr>
+<td>WordPressEditPostContext</td>
+<td>Steps relating to the &quot;Edit Post&quot; (or any post type) page</td>
+</tr>
+<tr>
+<td>WordPressLoginContext</td>
+<td>Steps relating to the log-in page</td>
+</tr>
+<tr>
+<td>WordPressMailContext</td>
+<td>Steps relating to asserting the reciept of emails</td>
+</tr>
+<tr>
+<td>WordPressPostListContext</td>
+<td>Steps relating to the 'posts' admin page (or any post type)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="quotentityquot-contexts">&quot;Entity&quot; Contexts</h2>
+<p>These contexts contain steps which deal with posts, terms and users etc in the abstract. Steps are typically <code>@Given</code> steps, to
+create the entities, and <code>@Then</code> steps, asserting their existence or properties.</p>
+<table>
+<thead>
+<tr>
+<th>Context</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PostTypes\WordPressPostContext</td>
+<td>Steps relating to posts in the database</td>
+</tr>
+<tr>
+<td>Terms\WordPressTermContext</td>
+<td>Steps relating to terms in the database</td>
+</tr>
+<tr>
+<td>Users\WordPressTermContext</td>
+<td>Steps relating to terms in the database</td>
+</tr>
+<tr>
+<td>Plugins\WordPressPluginContext</td>
+<td>Steps relating to activating/deactivating plugins</td>
+</tr>
+<tr>
+<td>Options\WordPressOptionContext</td>
+<td>Steps relating to configuring settings</td>
+</tr>
+</tbody>
+</table>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <nav class="col-md-3">
+
+            <div role="navigation" aria-label="main navigation">
+                <ul>
+                                            <li class="toctree-l1 ">
+                            <a class="reference internal "
+                               href="/Recipes.html">
+                                Quick start Recipes
+                            </a>
+                        </li>
+                                            <li class="toctree-l1 ">
+                            <a class="reference internal "
+                               href="/Contexts.html">
+                                Contexts
+                            </a>
+                        </li>
+                                            <li class="toctree-l1 ">
+                            <a class="reference internal "
+                               href="/Step_Definitions.html">
+                                Step Definitions
+                            </a>
+                        </li>
+                                            <li class="toctree-l1 ">
+                            <a class="reference internal "
+                               href="/Helper_Classes.html">
+                                Helper Classes
+                            </a>
+                        </li>
+                                    </ul>
+            </div>
+            &nbsp;
+        </nav>
+
+    </div>
+
+    <footer class="container">
+       <hr/>
+                Built with <a href="http://couscous.io/">Couscous</a>.
+    </footer>
+
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/yaml.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/gherkin.min.js"></script>
+
+    <script>
+        $(function() {
+            hljs.initHighlighting();
+        });
+    </script>
+
+</body>
+</html>
