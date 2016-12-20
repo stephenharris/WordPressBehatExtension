@@ -4,7 +4,7 @@ Feature: Login
     I need to know my credentials
 
     Background:
-        Given I have a vanilla wordpress installation
+        Given I have a vanilla WordPress installation
             | name          | email             | username | password |
             | BDD WordPress | admin@example.com | admin    | password |
 

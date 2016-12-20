@@ -4,7 +4,7 @@ Feature: Managing users
   I need to be able to add and remove users and change their role
 
   Background:
-    Given I have a vanilla wordpress installation
+    Given I have a vanilla WordPress installation
       | name              | email                   | username | password |
       | WordPress Testing | testing@example.invalid | admin    | password |
     And I am logged in as "admin" with password "password"

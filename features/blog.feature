@@ -4,7 +4,7 @@ Feature: You can read blog posts
     I need to go to the blog
 
     Background:
-        Given I have a vanilla wordpress installation
+        Given I have a vanilla WordPress installation
             | name          | email             | username | password |
             | BDD WordPress | admin@example.com | admin    | password |
         And there are posts

@@ -4,7 +4,7 @@ Feature: Manage plugins
     I need to enable and disable plugins
 
     Background:
-        Given I have a vanilla wordpress installation
+        Given I have a vanilla WordPress installation
             | name          | email             | username | password |
             | BDD WordPress | admin@example.com | admin    | password |
         And I am logged in as "admin" with password "password"

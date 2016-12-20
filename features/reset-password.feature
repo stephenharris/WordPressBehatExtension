@@ -4,7 +4,7 @@ Feature: Resetting a password
   I'd like to reset the admin user's password
 
   Background:
-    Given I have a vanilla wordpress installation
+    Given I have a vanilla WordPress installation
       | name              | email                   | username | password        |
       | WordPress Testing | testing@example.invalid | admin    | initialpassword |
 
