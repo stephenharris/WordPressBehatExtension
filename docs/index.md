@@ -1,6 +1,6 @@
 ## What is this?
 
-This is a Behat 3.0 Extension for WordPress plugin and theme development. It provides [step definitions](docs/Contexts.md) and allows you to use WordPress functions in your own context class.
+This is a Behat 3.0 Extension for WordPress plugin and theme development. It provides [step definitions](Contexts.md) and allows you to use WordPress functions in your own context class.
 
 ## History
 
@@ -13,7 +13,7 @@ This repository started off as a fork of:
 
 ## Installation
 
-*(For 'quick start' guides, please see the [Recipes](docs/Recipes.md)).*
+*(For 'quick start' guides, please see the [Recipes](Recipes.md)).*
 
 1. Add a composer development requirement for your WordPress theme or plugin:
 
@@ -61,7 +61,7 @@ This repository started off as a fork of:
           selenium2: ~
     ```
     
-    *Note the `StephenHarris\WordPressBehatExtension\Context\WordPressContext` context included. This will cause WordPress to be loaded, and all its functions available in your context classes.*. You can also include [other contexts](docs/Contexts.md).
+    *Note the `StephenHarris\WordPressBehatExtension\Context\WordPressContext` context included. This will cause WordPress to be loaded, and all its functions available in your context classes.*. You can also include [other contexts](Contexts.md).
     
     
 3. Install the vendors and initialize behat test suites
