@@ -1,0 +1,45 @@
+template:
+    url: https://github.com/stephenharris/Herby
+    index: index.md
+
+
+# List of directories to include in the processing (by default it's empty, so all markdown files are parsed)
+# Paths are relative to the optional source path given when generating the website, repository root by default
+include:
+    - docs
+
+# List of directories to exclude from the processing (default contains "vendor" and "website")
+# Paths are relative to the optional include paths given when generating the website, repository root by default
+exclude:
+    - vendor
+    - website
+    # This special entry will ask Couscous to read the exluded directories from your ".gitignore"  file
+    - %gitignore%
+
+# Set the target branch in which to deploy the generated website
+branch: gh-pages
+
+# Any variable you put in this file is also available in the Twig layouts:
+title: WordPress Behat Extension
+
+description: Automatted end-user testing for WordPress with Behat 3
+
+# The right menu bar
+menu:
+    items:
+        recipes:
+            text: Quick start Recipes
+            # You can use relative urls
+            relativeUrl: Recipes.html
+        contexts:
+            text: Contexts
+            # Or absolute urls
+            relativeUrl: Contexts.html
+        steps:
+            text: Step Definitions
+            # Or absolute urls
+            relativeUrl: Step_Definitions.html
+        helper:
+            text: Helper Classes
+            # Or absolute urls
+            relativeUrl: Helper_Classes.html
