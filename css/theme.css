@@ -169,18 +169,9 @@ table thead {
     vertical-align: bottom;
 }
 
-/*
-striping:
-   even - #fff (white)
-   odd  - #f2f2f2 (light gray)
-*/
 table td {
     background-color: transparent;
 }
-table-odd td {
-    background-color: #f2f2f2;
-}
-
 /* nth-child selector for modern browsers */
 table tr:nth-child(2n-1) td {
     background-color: #f2f2f2;
@@ -204,4 +195,24 @@ table tr:nth-child(2n-1) td {
 }
 .table-horizontal tbody > tr:last-child > td {
     border-bottom-width: 0;
+}
+
+@media (min-width: 992px){
+    .table-container .table-col {
+        display: table-cell;
+        float: none;
+        vertical-align: top;
+    }
+    .table-container {
+        display: table;
+    }
+    .table-container .table-row {
+        height: 100%;
+        display: table-row;
+    }
+}
+
+nav {
+    background:#ececec;
+    padding-top: 30px;
 }
