@@ -24,7 +24,11 @@ baseUrl: https://stephenharris.github.io/WordPressBehatExtension
 # Any variable you put in this file is also available in the Twig layouts:
 title: WordPress Behat Extension
 
-description: Automatted end-user testing for WordPress with Behat 3
+description: Automated end-user testing for WordPress with Behat 3
+
+github:
+    user: stephenharris
+    repo: WordPressBehatExtension
 
 # The right menu bar
 menu:
