@@ -16,11 +16,15 @@
 
     <header id="intro">
         <div class="container">
-            <a href="https://stephenharris.github.io/WordPressBehatExtension/"><h1>WordPress Behat Extension</h1></a>
-            <p>Automatted end-user testing for WordPress with Behat 3</p>
+            <h1><a href="https://stephenharris.github.io/WordPressBehatExtension/">WordPress Behat Extension</a></h1>
+            <p>Automated end-user testing for WordPress with Behat 3</p>
         </div>
     </header>
 
+            <a href="https://github.com/stephenharris/WordPressBehatExtension">
+            <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png">
+        </a>
+    
     <div class="container table-container">
 
         <section class="col-md-9">
@@ -29,7 +33,13 @@
                 <div class="rst-content">
                     <div role="main" class="document">
                         <h2 id="what-is-this">What is this?</h2>
-<p>This is a Behat 3.0 Extension for WordPress plugin and theme development. It provides <a href="contexts.html">step definitions</a> and allows you to use WordPress functions in your own context class.</p>
+<p>This is a <a href="http://behat.org/en/latest/">Behat 3.0</a> Extension for WordPress plugin and theme development. It provides <a href="contexts.html">step definitions</a> and allows you to use WordPress functions in your own context class.</p>
+<h2 id="why">Why?</h2>
+<p>Simply, to make end-user testing of WordPress, plug-ins and themes easier. </p>
+<p>The aim of this project is to firstly provide a collection of context classes that allow
+for easy testing of WordPress' core functionality. Secondly, it aims to make creating your
+own contexts for your own site/plugin/theme functionality by providing a bridge between
+Behat and WordPress.</p>
 <h2 id="history">History</h2>
 <p>This repository started off as a fork of:</p>
 <ul>
@@ -41,16 +51,20 @@
 <p><em>(For 'quick start' guides, please see the <a href="recipes.html">Recipes</a>).</em></p>
 <ol>
 <li>
-<p>Add a composer development requirement for your WordPress theme or plugin:</p>
+<p>Installation is via <a href="https://getcomposer.org/">Composer</a>. Add a dev requirement for your WordPress theme or plugin:</p>
 <pre><code class="language-json">{
     "require-dev" : {
         "stephenharris/wordpress-behat-extension": "~0.3",
-        "behat/mink-goutte-driver": "~1.1",
         "behat/mink-selenium2-driver": "~1.3.1",
         "johnpbloch/wordpress": "~4.6.1"
     }
 }</code></pre>
-<p>You don't <em>have</em> to install WordPress via composer. But you shall need a path to a WordPress install below. Additionally you don't <em>have</em> to use the Goutte and Selenium2 drivers, but these are the most common.</p>
+<p>WordPressBehatExtension will automatically install Behat, Mink and the Goutte driver.</p>
+<p>You don't <em>have</em> to install WordPress via composer. But you shall need a path to a WordPress install below.
+Additionally you don't <em>have</em> to use the Selenium2 driver, but this is a common driver for scenerios which
+require JavaScript.</p>
+<p>Install the dependencies:</p>
+<pre><code class="language-bash">$ composer update</code></pre>
 </li>
 <li>
 <p>Add the following Behat configuration file below. You will need:</p>
@@ -81,17 +95,16 @@
       base_url:    'http://localhost:8000'
       goutte: ~
       selenium2: ~</code></pre>
-<p><em>Note the <code>StephenHarris\WordPressBehatExtension\Context\WordPressContext</code> context included. This will cause WordPress to be loaded, and all its functions available in your context classes.</em>. You can also include <a href="contexts.html">other contexts</a>.</p>
+<p><em>Note the <code>StephenHarris\WordPressBehatExtension\Context\WordPressContext</code> context included. This will cause WordPress to be
+loaded, and all its functions available in (all) your context classes.</em>. You can also include <a href="contexts.html">other contexts</a>.</p>
 </li>
 <li>
-<p>Install the vendors and initialize behat test suites</p>
-<pre><code class="language-bash">$ composer update
-# You will need to ensure a WordPress install is available, with database credentials that
-# mach the configuration file above
-$ vendor/bin/behat --init</code></pre>
+<p>Initialize behat test suites</p>
+<pre><code class="language-bash">$ vendor/bin/behat --init</code></pre>
 </li>
 <li>
-<p>Write some Behat features in your project's <code>features</code> directory and define any steps. The <code>WordPressContext</code> context will make all WordPress functions available in your context classes (but there is a better way).</p>
+<p>Write some Behat features in your project's <code>features</code> directory and define any steps. The <code>WordPressContext</code> context will
+make all WordPress functions available in (all) your context classes.</p>
 <pre><code class="language-gherkin">   Feature: You can read blog posts
     In order to read blogs
     As a user
@@ -126,8 +139,6 @@ $ vendor/bin/behat --init</code></pre>
 <pre><code class="language-bash">$ vendor/bin/behat</code></pre>
 </li>
 </ol>
-<h2 id="aim">Aim</h2>
-<p>The aim of this project is to provide a collection of context classes that allow for easy testing of WordPress' core functionality. Those contexts can then be built upon to test your site/plugin/theme-specific functionality. </p>
 <h2 id="license">License</h2>
 <p>WordPressBehatExtension is open source and released under MIT license. See <a href="https://github.com/stephenharris/WordPressBehatExtension/blob/develop/LICENSE">LICENSE</a> file for more info.</p>
 <h2 id="health-warning">Health Warning</h2>
@@ -144,6 +155,16 @@ $ vendor/bin/behat --init</code></pre>
                     </div>
                 </div>
             </div>
+
+            <footer>
+                <hr/>
+                                <div role="contentinfo">
+                    <p>
+                        Find WordPress Behat Extension on <a href="https://github.com/stephenharris/WordPressBehatExtension">GitHub</a>.
+                    </p>
+                </div>
+                                Built with <a href="http://couscous.io/">Couscous</a>.
+            </footer>
 
         </section>
 
@@ -182,10 +203,7 @@ $ vendor/bin/behat --init</code></pre>
 
     </div>
 
-    <footer class="container">
-       <hr/>
-                Built with <a href="http://couscous.io/">Couscous</a>.
-    </footer>
+
 
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>

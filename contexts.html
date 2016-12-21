@@ -16,11 +16,15 @@
 
     <header id="intro">
         <div class="container">
-            <a href="https://stephenharris.github.io/WordPressBehatExtension/"><h1>WordPress Behat Extension</h1></a>
-            <p>Automatted end-user testing for WordPress with Behat 3</p>
+            <h1><a href="https://stephenharris.github.io/WordPressBehatExtension/">WordPress Behat Extension</a></h1>
+            <p>Automated end-user testing for WordPress with Behat 3</p>
         </div>
     </header>
 
+            <a href="https://github.com/stephenharris/WordPressBehatExtension">
+            <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png">
+        </a>
+    
     <div class="container table-container">
 
         <section class="col-md-9">
@@ -30,7 +34,8 @@
                     <div role="main" class="document">
                         <h1 id="contexts">Contexts</h1>
 <p>This extension provides the following contexts.</p>
-<p>Each must be manually specified in your <code>behat.yml</code> if you wish to use them.</p>
+<p>Each must be manually specified in your <code>behat.yml</code> if you wish to use them, and the name must be
+fully qualified. E.g. <code>\StephenHarris\WordPressBehatExtension\Context\WordPressContext</code>.</p>
 <h2 id="core-context">Core context</h2>
 <table>
 <thead>
@@ -42,7 +47,7 @@
 <tbody>
 <tr>
 <td>WordPressContext</td>
-<td>The base context. Used for setting up the WordPress database.</td>
+<td>The base context. Used for setting up the WordPress install.</td>
 </tr>
 </tbody>
 </table>
@@ -115,6 +120,16 @@ create the entities, and <code>@Then</code> steps, asserting their existence or 
                 </div>
             </div>
 
+            <footer>
+                <hr/>
+                                <div role="contentinfo">
+                    <p>
+                        Find WordPress Behat Extension on <a href="https://github.com/stephenharris/WordPressBehatExtension">GitHub</a>.
+                    </p>
+                </div>
+                                Built with <a href="http://couscous.io/">Couscous</a>.
+            </footer>
+
         </section>
 
         <nav class="col-md-3 table-col">
@@ -152,10 +167,7 @@ create the entities, and <code>@Then</code> steps, asserting their existence or 
 
     </div>
 
-    <footer class="container">
-       <hr/>
-                Built with <a href="http://couscous.io/">Couscous</a>.
-    </footer>
+
 
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>

@@ -81,13 +81,6 @@ header {
     background: #3D405B;
     color: #fff;
 }
-header h1 {
-    color: #fff;
-}
-
-body {
-
-}
 
 a {
     color: #008DD5;
@@ -95,6 +88,12 @@ a {
 
 a:visited {
     color: #474973;
+}
+
+header h1 a,
+header h1 a:visited{
+    text-decoration: none;
+    color: #fff;
 }
 
 hr{
@@ -115,12 +114,9 @@ ol {
 pre {
     margin-bottom:16px;
 }
-
-footer {
-    margin:16px 0 16px 0;
-    font-size:14px;
+pre code {
+    white-space: inherit;
 }
-
 code {
     font-family: Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace,sans-serif;
     background-color: #eff0f1;
@@ -129,6 +125,10 @@ code {
     padding: 1px 5px;
 }
 
+footer {
+    margin:16px 0 16px 0;
+    font-size:14px;
+}
 
 table {
     /* Remove spacing between table cells (from Normalize.css) */

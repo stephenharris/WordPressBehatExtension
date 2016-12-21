@@ -16,11 +16,15 @@
 
     <header id="intro">
         <div class="container">
-            <a href="https://stephenharris.github.io/WordPressBehatExtension/"><h1>WordPress Behat Extension</h1></a>
-            <p>Automatted end-user testing for WordPress with Behat 3</p>
+            <h1><a href="https://stephenharris.github.io/WordPressBehatExtension/">WordPress Behat Extension</a></h1>
+            <p>Automated end-user testing for WordPress with Behat 3</p>
         </div>
     </header>
 
+            <a href="https://github.com/stephenharris/WordPressBehatExtension">
+            <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png">
+        </a>
+    
     <div class="container table-container">
 
         <section class="col-md-9">
@@ -29,9 +33,12 @@
                 <div class="rst-content">
                     <div role="main" class="document">
                         <h1 id="helper-classes">Helper Classes</h1>
-<p>While WordPressBehatExtension provides a number of steps relating to WordPress and its UI, it also makes it very easy to define your own steps for your plug-in or theme.</p>
+<p>While WordPressBehatExtension provides a number of steps relating to WordPress and its UI,
+it also makes it very easy to define your own steps for your plug-in or theme.</p>
 <p>Firstly all WordPress functions and classes are available in you context classes.</p>
-<p>In addition WordPressBehatExtension provides a layer to sit between your context definitions and WordPress. They take the form of <a href="http://php.net/manual/en/language.oop5.traits.php">traits</a> and provide helpful methods for interacting with WordPress.</p>
+<p>In addition WordPressBehatExtension provides a layer to sit between your context
+definitions and WordPress. They take the form of <a href="http://php.net/manual/en/language.oop5.traits.php">traits</a>
+and provide helpful methods for interacting with WordPress.</p>
 <h2 id="an-example-custom-post-types">An example: custom post types</h2>
 <p>Let's suppose you are developing plug-in which sells books. An example feature might be:</p>
 <pre><code>Scenario: I can view details of the book
@@ -59,7 +66,10 @@
     {
         throw new PendingException();
     }</code></pre>
-<p>While we can use <code>wp_insert_post()</code> to create the book in this step we can instead use the <code>\StephenHarris\WordPressBehatExtension\Context\PostTypes\WordPressPostTrait;</code>:</p>
+<p>We need to add the step definition into one of our context classes, and replace <code>throw new PendingException();</code>
+with our implementation of the step (namely to create the books in WordPress).</p>
+<p>While we can use <code>wp_insert_post()</code> to create the book in this step we can instead
+use the <code>\StephenHarris\WordPressBehatExtension\Context\PostTypes\WordPressPostTrait;</code>:</p>
 <pre><code class="language-php">use Behat\Behat\Context\Context,
     Behat\Behat\Context\SnippetAcceptingContext;
 
@@ -75,10 +85,10 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
     public function thereAreBooks(TableNode $table)
     {
         foreach ($table-&gt;getHash() as $bookData) {
-            $bookID = $postData = array(
+            $postData = array(
                 'post_title' =&gt; $bookData['title']
             );
-            $this-&gt;insert($postData);
+            $bookID = $this-&gt;insert($postData);
             update_post_meta($bookID, 'book_author', $bookData['author']);
             update_post_meta($bookID, 'isbn', $bookData['ISBN']);
             update_post_meta($bookID, 'price', $bookData['price (£)']);
@@ -91,6 +101,16 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
                     </div>
                 </div>
             </div>
+
+            <footer>
+                <hr/>
+                                <div role="contentinfo">
+                    <p>
+                        Find WordPress Behat Extension on <a href="https://github.com/stephenharris/WordPressBehatExtension">GitHub</a>.
+                    </p>
+                </div>
+                                Built with <a href="http://couscous.io/">Couscous</a>.
+            </footer>
 
         </section>
 
@@ -129,10 +149,7 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
 
     </div>
 
-    <footer class="container">
-       <hr/>
-                Built with <a href="http://couscous.io/">Couscous</a>.
-    </footer>
+
 
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
