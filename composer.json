@@ -32,6 +32,7 @@
     "behat/mink": ">=1.7.1",
     "behat/mink-extension": "~2.0@dev",
     "behat/mink-goutte-driver": ">=1.1",
+    "phpunit/phpunit": ">=4.8.0",
     "symfony/filesystem": "~2.3",
     "symfony/finder": "~2.3",
     "sensiolabs/behat-page-object-extension": "^2.0",
