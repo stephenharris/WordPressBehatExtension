@@ -1,6 +1,15 @@
 ## What is this?
 
-This is a Behat 3.0 Extension for WordPress plugin and theme development. It provides [step definitions](Contexts.md) and allows you to use WordPress functions in your own context class.
+This is a [Behat 3.0](http://behat.org/en/latest/) Extension for WordPress plugin and theme development. It provides [step definitions](Contexts.md) and allows you to use WordPress functions in your own context class.
+
+## Why?
+
+Simply, to make end-user testing of WordPress, plug-ins and themes easier. 
+
+The aim of this project is to firstly provide a collection of context classes that allow
+for easy testing of WordPress' core functionality. Secondly, it aims to make creating your
+ own contexts for your own site/plugin/theme functionality by providing a bridge between
+ Behat and WordPress.
 
 ## History
 
@@ -15,19 +24,30 @@ This repository started off as a fork of:
 
 *(For 'quick start' guides, please see the [Recipes](Recipes.md)).*
 
-1. Add a composer development requirement for your WordPress theme or plugin:
+1. Installation is via [Composer](https://getcomposer.org/). Add a dev requirement for your WordPress theme or plugin:
 
     ```json
     {
         "require-dev" : {
             "stephenharris/wordpress-behat-extension": "~0.3",
-            "behat/mink-goutte-driver": "~1.1",
             "behat/mink-selenium2-driver": "~1.3.1",
             "johnpbloch/wordpress": "~4.6.1"
         }
     }
     ```
-    You don't *have* to install WordPress via composer. But you shall need a path to a WordPress install below. Additionally you don't *have* to use the Goutte and Selenium2 drivers, but these are the most common.
+    
+    WordPressBehatExtension will automatically install Behat, Mink and the Goutte driver.
+    
+    You don't *have* to install WordPress via composer. But you shall need a path to a WordPress install below. 
+    Additionally you don't *have* to use the Selenium2 driver, but this is a common driver for scenerios which
+    require JavaScript.
+   
+    Install the dependencies:
+    
+    ```bash
+    $ composer update
+    ```
+    
 
 2. Add the following Behat configuration file below. You will need:
 
@@ -61,19 +81,18 @@ This repository started off as a fork of:
           selenium2: ~
     ```
     
-    *Note the `StephenHarris\WordPressBehatExtension\Context\WordPressContext` context included. This will cause WordPress to be loaded, and all its functions available in your context classes.*. You can also include [other contexts](Contexts.md).
+    *Note the `StephenHarris\WordPressBehatExtension\Context\WordPressContext` context included. This will cause WordPress to be 
+    loaded, and all its functions available in (all) your context classes.*. You can also include [other contexts](Contexts.md).
     
     
-3. Install the vendors and initialize behat test suites
+3. Initialize behat test suites
 
     ```bash
-    $ composer update
-    # You will need to ensure a WordPress install is available, with database credentials that
-    # mach the configuration file above
     $ vendor/bin/behat --init
     ```
 
-4. Write some Behat features in your project's `features` directory and define any steps. The `WordPressContext` context will make all WordPress functions available in your context classes (but there is a better way).
+4. Write some Behat features in your project's `features` directory and define any steps. The `WordPressContext` context will
+make all WordPress functions available in (all) your context classes.
 
        ```gherkin
        Feature: You can read blog posts
@@ -114,10 +133,6 @@ This repository started off as a fork of:
     ```bash
     $ vendor/bin/behat
     ```
-
-## Aim
-
-The aim of this project is to provide a collection of context classes that allow for easy testing of WordPress' core functionality. Those contexts can then be built upon to test your site/plugin/theme-specific functionality. 
 
 ## License
 

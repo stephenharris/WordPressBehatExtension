@@ -1,10 +1,13 @@
 # Helper Classes
 
-While WordPressBehatExtension provides a number of steps relating to WordPress and its UI, it also makes it very easy to define your own steps for your plug-in or theme.
+While WordPressBehatExtension provides a number of steps relating to WordPress and its UI, 
+it also makes it very easy to define your own steps for your plug-in or theme.
 
 Firstly all WordPress functions and classes are available in you context classes.
 
-In addition WordPressBehatExtension provides a layer to sit between your context definitions and WordPress. They take the form of [traits](http://php.net/manual/en/language.oop5.traits.php) and provide helpful methods for interacting with WordPress.
+In addition WordPressBehatExtension provides a layer to sit between your context 
+definitions and WordPress. They take the form of [traits](http://php.net/manual/en/language.oop5.traits.php) 
+and provide helpful methods for interacting with WordPress.
 
 
 ## An example: custom post types
@@ -43,7 +46,11 @@ If we try to run this test we find that there is no definition for the `And ther
     }
 ```
 
-While we can use `wp_insert_post()` to create the book in this step we can instead use the `\StephenHarris\WordPressBehatExtension\Context\PostTypes\WordPressPostTrait;`:
+We need to add the step definition into one of our context classes, and replace `throw new PendingException();`
+with our implementation of the step (namely to create the books in WordPress).
+
+While we can use `wp_insert_post()` to create the book in this step we can instead 
+use the `\StephenHarris\WordPressBehatExtension\Context\PostTypes\WordPressPostTrait;`:
 
 
 ```php
@@ -62,10 +69,10 @@ class FeatureContext extends RawMinkContext implements Context, SnippetAccepting
     public function thereAreBooks(TableNode $table)
     {
         foreach ($table->getHash() as $bookData) {
-            $bookID = $postData = array(
+            $postData = array(
                 'post_title' => $bookData['title']
             );
-            $this->insert($postData);
+            $bookID = $this->insert($postData);
             update_post_meta($bookID, 'book_author', $bookData['author']);
             update_post_meta($bookID, 'isbn', $bookData['ISBN']);
             update_post_meta($bookID, 'price', $bookData['price (£)']);

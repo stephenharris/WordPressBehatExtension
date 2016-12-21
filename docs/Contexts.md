@@ -2,14 +2,15 @@
 
 This extension provides the following contexts.
 
-Each must be manually specified in your `behat.yml` if you wish to use them.
+Each must be manually specified in your `behat.yml` if you wish to use them, and the name must be
+fully qualified. E.g. `\StephenHarris\WordPressBehatExtension\Context\WordPressContext`.
 
 
 ## Core context
 
 | Context          | description                                                   |
 |------------------|---------------------------------------------------------------|
-| WordPressContext | The base context. Used for setting up the WordPress database. |
+| WordPressContext | The base context. Used for setting up the WordPress install.  |
 
 
 ## Admin/Login UI Contexts
