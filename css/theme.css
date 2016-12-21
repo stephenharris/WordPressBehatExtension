@@ -216,3 +216,9 @@ nav {
     background:#ececec;
     padding-top: 30px;
 }
+
+
+nav ul li {
+    list-style:none;
+    margin-bottom:10px;
+}
