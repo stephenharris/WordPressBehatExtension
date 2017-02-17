@@ -19,7 +19,7 @@ trait WordPressTermTrait
         $term_ids = wp_insert_term($termData['name'], $taxonomy, $termData);
         if (is_wp_error($term_ids)) {
             throw new \InvalidArgumentException(
-                sprintf("Invalid taxonomy term information schema: %s", $return->get_error_message())
+                sprintf("Invalid taxonomy term information schema: %s", $term_ids->get_error_message())
             );
         }
         return $term_ids;
