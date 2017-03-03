@@ -22,6 +22,9 @@ class Login extends Page
         $this->validatePassword($user, $password);
 
         $currentPage = $this;
+        
+        // Wait 1/4 second -- seems to fix https://github.com/stephenharris/WordPressBehatExtension/issues/10
+        usleep( 250000 );
 
         $this->spin(function ($context) use ($currentPage, $username, $password) {
             $currentPage->fillField('user_login', $username);
