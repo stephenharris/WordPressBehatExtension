@@ -62,9 +62,8 @@ class WordPressPostContext implements Context
             }
             $terms[] = $term->slug;
         }
-        $term_ids = wp_set_object_terms($post->ID, $terms, $taxonomy, false);
 
-        $this->assignPostTypeTerms($post, $taxonomy, $term_ids);
+        $this->assignPostTypeTerms($post, $taxonomy, $terms);
     }
     
     
