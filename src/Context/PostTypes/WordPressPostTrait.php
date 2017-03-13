@@ -61,7 +61,7 @@ trait WordPressPostTrait
 
     public function assertPostTypeTerms($post, $taxonomy, $term_slugs)
     {
-        clean_post_cache($post->ID);
+        wp_cache_flush();
         $actual_terms = get_the_terms($post->ID, $taxonomy);
 
         if (! $actual_terms) {
