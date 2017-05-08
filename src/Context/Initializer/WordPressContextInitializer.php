@@ -141,10 +141,12 @@ class WordPressContextInitializer implements ContextInitializer
         foreach ($finder as $file) {
             $configContent =
                 str_replace(array(
+                    "'DB_HOST', 'localhost'",
                     "'DB_NAME', 'database_name_here'",
                     "'DB_USER', 'username_here'",
                     "'DB_PASSWORD', 'password_here'"
                 ), array(
+                    sprintf("'DB_HOST', '%s'", $this->wordpressParams['connection']['host']),
                     sprintf("'DB_NAME', '%s'", $this->wordpressParams['connection']['db']),
                     sprintf("'DB_USER', '%s'", $this->wordpressParams['connection']['username']),
                     sprintf("'DB_PASSWORD', '%s'", $this->wordpressParams['connection']['password']),
@@ -161,8 +163,9 @@ class WordPressContextInitializer implements ContextInitializer
         if ($this->wordpressParams['flush_database']) {
             $connection = $this->wordpressParams['connection'];
             $database   = $connection['db'];
+            $host       = $connection['host'];
             $mysqli = new \Mysqli(
-                'localhost',
+                $host,
                 $connection['username'],
                 $connection['password'],
                 $database

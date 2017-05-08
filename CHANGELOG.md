@@ -7,6 +7,7 @@ This project is currently at an alpha stage. It will continue on the `0.*.*` bra
 
 - `Context\Util\Spin` trait now displays underlying exception message when it times out. 
 - Use "Pretty Print" json for email files to make them more human-friendly.
+- Add `host` field for the Behat extension configuration, allowing usage of a MySQL server that runs on something else than `localhost`.
 
 ### Breaking changes:
 
