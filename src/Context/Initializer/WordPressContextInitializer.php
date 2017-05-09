@@ -135,6 +135,10 @@ class WordPressContextInitializer implements ContextInitializer
      */
     public function overwriteConfig()
     {
+        if ($this->wordpressParams['overwrite_config'] !== true) {
+            return;
+        }
+
         $finder = new Finder();
         $fs = new Filesystem();
         $finder->files()->in($this->wordpressParams['path'])->depth('== 0')->name('wp-config-sample.php');
