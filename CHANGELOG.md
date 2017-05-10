@@ -1,12 +1,13 @@
 # Change Log
-This project is currently at an alpha stage. It will continue on the `0.*.*` branch until the first stable release.  
+This project is currently at an alpha stage. It will continue on the `0.*.*` branch until the first stable release.
 
 ## develop
 
 ### Enhancements:
 
-- `Context\Util\Spin` trait now displays underlying exception message when it times out. 
+- `Context\Util\Spin` trait now displays underlying exception message when it times out.
 - Use "Pretty Print" json for email files to make them more human-friendly.
+- Add config `overwrite_config` (accepts boolean value) to set whether the Behat extension should overwrite the `wp-config.php` file of the installation where Behat is being run. This is good for setups where either this is not useful or where it could be even harmful.
 - Add `host` field for the Behat extension configuration, allowing usage of a MySQL server that runs on something else than `localhost`.
 
 ### Breaking changes:
@@ -46,7 +47,7 @@ This project is currently at an alpha stage. It will continue on the `0.*.*` bra
 - Added tests to run on Travis
 - Added mu-plugin to prevent dummy content (except 'Uncategorised' category) from being created when installing WordPress.
 - Improved feedback for log-in errors (i.e. explicitly checks username and password).
-- `WordPressAdminContext::iGoToMenuItem()` throws an exception if then admin menu could not be found 
+- `WordPressAdminContext::iGoToMenuItem()` throws an exception if then admin menu could not be found
 - Added `When I am on the log-in page` and `Then I should be on the log-in page` step definitions
 - Made error message for failed table comparison more explicit: show first cell values which do match
 - Added `Then the admin menu should appear as` step which compares the admin menu (top-level) against a given list of strings / regular expressions.
@@ -87,12 +88,12 @@ This project is currently at an alpha stage. It will continue on the `0.*.*` bra
 
 ### Added
 - This changelog
-- Add Email, Inbox and InboxFactory classes to improve handling of checking e-mails sent by `wp_mail()`. 
+- Add Email, Inbox and InboxFactory classes to improve handling of checking e-mails sent by `wp_mail()`.
 - Adds unit test
 
 ## 0.1.0 - 2016-06-03
 ### Added
-- Additional contexts 
+- Additional contexts
 
 
 [0.3.0]: https://github.com/stephenharris/WordPressBehatExtension/compare/0.2.0...0.3.0
