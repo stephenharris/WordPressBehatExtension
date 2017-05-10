@@ -63,6 +63,7 @@ This repository started off as a fork of:
         StephenHarris\WordPressBehatExtension:
           path: '%paths.base%/vendor/wordpress'
           connection:
+            host: 'localhost'
             db: 'wordpress_test'
             username: 'root'
             password: ''
