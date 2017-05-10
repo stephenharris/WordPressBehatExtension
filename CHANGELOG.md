@@ -8,6 +8,7 @@ This project is currently at an alpha stage. It will continue on the `0.*.*` bra
 - `Context\Util\Spin` trait now displays underlying exception message when it times out.
 - Use "Pretty Print" json for email files to make them more human-friendly.
 - Add config `overwrite_config` (accepts boolean value) to set whether the Behat extension should overwrite the `wp-config.php` file of the installation where Behat is being run. This is good for setups where either this is not useful or where it could be even harmful.
+- Add `host` field for the Behat extension configuration, allowing usage of a MySQL server that runs on something else than `localhost`.
 
 ### Breaking changes:
 
